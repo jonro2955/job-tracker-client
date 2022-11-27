@@ -1,0 +1,40 @@
+.centeredPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.dropdown {
+  position: relative;
+}
+.dropdown-content {
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+  border: black 1px solid;
+  border-radius: 10px;
+  padding: 10px;
+}
+.step {
+  margin: 3px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  border: black solid 3px;
+  border-radius: 15px;
+}
+.dropzone {
+  text-align: center;
+  width: 70%;
+  padding: 70px;
+  margin: auto;
+  border: 2px dotted green;
+  border-radius: 15px;
+  background-color: #d8d8d8;
+  color: #686868;
+  cursor: pointer;
+  margin-bottom: 20px;
+}

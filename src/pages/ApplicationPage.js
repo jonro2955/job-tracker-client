@@ -1,0 +1,1 @@
+// this page will display each stored application for reviewing and editing when the user clicks on an entry in the search page
