@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/job-tracker-client/static/css/main.600158e2.chunk.css",
-    "main.js": "/job-tracker-client/static/js/main.094835ff.chunk.js",
-    "main.js.map": "/job-tracker-client/static/js/main.094835ff.chunk.js.map",
+    "main.js": "/job-tracker-client/static/js/main.ce670340.chunk.js",
+    "main.js.map": "/job-tracker-client/static/js/main.ce670340.chunk.js.map",
     "runtime-main.js": "/job-tracker-client/static/js/runtime-main.e1299c9e.js",
     "runtime-main.js.map": "/job-tracker-client/static/js/runtime-main.e1299c9e.js.map",
     "static/css/2.bf987d2a.chunk.css": "/job-tracker-client/static/css/2.bf987d2a.chunk.css",
@@ -19,6 +19,6 @@
     "static/css/2.bf987d2a.chunk.css",
     "static/js/2.f15a0788.chunk.js",
     "static/css/main.600158e2.chunk.css",
-    "static/js/main.094835ff.chunk.js"
+    "static/js/main.ce670340.chunk.js"
   ]
 }
