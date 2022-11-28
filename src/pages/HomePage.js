@@ -25,22 +25,12 @@ export default function HomePage() {
   const [tags, setTags] = useState("");
 
   useEffect(() => {
-    console.log("jobDescription:", jobDescription);
-  }, [jobDescription]);
-
-  useEffect(() => {
-    console.log("jobNotes:", jobNotes);
-  }, [jobNotes]);
-
-  useEffect(() => {
     let dbProfile = context.dbProfileState;
     if (dbProfile) {
       /* dbProfile structure:
-      {
-        username: 'freemovement@live.ca', 
+      { username: 'freemovement@live.ca', 
         careers_list: ['1', '2', '3', '4', '5', '6'], 
-        current_career_num: 0
-      } */
+        current_career_num: 0 } */
       setCurrentCareerNum(dbProfile.current_career_num);
       setCareersList(dbProfile.careers_list);
     }

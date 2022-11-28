@@ -33,7 +33,7 @@ const NavBar = () => {
           <button
             className="btn btn-outline-primary"
             onClick={() => {
-              auth0.isAuthenticated ? history.replace("/profile") : auth0.loginWithRedirect();
+              auth0.isAuthenticated ? history.replace("/profile") : auth0.loginWithPopup();
             }}
           >
             {auth0.isAuthenticated ? auth0.user.email : "Log in"}
