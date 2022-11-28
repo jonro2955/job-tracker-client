@@ -1,4 +1,3 @@
-Next: Replace react-rte with a different rich text editor that is compatible with latest version of react-router and reinstall all npm dependencies without --peer-deps so you can use things like useNavigate
 
 BYTEA data format conditioning for handleSaveApp
 

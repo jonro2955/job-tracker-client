@@ -1,5 +1,5 @@
 import React, { useReducer, useEffect } from "react";
-import Routes from "./Routes";
+import MyRoutes from "./Routes";
 import Context from "./utils/context";
 import * as AuthReducer from "./store/reducers/authReducer";
 import * as ACTIONS from "./store/actions/actions";
@@ -62,7 +62,7 @@ export default function ContextState() {
         authProfile: stateAuthReducer.authProfile,
       }}
     >
-      <Routes />
+      <MyRoutes />
     </Context.Provider>
   );
 }

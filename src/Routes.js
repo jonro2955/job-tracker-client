@@ -1,4 +1,4 @@
-import { Router, Route, Switch } from "react-router-dom";
+import { HashRouter, Route, Routes } from "react-router-dom";
 import history from "./utils/history";
 import NavBar from "./components/NavBar";
 import HomePage from "./pages/HomePage";
@@ -7,20 +7,19 @@ import ProfilePage from "./pages/ProfilePage";
 import DispatchAuthPage from "./pages/DispatchAuthPage";
 import AboutPage from "./pages/AboutPage";
 
-function Routes() {
+export default function MyRoutes() {
   return (
-    <Router history={history}>
+    <HashRouter basename="/" history={history}>
       <NavBar />
       <h5 className="text-center text-warning">Project Under Construction</h5>
-      <Switch>
-        <Route path="/" exact component={HomePage} />
-        <Route path="/about" exact component={AboutPage} />
-        <Route path="/home" exact component={HomePage} />
-        <Route path="/search" component={SearchPage} />
-        <Route path="/profile" component={ProfilePage} />
-        <Route path="/dispatchauth" component={DispatchAuthPage} />
-      </Switch>
-    </Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/home" element={<HomePage />} />
+        <Route path="/search" element={<SearchPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/dispatchauth" element={<DispatchAuthPage />} />
+      </Routes>
+    </HashRouter>
   );
 }
-export default Routes;
