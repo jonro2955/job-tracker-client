@@ -1,5 +1,6 @@
+BYTEA data format conditioning for homePage.js>handleSaveApp
 
-BYTEA data format conditioning for handleSaveApp
+Add post-application edit options for marking an app as interviewd, rejected, etc to make it marked as such in list search view
 
 On authentication, if the user is not already in the database, add the user to the database with a default career list
 
@@ -7,8 +8,7 @@ When implementing career deletion functionality, make sure that the current care
 
 Options for storing pdf files in postgres:
 1: Save the files into postgres as BLOB objects or bytea or text types. You may need a package to convert them back to pdfs when user wants access to the files later.
-https://www.linkedin.com/pulse/converting-pdf-binary-base64-nodejs-trick-end-andrew-ribeiro/
-https://stackoverflow.com/questions/70437548/javascript-download-blob-as-pdf
+
 https://blog.logrocket.com/drag-and-drop-react-dnd/
 https://dba.stackexchange.com/questions/36493/how-can-i-store-a-pdf-in-postgresql#:~:text=Probably%20the%20best%20way%20store,large%20object%20rights%20where%20defined.
 Or save the pdfs as images. Be sure to free up space correctly upon deletion of any inserted files from the db.

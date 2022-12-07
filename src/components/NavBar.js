@@ -1,13 +1,10 @@
-import { Link, useNavigate } from "react-router-dom";
-// import React, { useContext } from "react";
-// import Context from "../utils/context";
+import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
-// import { useParams } from "react-router-dom";
-import history from "../utils/history";
+import { useNavigate } from "react-router-dom";
 
 const NavBar = () => {
   const auth0 = useAuth0();
-  const navigate = useNavigate();
+  const navigateTo = useNavigate();
 
   return (
     <div className="d-flex justify-content-center">
@@ -33,9 +30,7 @@ const NavBar = () => {
           <button
             className="btn btn-outline-primary"
             onClick={() => {
-              auth0.isAuthenticated ? history.replace("/profile") : auth0.loginWithPopup();
-              // history.replace("/profile")
-              // navigate("/profile")
+              auth0.isAuthenticated ? navigateTo("/profile") : auth0.loginWithPopup();
             }}
           >
             {auth0.isAuthenticated ? auth0.user.email : "Log in"}

@@ -106,7 +106,6 @@ export default function HomePage() {
         console.log(err);
         alert("Not saved. Error: Website under development");
       });
-    // .then(setTimeout(() => history.replace("/search"), 700));
   }
 
   return (
