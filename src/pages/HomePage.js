@@ -27,49 +27,53 @@ export default function HomePage() {
   useEffect(() => {
     let dbProfile = context.dbProfileState;
     if (dbProfile) {
-      /* dbProfile structure:
-      { username: 'freemovement@live.ca', 
-        careers_list: ['1', '2', '3', '4', '5', '6'], 
-        current_career_num: 0 } */
       setCurrentCareerNum(dbProfile.current_career_num);
       setCareersList(dbProfile.careers_list);
     }
   }, [context.dbProfileState]);
 
-  function getTimeStamp() {
-    let date = new Date();
-    let year = date.getFullYear().toString(); // 4-digit year
-    let month = (date.getMonth() + 1).toString(); // 00-11
-    let day = date.getDate().toString(); // 00-06
-    let hour = date.getHours(); // 0-23
-    let min = date.getMinutes(); // 0-59
-    if (month.length === 1) {
-      month = "0" + month;
-    }
-    if (day.length === 1) {
-      day = "0" + day;
-    }
-    return parseInt(year + month + day + hour + min);
-    // format: 202201232250 (yyyymmddhhmm)
-  }
+  /* 
+  handleSetFilesState(droppedFiles) is the "ondrop" callback that is set up to run everytime 
+  files are dropped/selected into the step 5 file loader. When files are dropped, 
+  those files are inserted into this function as input arguments and this function is ran.
+  When these files are first dropped, for each file, the app receives an abject containing information about those files (like the name, path, etc) but not the actual file contents itself. So in this function, we want to somehow load the file's actual data contents into 
+  a variable so that we can insert that variable into the setFiles state setter to store it into the "files" state. Argument newFiles will be an array of file data abjects.
 
-  function clearForm() {
-    setPostingURL("");
-    setJobDescription("");
-    setCompanyName("");
-    setJobTitle("");
-    setJobNotes("");
-    setFiles([]);
-    let nodeList = document.getElementsByTagName("input");
-    let nodeListConvertedToArray = Array.prototype.slice.call(nodeList);
-    nodeListConvertedToArray.forEach((input) => {
-      input.value = "";
+  We'll define a subfunction inside the function that will return a promise, so
+  the function needs to be asynchronous.
+  */
+  async function handleSetFilesState(newFiles) {
+    // subfunction
+    const getByteArray = (file) => {
+      return new Promise((acc, err) => {
+        const reader = new FileReader(); // browser's built in file reader method
+        reader.onload = (event) => {
+          acc(event.target.result);
+        };
+        reader.onerror = (error) => {
+          err(error);
+        };
+        reader.readAsArrayBuffer(file);
+      });
+    };
+    console.log("here we have the regular file objects : ", newFiles);
+    let byteafilesArray = [];
+    let arrayBuffersArray = [];
+    newFiles.forEach(async (file) => {
+      const arrayBuffer = await getByteArray(file);
+      arrayBuffersArray.push(arrayBuffer);
+      const bytea = new Uint8Array(arrayBuffer);
+      byteafilesArray.push(bytea);
     });
-    document.querySelector("#step1Heading").style.color = "initial";
-    document.querySelector("#step3Heading").style.color = "initial";
-  }
-
-  function handleFilesDrop(newFiles) {
+    console.log("here we have the files as temporary array buffers: ", arrayBuffersArray);
+    console.log("here we have the files converted as Uint8Array byte arrays: ", byteafilesArray);
+    // using the getByteArray subfunction
+    /*
+    const temp = await getByteArray(newFiles[0]);
+    console.log("here we have the files as ArrayBuffers : ", temp);
+    const fileb = new Uint8Array(temp);
+    console.log("here we have converted the file as an Uint8Array : ", fileb);
+    */
     setFiles([...files, ...newFiles]);
   }
 
@@ -91,6 +95,7 @@ export default function HomePage() {
       careerName: careersList[currentCareerNum],
       applicationDate: getTimeStamp(),
     };
+    console.log(data);
     axios
       .post("/api/post/postapp", data)
       .then((res) => {
@@ -108,8 +113,41 @@ export default function HomePage() {
       });
   }
 
+  function getTimeStamp() {
+    let date = new Date();
+    let year = date.getFullYear().toString(); // 4-digit year
+    let month = (date.getMonth() + 1).toString(); // 00-11
+    let day = date.getDate().toString(); // 00-06
+    let hour = date.getHours(); // 0-23
+    let min = date.getMinutes(); // 0-59
+    if (month.length === 1) {
+      month = "0" + month;
+    }
+    if (day.length === 1) {
+      day = "0" + day;
+    }
+    return parseInt(year + month + day + hour + min);
+  } // format: 202201232250 (yyyymmddhhmm)
+
+  function clearForm() {
+    setPostingURL("");
+    setJobDescription("");
+    setCompanyName("");
+    setJobTitle("");
+    setJobNotes("");
+    setFiles([]);
+    let nodeList = document.getElementsByTagName("input");
+    let nodeListConvertedToArray = Array.prototype.slice.call(nodeList);
+    nodeListConvertedToArray.forEach((input) => {
+      input.value = "";
+    });
+    document.querySelector("#step1Heading").style.color = "initial";
+    document.querySelector("#step3Heading").style.color = "initial";
+  }
+
   return (
     <div className="centeredPage">
+      <h5 className="text-center text-warning">Project Under Construction</h5>
       <h1>Home</h1>
       <h3>
         Current Career:&nbsp;
@@ -149,7 +187,7 @@ export default function HomePage() {
           </div>
         </div>
       </div>
-      <Step5 handleFilesDrop={handleFilesDrop} files={files} setFiles={setFiles} />
+      <Step5 handleSetFilesState={handleSetFilesState} files={files} setFiles={setFiles} />
       <Step6 setTags={setTags} />
       <StepSave handleSaveApp={handleSaveApp} />
     </div>

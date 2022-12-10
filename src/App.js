@@ -32,8 +32,8 @@ export default function ContextState() {
     }
   }, [auth0.isAuthenticated, auth0.user]);
 
-  /*Auth Reducer: although the useAuth0 library object provides global auth state access from the cloud, 
-  storing our own version in a reducer at login allows for local retrieval of auth state values 
+  /*Auth Reducer: although the useAuth0 library object provides global auth state access from the 
+  cloud, storing our own version in a reducer at login allows for local retrieval of auth state values 
   in between login/logout*/
   const [stateAuthReducer, dispatchAuthReducer] = useReducer(
     AuthReducer.AuthReducer,
@@ -70,7 +70,6 @@ export default function ContextState() {
         dispatchSetAuthProfile: (profile) => dispatchSetAuthProfile(profile),
         dispatchRemoveAuthProfile: () => dispatchRemoveAuthProfile(),
         dispatchSetDbProfile: (profile) => dispatchSetDbProfile(profile),
-        //Auth Reducer - keep for global state
         stateAuthReducer: stateAuthReducer,
         isAuthenticated: stateAuthReducer.isAuthenticated,
         dbProfileState: stateAuthReducer.dbProfile,
@@ -79,7 +78,6 @@ export default function ContextState() {
     >
       <HashRouter basename="/">
         <NavBar />
-        <h5 className="text-center text-warning">Project Under Construction</h5>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
