@@ -8,7 +8,7 @@ export default function StepSave({ handleSaveApp }) {
   return (
     <div className="step ">
       <h3>
-        After submitting your application online, click Save.
+        After submitting your application online, click Save&nbsp;
         <span>
           <BsInfoCircle id="saveTipBtn" />
           <Tooltip
@@ -20,10 +20,10 @@ export default function StepSave({ handleSaveApp }) {
               setToolTipOn(!toolTipOn);
             }}
           >
-            After saving this application, you can later access the saved application data to guide your
-            interview preparation and make further edits like adding interview dates, pre-interview
-            notes, interview Q&A prep, post-interview notes, negotiation details, ideas for
-            improvement and more. You can keep all of your records into the future to help
+            After saving this application, you can later access the saved application data to guide
+            your interview preparation and make further edits like adding interview dates,
+            pre-interview notes, interview Q&A prep, post-interview notes, negotiation details,
+            ideas for improvement and more. You can keep all of your records into the future to help
             improve your job search skills.
           </Tooltip>
         </span>

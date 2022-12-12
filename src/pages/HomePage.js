@@ -4,12 +4,13 @@ import axios from "axios";
 import BtnCareerRenamer from "../components/BtnCareerRenamer";
 import BtnCareerSwitcher from "../components/BtnCareerSwitcher";
 import BtnCareerAdder from "../components/BtnCareerAdder";
-import Step1 from "../components/Step1";
-import Step2 from "../components/Step2";
-import Step3 from "../components/Step3";
-import Step4 from "../components/Step4";
-import Step5 from "../components/Step5";
-import Step6 from "../components/Step6";
+import Step1URL from "../components/Step1URL";
+import Step2NameTitle from "../components/Step2NameTitle";
+import Step3Desc from "../components/Step3Desc";
+import Step4Notes from "../components/Step4Notes";
+import Step5Resume from "../components/Step5Resume";
+import Step6CL from "../components/Step6CL";
+import Step7Tags from "../components/Step7Tags";
 import StepSave from "../components/StepSave";
 
 export default function HomePage() {
@@ -21,7 +22,10 @@ export default function HomePage() {
   const [jobTitle, setJobTitle] = useState("");
   const [jobDescription, setJobDescription] = useState("");
   const [jobNotes, setJobNotes] = useState("");
-  const [files, setFiles] = useState([]);
+  const [byteaResume, setByteaResume] = useState([]);
+  const [byteaCoverLetter, setByteaCoverLetter] = useState([]);
+  const [resumeDisplayFile, setResumeDisplayFile] = useState({});
+  const [coverLetterDisplayFile, setCoverLetterDisplayFile] = useState({});
   const [tags, setTags] = useState("");
 
   useEffect(() => {
@@ -32,49 +36,31 @@ export default function HomePage() {
     }
   }, [context.dbProfileState]);
 
-  /* 
-  handleSetFilesState(droppedFiles) is the "ondrop" callback that is set up to run everytime 
-  files are dropped/selected into the step 5 file loader. When files are dropped, 
-  those files are inserted into this function as input arguments and this function is ran.
-  When these files are first dropped, for each file, the app receives an abject containing information about those files (like the name, path, etc) but not the actual file contents itself. So in this function, we want to somehow load the file's actual data contents into 
-  a variable so that we can insert that variable into the setFiles state setter to store it into the "files" state. Argument newFiles will be an array of file data abjects.
-
-  We'll define a subfunction inside the function that will return a promise, so
-  the function needs to be asynchronous.
-  */
-  async function handleSetFilesState(newFiles) {
-    // subfunction
-    const getByteArray = (file) => {
-      return new Promise((acc, err) => {
-        const reader = new FileReader(); // browser's built in file reader method
-        reader.onload = (event) => {
-          acc(event.target.result);
-        };
-        reader.onerror = (error) => {
-          err(error);
-        };
-        reader.readAsArrayBuffer(file);
-      });
-    };
-    console.log("here we have the regular file objects : ", newFiles);
-    let byteafilesArray = [];
-    let arrayBuffersArray = [];
-    newFiles.forEach(async (file) => {
-      const arrayBuffer = await getByteArray(file);
-      arrayBuffersArray.push(arrayBuffer);
-      const bytea = new Uint8Array(arrayBuffer);
-      byteafilesArray.push(bytea);
+  function getByteArray(file) {
+    return new Promise((acc, err) => {
+      const reader = new FileReader();
+      reader.onloadend = (event) => {
+        acc(event.target.result);
+      };
+      reader.onerror = (error) => {
+        err(error);
+      };
+      reader.readAsArrayBuffer(file);
     });
-    console.log("here we have the files as temporary array buffers: ", arrayBuffersArray);
-    console.log("here we have the files converted as Uint8Array byte arrays: ", byteafilesArray);
-    // using the getByteArray subfunction
-    /*
-    const temp = await getByteArray(newFiles[0]);
-    console.log("here we have the files as ArrayBuffers : ", temp);
-    const fileb = new Uint8Array(temp);
-    console.log("here we have converted the file as an Uint8Array : ", fileb);
-    */
-    setFiles([...files, ...newFiles]);
+  }
+
+  async function setResumeFile(newFile) {
+    const arrayBuffer = await getByteArray(newFile[0]);
+    const bytea = new Uint8Array(arrayBuffer);
+    setByteaResume(bytea);
+    setResumeDisplayFile(newFile[0]);
+  }
+
+  async function setCoverLetterFile(newFile) {
+    const arrayBuffer = await getByteArray(newFile[0]);
+    const bytea = new Uint8Array(arrayBuffer);
+    setByteaCoverLetter(bytea);
+    setCoverLetterDisplayFile(newFile[0]);
   }
 
   function handleSaveApp() {
@@ -90,7 +76,8 @@ export default function HomePage() {
       jobDescription: jobDescription.toString("html"),
       jobTitle: jobTitle,
       jobNotes: jobNotes.toString("html"),
-      files: files,
+      resumeFile: byteaResume,
+      coverLetterFile: byteaCoverLetter,
       tags: tags.split(","),
       careerName: careersList[currentCareerNum],
       applicationDate: getTimeStamp(),
@@ -116,8 +103,8 @@ export default function HomePage() {
   function getTimeStamp() {
     let date = new Date();
     let year = date.getFullYear().toString(); // 4-digit year
-    let month = (date.getMonth() + 1).toString(); // 00-11
-    let day = date.getDate().toString(); // 00-06
+    let month = (date.getMonth() + 1).toString(); // 1-12
+    let day = date.getDate().toString(); // 1-31
     let hour = date.getHours(); // 0-23
     let min = date.getMinutes(); // 0-59
     if (month.length === 1) {
@@ -125,6 +112,12 @@ export default function HomePage() {
     }
     if (day.length === 1) {
       day = "0" + day;
+    }
+    if (hour.length === 1) {
+      hour = "0" + hour;
+    }
+    if (min.length === 1) {
+      min = "0" + min;
     }
     return parseInt(year + month + day + hour + min);
   } // format: 202201232250 (yyyymmddhhmm)
@@ -135,7 +128,8 @@ export default function HomePage() {
     setCompanyName("");
     setJobTitle("");
     setJobNotes("");
-    setFiles([]);
+    setByteaResume([]);
+    setByteaCoverLetter([])
     let nodeList = document.getElementsByTagName("input");
     let nodeListConvertedToArray = Array.prototype.slice.call(nodeList);
     nodeListConvertedToArray.forEach((input) => {
@@ -170,12 +164,12 @@ export default function HomePage() {
           currentCareerNum={currentCareerNum}
         />
       </div>
-      <Step1 setPostingURL={setPostingURL} />
-      <Step2 setCompanyName={setCompanyName} setJobTitle={setJobTitle} />
+      <Step1URL setPostingURL={setPostingURL} />
+      <Step2NameTitle setCompanyName={setCompanyName} setJobTitle={setJobTitle} />
       <div className="container">
         <div className="row">
           <div className="col">
-            <Step3
+            <Step3Desc
               id="step3editor"
               name="step3editor"
               value={jobDescription}
@@ -183,12 +177,29 @@ export default function HomePage() {
             />
           </div>
           <div className="col">
-            <Step4 id="step4editor" value={jobNotes} onChange={setJobNotes} />
+            <Step4Notes id="step4editor" value={jobNotes} onChange={setJobNotes} />
           </div>
         </div>
       </div>
-      <Step5 handleSetFilesState={handleSetFilesState} files={files} setFiles={setFiles} />
-      <Step6 setTags={setTags} />
+      <div className="container">
+        <div className="row">
+          <div className="col">
+            <Step5Resume
+              setResumeFile={setResumeFile}
+              resumeDisplayFile={resumeDisplayFile}
+              setResumeDisplayFile={setResumeDisplayFile}
+            />
+          </div>
+          <div className="col">
+            <Step6CL
+              setCoverLetterFile={setCoverLetterFile}
+              coverLetterDisplayFile={coverLetterDisplayFile}
+              setCoverLetterDisplayFile={setCoverLetterDisplayFile}
+            />
+          </div>
+        </div>
+      </div>
+      <Step7Tags setTags={setTags} />
       <StepSave handleSaveApp={handleSaveApp} />
     </div>
   );
