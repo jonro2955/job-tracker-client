@@ -61,7 +61,7 @@ export default function BtnCareerRenamer({ careersList, setCareersList, currentC
     <div>
       <div className="dropdown">
         <button type="button" className="btn btn-success m-1" onClick={toggleModal}>
-          Rename Current Career
+          Rename Career
         </button>
         <Modal isOpen={modalOn} toggle={toggleModal}>
           <ModalHeader toggle={toggleModal}>

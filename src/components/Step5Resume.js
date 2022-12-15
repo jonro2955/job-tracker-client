@@ -11,26 +11,18 @@ export default function Step5({ setResumeFile, resumeDisplayFile, setResumeDispl
           <section>
             <div {...getRootProps({ className: "dropzone" })}>
               <input {...getInputProps()} />
-              <h5>Drag & drop files, or click to select</h5>
-            </div>
-            <div>
-              {resumeDisplayFile.name && (
+
+              {resumeDisplayFile.name ? (
                 <div>
                   <span className="text-primary">
-                    <strong>{resumeDisplayFile.name}</strong> - {resumeDisplayFile.size} bytes
-                    &nbsp;
-                    <button
-                      className="btn btn-outline-success"
-                      onClick={() => {
-                        setResumeDisplayFile({});
-                      }}
-                    >
-                      x
-                    </button>
+                    <strong>{resumeDisplayFile.name}</strong> <br/>( {resumeDisplayFile.size} bytes)
                   </span>
                 </div>
+              ) : (
+                <h5>Drag & drop file, or click to select</h5>
               )}
             </div>
+            {/*  */}
           </section>
         )}
       </Dropzone>

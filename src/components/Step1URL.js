@@ -2,8 +2,8 @@ import React from "react";
 
 export default function Step1({ setPostingURL }) {
   return (
-    <div className="step w-md-75">
-      <h3 id="step1Heading">Job posting page URL</h3>
+    <div className="step w-50">
+      <h3 id="step1Heading">Job posting URL</h3>
       <input
         id="jobPostingURL"
         name="jobPostingURL"

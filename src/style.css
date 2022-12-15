@@ -38,3 +38,6 @@
   cursor: pointer;
   margin-bottom: 20px;
 }
+.ql-editor {
+  min-height: 100px;
+}

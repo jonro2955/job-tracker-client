@@ -129,7 +129,7 @@ export default function HomePage() {
     setJobTitle("");
     setJobNotes("");
     setByteaResume([]);
-    setByteaCoverLetter([])
+    setByteaCoverLetter([]);
     let nodeList = document.getElementsByTagName("input");
     let nodeListConvertedToArray = Array.prototype.slice.call(nodeList);
     nodeListConvertedToArray.forEach((input) => {
@@ -165,7 +165,6 @@ export default function HomePage() {
         />
       </div>
       <Step1URL setPostingURL={setPostingURL} />
-      <Step2NameTitle setCompanyName={setCompanyName} setJobTitle={setJobTitle} />
       <div className="container">
         <div className="row">
           <div className="col">
@@ -177,6 +176,7 @@ export default function HomePage() {
             />
           </div>
           <div className="col">
+            <Step2NameTitle setCompanyName={setCompanyName} setJobTitle={setJobTitle} />
             <Step4Notes id="step4editor" value={jobNotes} onChange={setJobNotes} />
           </div>
         </div>
