@@ -135,7 +135,12 @@ export default function Step4({ id, value, onChange }) {
         {CustomToolbar(id)}
         <ReactQuill
           ref={quillRef}
-          style={{ backgroundColor: "white", minHeight: "100px" }}
+          style={{
+            backgroundColor: "white",
+            minHeight: "150px",
+            maxHeight: "770px",
+            overflowY: "auto",
+          }}
           theme="snow"
           // defaultValue={value}
           value={value}

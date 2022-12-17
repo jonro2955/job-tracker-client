@@ -26,7 +26,7 @@ function redoChange() {
   this.quill.history.redo();
 }
 
-export default function Step3({ id, name, value, onChange }) {
+export default function Step3({ id, value, onChange }) {
   const quillRef = React.useRef();
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewContent, setPreviewContent] = useState("");
@@ -129,13 +129,19 @@ export default function Step3({ id, name, value, onChange }) {
   ];
 
   return (
-    <div className="step">
+    <div className="step d-flex  flex-column ">
       <h3 id="step3Heading">Job posting description</h3>
       <div className="text-editor">
         {CustomToolbar(id)}
         <ReactQuill
           ref={quillRef}
-          style={{ backgroundColor: "white", minHeight: "100px" }}
+          style={{
+            backgroundColor: "white",
+            minHeight: "280px",
+            maxHeight: "900px",
+            overflowY: "auto",
+          }}
+          className="step3Desc"
           theme="snow"
           // defaultValue={value}
           value={value}

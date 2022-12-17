@@ -1,6 +1,6 @@
+Bug: when logged out, changing career from C1 to C2 results in a crash.
 
-
-
+Next: Create the Search Page by populating it with the db's apps table entries. If user is logged out, load a bunch of sample job applications here so that guests can use the search feature
 
 Add post-application edit options for marking an app as interviewd, rejected, etc to make it marked as such in list search view
 
@@ -19,8 +19,6 @@ User must not be able to delete a career if there is an application made with it
 The step 3 box will need to display matching company applications at the bottom of it after the db system has been set up.
 
 Scrapers: if we later we figure out how to use some headless virtual browsers to easily scrape the data we need from crape-blocked sites, we can add functionality to populate all possible form fields automatically when a job posting url is pasted in.
-
-
 
 BYTEA data format conditioning for homePage.js>handleSaveApp
 Options for storing files in postgres:

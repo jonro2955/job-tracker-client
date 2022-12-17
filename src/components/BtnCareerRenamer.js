@@ -30,31 +30,37 @@ export default function BtnCareerRenamer({ careersList, setCareersList, currentC
 
   /* Update both "users" table's careersList value and "apps" table's career values*/
   function updateRenameCareer(careersList, currentCareerNum, newName) {
-    const oldName = careersList[currentCareerNum];
     let newList = [...careersList];
     newList[currentCareerNum] = newName;
-    let currentUser =
-      context.isAuthenticated && context.dbProfileState
-        ? context.dbProfileState.username
-        : "demoUser";
-    const data = {
-      username: currentUser,
-      careersList: newList,
-      oldCareerName: oldName,
-      newCareerName: newName,
-    };
-    axios
-      .put("/api/put/renamecareer", data) // db update
-      .then((res) => {
-        console.log("api/put/renamecareer res.data: ", res.data);
-        const tempProfile = { ...context.dbProfileState };
-        tempProfile.careers_list = data.careersList;
-        context.dispatchSetDbProfile(tempProfile); // reducer update
-        setCareersList(newList); // HomePage ui update
-      })
-      .catch((err) => {
-        console.log("api/put/careernum err", err);
-      });
+    if (context.isAuthenticated && context.dbProfileState) {
+      let currentUser = context.dbProfileState.username;
+      const oldName = careersList[currentCareerNum];
+      const data = {
+        username: currentUser,
+        careersList: newList,
+        oldCareerName: oldName,
+        newCareerName: newName,
+      };
+      axios
+        .put("/api/put/renamecareer", data) // db update
+        .then((res) => {
+          console.log("api/put/renamecareer res.data: ", res.data);
+          const tempProfile = { ...context.dbProfileState };
+          tempProfile.careers_list = data.careersList;
+          context.dispatchSetDbProfile(tempProfile); // reducer update
+          setCareersList(newList); // HomePage ui update
+        })
+        .catch((err) => {
+          console.log("api/put/careernum err", err);
+        });
+    } else {
+      setCareersList(newList);
+    }
+
+    // let currentUser =
+    //   context.isAuthenticated && context.dbProfileState
+    //     ? context.dbProfileState.username
+    //     : "demoUser";
   }
 
   return (

@@ -1,1 +1,8 @@
-// this page will display each stored application for reviewing and editing when the user clicks on an entry in the search page
+export default function AppViewer() {
+  return (
+    <div className="centeredPage">
+      <h1>App Viewer</h1>
+      <p>View and edit a selected application</p>
+    </div>
+  );
+}

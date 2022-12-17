@@ -8,31 +8,36 @@ export default function BtnCareerSwitcher({ careersList, currentCareerNum, setCu
   const context = useContext(Context);
   const [modalOn, setModalOn] = useState(false);
 
-  function updateCurrentCareerNum(newNum) {
-    let currentUser =
-      context.isAuthenticated && context.dbProfileState
-        ? context.dbProfileState.username
-        : "demoUser";
-    const data = {
-      currentCareerNum: newNum,
-      username: currentUser,
-    };
-    axios
-      .put("/api/put/careernum", data) // db update
-      .then((res) => {
-        console.log("api/put/careernum res", res);
-        const tempProfile = { ...context.dbProfileState };
-        tempProfile.current_career_num = data.currentCareerNum;
-        context.dispatchSetDbProfile(tempProfile); // reducer update
-        setCurrentCareerNum(newNum); // HomePage ui update
-      })
-      .catch((err) => {
-        console.log("api/put/careernum err", err);
-      });
-  }
-
   function toggleModal() {
     setModalOn(!modalOn);
+  }
+
+  function updateCurrentCareerNum(newNum) {
+    if (context.isAuthenticated && context.dbProfileState) {
+      let currentUser = context.dbProfileState.username;
+      const data = {
+        currentCareerNum: newNum,
+        username: currentUser,
+      };
+      axios
+        .put("/api/put/careernum", data) // db update
+        .then((res) => {
+          const tempProfile = { ...context.dbProfileState };
+          tempProfile.current_career_num = data.currentCareerNum;
+          context.dispatchSetDbProfile(tempProfile); // reducer update
+          setCurrentCareerNum(newNum); // HomePage ui update
+        })
+        .catch((err) => {
+          console.log("api/put/careernum err", err);
+        });
+    } else {
+      setCurrentCareerNum(newNum);
+    }
+
+    // let currentUser =
+    //   context.isAuthenticated && context.dbProfileState
+    //     ? context.dbProfileState.username
+    //     : "demoUser";
   }
 
   return (

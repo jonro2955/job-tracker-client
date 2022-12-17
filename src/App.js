@@ -8,6 +8,7 @@ import { HashRouter, Route, Routes } from "react-router-dom";
 import NavBar from "./components/NavBar";
 import HomePage from "./pages/HomePage";
 import SearchPage from "./pages/SearchPage";
+import AppViewerPage from "./pages/AppViewerPage";
 import ProfilePage from "./pages/ProfilePage";
 import AboutPage from "./pages/AboutPage";
 
@@ -19,13 +20,15 @@ export default function ContextState() {
       let profile = auth0.user;
       dispatchLogin();
       dispatchSetAuthProfile(profile);
-      axios.post("/api/post/userprofiletodb", profile).then(
-        axios
-          .get("/api/get/userprofilefromdb", { params: { email: profile.email } })
-          .then((res) => {
-            dispatchSetDbProfile(res.data[0]);
-          })
-      );
+      axios
+        .post("/api/post/userprofiletodb", profile)
+        .then(
+          axios
+            .get("/api/get/userprofilefromdb", { params: { email: profile.email } })
+            .then((res) => dispatchSetDbProfile(res.data[0]))
+            .catch((err) => console.log(err))
+        )
+        .catch((err) => console.log(err));
     } else {
       dispatchLogout();
       dispatchRemoveAuthProfile();
@@ -60,6 +63,19 @@ export default function ContextState() {
     dispatchAuthReducer(ACTIONS.remove_profile());
   }
 
+  function getByteArray(file) {
+    return new Promise((acc, err) => {
+      const reader = new FileReader();
+      reader.onloadend = (event) => {
+        acc(event.target.result);
+      };
+      reader.onerror = (error) => {
+        err(error);
+      };
+      reader.readAsArrayBuffer(file);
+    });
+  }
+
   return (
     <Context.Provider
       value={{
@@ -74,6 +90,7 @@ export default function ContextState() {
         isAuthenticated: stateAuthReducer.isAuthenticated,
         dbProfileState: stateAuthReducer.dbProfile,
         authProfile: stateAuthReducer.authProfile,
+        getByteArray: (file) => getByteArray(file),
       }}
     >
       <HashRouter basename="/">
@@ -83,6 +100,7 @@ export default function ContextState() {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/search" element={<SearchPage />} />
+          <Route path="/appviewer" element={<AppViewerPage />} />
           <Route path="/profile" element={<ProfilePage />} />
         </Routes>
       </HashRouter>

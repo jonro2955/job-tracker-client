@@ -11,7 +11,8 @@ import Step4Notes from "../components/Step4Notes";
 import Step5Resume from "../components/Step5Resume";
 import Step6CL from "../components/Step6CL";
 import Step7Tags from "../components/Step7Tags";
-import StepSave from "../components/StepSave";
+import { Tooltip } from "reactstrap";
+import { BsInfoCircle } from "react-icons/bs";
 
 export default function HomePage() {
   const context = useContext(Context);
@@ -22,11 +23,12 @@ export default function HomePage() {
   const [jobTitle, setJobTitle] = useState("");
   const [jobDescription, setJobDescription] = useState("");
   const [jobNotes, setJobNotes] = useState("");
-  const [byteaResume, setByteaResume] = useState([]);
-  const [byteaCoverLetter, setByteaCoverLetter] = useState([]);
+  const [byteaResume, setByteaResume] = useState();
+  const [byteaCoverLetter, setByteaCoverLetter] = useState();
   const [resumeDisplayFile, setResumeDisplayFile] = useState({});
   const [coverLetterDisplayFile, setCoverLetterDisplayFile] = useState({});
   const [tags, setTags] = useState("");
+  const [toolTipOn1, setToolTipOn1] = useState(false);
 
   useEffect(() => {
     let dbProfile = context.dbProfileState;
@@ -36,28 +38,17 @@ export default function HomePage() {
     }
   }, [context.dbProfileState]);
 
-  function getByteArray(file) {
-    return new Promise((acc, err) => {
-      const reader = new FileReader();
-      reader.onloadend = (event) => {
-        acc(event.target.result);
-      };
-      reader.onerror = (error) => {
-        err(error);
-      };
-      reader.readAsArrayBuffer(file);
-    });
-  }
-
   async function setResumeFile(newFile) {
-    const arrayBuffer = await getByteArray(newFile[0]);
+    const arrayBuffer = await context.getByteArray(newFile[0]);
+    console.log(arrayBuffer);
     const bytea = new Uint8Array(arrayBuffer);
+    console.log(bytea);
     setByteaResume(bytea);
     setResumeDisplayFile(newFile[0]);
   }
 
   async function setCoverLetterFile(newFile) {
-    const arrayBuffer = await getByteArray(newFile[0]);
+    const arrayBuffer = await context.getByteArray(newFile[0]);
     const bytea = new Uint8Array(arrayBuffer);
     setByteaCoverLetter(bytea);
     setCoverLetterDisplayFile(newFile[0]);
@@ -80,9 +71,9 @@ export default function HomePage() {
       coverLetterFile: byteaCoverLetter,
       tags: tags.split(","),
       careerName: careersList[currentCareerNum],
-      applicationDate: getTimeStamp(),
+      applicationDate: new Date().toString(),
     };
-    console.log(data);
+    // console.log(data);
     axios
       .post("/api/post/postapp", data)
       .then((res) => {
@@ -99,28 +90,6 @@ export default function HomePage() {
         alert("Not saved. Error: Website under development");
       });
   }
-
-  function getTimeStamp() {
-    let date = new Date();
-    let year = date.getFullYear().toString(); // 4-digit year
-    let month = (date.getMonth() + 1).toString(); // 1-12
-    let day = date.getDate().toString(); // 1-31
-    let hour = date.getHours(); // 0-23
-    let min = date.getMinutes(); // 0-59
-    if (month.length === 1) {
-      month = "0" + month;
-    }
-    if (day.length === 1) {
-      day = "0" + day;
-    }
-    if (hour.length === 1) {
-      hour = "0" + hour;
-    }
-    if (min.length === 1) {
-      min = "0" + min;
-    }
-    return parseInt(year + month + day + hour + min);
-  } // format: 202201232250 (yyyymmddhhmm)
 
   function clearForm() {
     setPostingURL("");
@@ -143,6 +112,24 @@ export default function HomePage() {
     <div className="centeredPage">
       <h5 className="text-center text-warning">Project Under Construction</h5>
       <h1>Home</h1>
+      <h3>
+        <span>
+          <BsInfoCircle id="tipBtn" />
+          <Tooltip
+            placement="top"
+            autohide={false}
+            isOpen={toolTipOn1}
+            target="tipBtn"
+            toggle={() => {
+              setToolTipOn1(!toolTipOn1);
+            }}
+          >
+            This webpage is inteneded to be used while you are applying for a job on a site like
+            Indeed or a company HR site. Fill out this form as you apply, then click the save button
+            after you've submitted your application.
+          </Tooltip>
+        </span>
+      </h3>
       <h3>
         Current Career:&nbsp;
         <span className="text-success">{careersList[currentCareerNum]}</span>
@@ -200,7 +187,11 @@ export default function HomePage() {
         </div>
       </div>
       <Step7Tags setTags={setTags} />
-      <StepSave handleSaveApp={handleSaveApp} />
+      <div className="step w-50">
+        <button className="btn btn-success p-2" onClick={handleSaveApp}>
+          Save
+        </button>
+      </div>
     </div>
   );
 }

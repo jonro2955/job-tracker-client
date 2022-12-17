@@ -17,8 +17,16 @@ export default function Step6({
               {coverLetterDisplayFile.name ? (
                 <div>
                   <span className="text-primary">
-                    <strong>{coverLetterDisplayFile.name}</strong> <br />(
-                    {coverLetterDisplayFile.size} bytes)
+                    <strong>{coverLetterDisplayFile.name}</strong> - {coverLetterDisplayFile.size}{" "}
+                    bytes &nbsp;
+                    <button
+                      className="btn btn-outline-success"
+                      onClick={() => {
+                        setCoverLetterDisplayFile({});
+                      }}
+                    >
+                      x
+                    </button>
                   </span>
                 </div>
               ) : (

@@ -15,7 +15,16 @@ export default function Step5({ setResumeFile, resumeDisplayFile, setResumeDispl
               {resumeDisplayFile.name ? (
                 <div>
                   <span className="text-primary">
-                    <strong>{resumeDisplayFile.name}</strong> <br/>( {resumeDisplayFile.size} bytes)
+                    <strong>{resumeDisplayFile.name}</strong> - {resumeDisplayFile.size} bytes
+                    &nbsp;
+                    <button
+                      className="btn btn-outline-success"
+                      onClick={() => {
+                        setResumeDisplayFile({});
+                      }}
+                    >
+                      x
+                    </button>
                   </span>
                 </div>
               ) : (

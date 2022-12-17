@@ -9,7 +9,7 @@ export default function Step2({ setCompanyName, setJobTitle }) {
   }
 
   return (
-    <div className="step w-md-75">
+    <div className="step w-md-75" style={{ backgroundColor: "white", minHeight: "100px" }}>
       <h3 id="step3Heading">Company name and job title (required)</h3>
       <div className="d-flex justify-content-space-between justify-content-md-center gap-1 gap-md-5">
         <div className="d-flex flex-column">

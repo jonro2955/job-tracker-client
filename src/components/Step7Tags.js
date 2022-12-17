@@ -1,9 +1,7 @@
-import React from "react";
-
 export default function Step6({ setTags }) {
   return (
-    <div className="step  w-md-75">
-      <h3>Optional tags separated by commas</h3>
+    <div className="step  w-50">
+      <strong>Optional Tags Separated By Commas</strong>
       <input
         id="jobTags"
         name="jobTags"
