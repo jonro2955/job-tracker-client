@@ -1,18 +1,17 @@
 import React, { useContext, useEffect, useState } from "react";
-import Context from "../utils/context";
+import { Tooltip } from "reactstrap";
+import { BsInfoCircle } from "react-icons/bs";
 import axios from "axios";
+import Context from "../utils/context";
 import BtnCareerRenamer from "../components/BtnCareerRenamer";
 import BtnCareerSwitcher from "../components/BtnCareerSwitcher";
 import BtnCareerAdder from "../components/BtnCareerAdder";
-import Step1URL from "../components/Step1URL";
+import Step1UrlDesc from "../components/Step1UrlDesc";
 import Step2NameTitle from "../components/Step2NameTitle";
-import Step3Desc from "../components/Step3Desc";
-import Step4Notes from "../components/Step4Notes";
-import Step5Resume from "../components/Step5Resume";
-import Step6CL from "../components/Step6CL";
-import Step7Tags from "../components/Step7Tags";
-import { Tooltip } from "reactstrap";
-import { BsInfoCircle } from "react-icons/bs";
+import Step3Notes from "../components/Step3Notes";
+import Step4Resume from "../components/Step4Resume";
+import Step5CoverLetter from "../components/Step5CoverLetter";
+import Step6Tags from "../components/Step6Tags";
 
 export default function HomePage() {
   const context = useContext(Context);
@@ -124,7 +123,7 @@ export default function HomePage() {
               setToolTipOn1(!toolTipOn1);
             }}
           >
-            This webpage is inteneded to be used while you are applying for a job on a site like
+            This application is inteneded to be used while you are applying for a job on a site like
             Indeed or a company HR site. Fill out this form as you apply, then click the save button
             after you've submitted your application.
           </Tooltip>
@@ -151,34 +150,34 @@ export default function HomePage() {
           currentCareerNum={currentCareerNum}
         />
       </div>
-      <Step1URL setPostingURL={setPostingURL} />
       <div className="container">
         <div className="row">
           <div className="col">
-            <Step3Desc
+            <Step1UrlDesc
               id="step3editor"
               name="step3editor"
               value={jobDescription}
-              onChange={setJobDescription}
+              setPostingURL={setPostingURL}
+              setJobDescription={setJobDescription}
             />
           </div>
           <div className="col">
             <Step2NameTitle setCompanyName={setCompanyName} setJobTitle={setJobTitle} />
-            <Step4Notes id="step4editor" value={jobNotes} onChange={setJobNotes} />
+            <Step3Notes id="step4editor" value={jobNotes} onChange={setJobNotes} />
           </div>
         </div>
       </div>
-      <div className="container">
+      <div className="container w-50">
         <div className="row">
           <div className="col">
-            <Step5Resume
+            <Step4Resume
               setResumeFile={setResumeFile}
               resumeDisplayFile={resumeDisplayFile}
               setResumeDisplayFile={setResumeDisplayFile}
             />
           </div>
           <div className="col">
-            <Step6CL
+            <Step5CoverLetter
               setCoverLetterFile={setCoverLetterFile}
               coverLetterDisplayFile={coverLetterDisplayFile}
               setCoverLetterDisplayFile={setCoverLetterDisplayFile}
@@ -186,7 +185,7 @@ export default function HomePage() {
           </div>
         </div>
       </div>
-      <Step7Tags setTags={setTags} />
+      <Step6Tags setTags={setTags} />
       <div className="step w-50">
         <button className="btn btn-success p-2" onClick={handleSaveApp}>
           Save
