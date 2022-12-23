@@ -7,7 +7,7 @@ export default function Step6({
   setCoverLetterDisplayFile,
 }) {
   return (
-    <div className="step w-md-75">
+    <div className="step">
       <h3>Cover Letter</h3>
       <Dropzone multiple={false} onDrop={setCoverLetterFile}>
         {({ getRootProps, getInputProps }) => (
@@ -30,7 +30,7 @@ export default function Step6({
                   </span>
                 </div>
               ) : (
-                <h5>Drag & drop file, or click to select</h5>
+                <h5>Drag & drop, or click to select.</h5>
               )}
             </div>
           </section>

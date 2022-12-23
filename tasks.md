@@ -1,6 +1,6 @@
-Bug: when logged out, changing career from C1 to C2 results in a crash.
+record-search (branch): Implement search page features: filtering, search by company/title (implement binary search, other types of efficient search algorithms)
 
-Next: Create the Search Page by populating it with the db's apps table entries. If user is logged out, load a bunch of sample job applications here so that guests can use the search feature
+Add salary entry field
 
 Add post-application edit options for marking an app as interviewd, rejected, etc to make it marked as such in list search view
 
@@ -35,3 +35,5 @@ Converting bytea file back to original form
 https://stackoverflow.com/questions/12603307/convert-byte-array-to-the-original-file-in-javascript
 
 Show some kind of progress animation while the save action is being performed on the back end. Or show a confirmation popup when express returns with a successful post response.
+
+If user is logged out, load a bunch of sample job applications so that guests can use the search feature and all the other features like saving records.

@@ -11,8 +11,6 @@ import Step4Notes from "../components/Step4Notes";
 import Step5Resume from "../components/Step5Resume";
 import Step6CL from "../components/Step6CL";
 import Step7Tags from "../components/Step7Tags";
-import { Tooltip } from "reactstrap";
-import { BsInfoCircle } from "react-icons/bs";
 
 export default function HomePage() {
   const context = useContext(Context);
@@ -28,7 +26,6 @@ export default function HomePage() {
   const [resumeDisplayFile, setResumeDisplayFile] = useState({});
   const [coverLetterDisplayFile, setCoverLetterDisplayFile] = useState({});
   const [tags, setTags] = useState("");
-  const [toolTipOn1, setToolTipOn1] = useState(false);
 
   useEffect(() => {
     let dbProfile = context.dbProfileState;
@@ -56,7 +53,7 @@ export default function HomePage() {
 
   function handleSaveApp() {
     if (companyName.length === 0 || jobTitle.length === 0) {
-      document.querySelector("#step3Heading").style.color = "red";
+      document.querySelector(".required").style.color = "red";
       alert("Save unsuccessful. Required data is missing.");
       return;
     }
@@ -110,26 +107,7 @@ export default function HomePage() {
 
   return (
     <div className="centeredPage">
-      <h5 className="text-center text-warning">Project Under Construction</h5>
       <h1>Home</h1>
-      <h3>
-        <span>
-          <BsInfoCircle id="tipBtn" />
-          <Tooltip
-            placement="top"
-            autohide={false}
-            isOpen={toolTipOn1}
-            target="tipBtn"
-            toggle={() => {
-              setToolTipOn1(!toolTipOn1);
-            }}
-          >
-            This webpage is inteneded to be used while you are applying for a job on a site like
-            Indeed or a company HR site. Fill out this form as you apply, then click the save button
-            after you've submitted your application.
-          </Tooltip>
-        </span>
-      </h3>
       <h3>
         Current Career:&nbsp;
         <span className="text-success">{careersList[currentCareerNum]}</span>
@@ -154,7 +132,7 @@ export default function HomePage() {
       <Step1URL setPostingURL={setPostingURL} />
       <div className="container">
         <div className="row">
-          <div className="col">
+          <div className="col w75">
             <Step3Desc
               id="step3editor"
               name="step3editor"
@@ -162,32 +140,24 @@ export default function HomePage() {
               onChange={setJobDescription}
             />
           </div>
-          <div className="col">
+          <div className="col w75">
             <Step2NameTitle setCompanyName={setCompanyName} setJobTitle={setJobTitle} />
             <Step4Notes id="step4editor" value={jobNotes} onChange={setJobNotes} />
           </div>
         </div>
       </div>
-      <div className="container">
-        <div className="row">
-          <div className="col">
-            <Step5Resume
-              setResumeFile={setResumeFile}
-              resumeDisplayFile={resumeDisplayFile}
-              setResumeDisplayFile={setResumeDisplayFile}
-            />
-          </div>
-          <div className="col">
-            <Step6CL
-              setCoverLetterFile={setCoverLetterFile}
-              coverLetterDisplayFile={coverLetterDisplayFile}
-              setCoverLetterDisplayFile={setCoverLetterDisplayFile}
-            />
-          </div>
-        </div>
-      </div>
+      <Step5Resume
+        setResumeFile={setResumeFile}
+        resumeDisplayFile={resumeDisplayFile}
+        setResumeDisplayFile={setResumeDisplayFile}
+      />
+      <Step6CL
+        setCoverLetterFile={setCoverLetterFile}
+        coverLetterDisplayFile={coverLetterDisplayFile}
+        setCoverLetterDisplayFile={setCoverLetterDisplayFile}
+      />
       <Step7Tags setTags={setTags} />
-      <div className="step w-50">
+      <div className="step w-25">
         <button className="btn btn-success p-2" onClick={handleSaveApp}>
           Save
         </button>

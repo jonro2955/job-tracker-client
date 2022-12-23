@@ -4,7 +4,7 @@ import Dropzone from "react-dropzone";
 
 export default function Step5({ setResumeFile, resumeDisplayFile, setResumeDisplayFile }) {
   return (
-    <div className="step w-md-75">
+    <div className="step">
       <h3>Resume</h3>
       <Dropzone multiple={false} onDrop={setResumeFile}>
         {({ getRootProps, getInputProps }) => (
@@ -28,7 +28,7 @@ export default function Step5({ setResumeFile, resumeDisplayFile, setResumeDispl
                   </span>
                 </div>
               ) : (
-                <h5>Drag & drop file, or click to select</h5>
+                <h5>Drag & drop, or click to select.</h5>
               )}
             </div>
             {/*  */}
