@@ -1,4 +1,4 @@
-record-search (branch): Implement search page features: filtering, search by company/title (implement binary search, other types of efficient search algorithms)
+record-search (branch): Right now, all records are loaded into the SearchPage component's displayedAppsList state when user opens the search page. When the user clicks "Search", use array functions to filter the loaded records using the currently set date range rather than making new server requests. AND, whenever a date parameter changes, rerun the filter using the new date.
 
 Add salary entry field
 

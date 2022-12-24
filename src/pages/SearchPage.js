@@ -17,17 +17,9 @@ export default function SearchPage() {
   const [dateRangeEnd, setDateRangeEnd] = useState("");
   const [fmtRangeEnd, setFmtRangeEnd] = useState(undefined);
 
+  // Whenever the context changes due to new user login, load the recent records onto the search page
   useEffect(() => {
-    // when this component mounts, if user is logged in, retrieve user's applications list from db and store it inside displayedAppsList
-    if (context.isAuthenticated && context.dbProfileState) {
-      const username = context.dbProfileState.username;
-      axios
-        .get("/api/get/all-user-records", { params: { email: username } })
-        .then((res) => {
-          setDisplayedAppsList(res.data);
-        })
-        .catch((err) => console.log(err));
-    }
+    loadAllRecords();
   }, [context]);
 
   useEffect(() => {
@@ -37,6 +29,18 @@ export default function SearchPage() {
     }
   }, [fmtRangeStart, fmtRangeEnd]);
 
+  function loadAllRecords() {
+    if (context.isAuthenticated && context.dbProfileState) {
+      const username = context.dbProfileState.username;
+      axios
+        .get("/api/get/all-user-records", { params: { email: username } })
+        .then((res) => {
+          setDisplayedAppsList(res.data);
+          console.log(res.data);
+        })
+        .catch((err) => console.log(err));
+    }
+  }
 
   function handleSetRangeStart(value, formattedValue) {
     setDateRangeStart(value);
@@ -48,15 +52,13 @@ export default function SearchPage() {
     setFmtRangeEnd(formattedValue);
   }
 
-  // This gets called when user clicks the search button. Retrieve corresponding applications from db and store it inside displayedAppsList
-  function search(event) {
-    event.preventDefault();
+  // This gets called when user clicks the search button. Retrieve applications that match the search query from db and store it inside displayedAppsList
+  function search() {
     if (context.isAuthenticated && context.dbProfileState) {
       const username = context.dbProfileState.username;
-      const inputStr = event.target.querySelector("#searchInput").value;
       axios
         .get("/api/get/search-terms", {
-          params: { email: username, searchStr: inputStr, searchOption: selectedSearchOption },
+          params: { email: username, searchStr: searchString, searchOption: selectedSearchOption },
         })
         .then((res) => {
           setDisplayedAppsList(res.data);
@@ -66,10 +68,21 @@ export default function SearchPage() {
     }
   }
 
+  function resetSearchParams() {
+    setSelectedSearchOption("option1");
+    setSearchString("");
+  }
+
   return (
     <div className="centeredPage">
       <h1>Search</h1>
-      <form className="form-inline d-flex my-2 my-lg-0" onSubmit={search}>
+      <form
+        className="form-inline d-flex my-2 my-lg-0"
+        onSubmit={(e) => {
+          e.preventDefault();
+          search();
+        }}
+      >
         <input
           className="form-control mr-sm-2"
           id="searchInput"
@@ -91,9 +104,9 @@ export default function SearchPage() {
         setSelectedSearchOption={setSelectedSearchOption}
       />
 
-      <div className="d-flex mt-4">
-        <FormGroup>
-          <Label>Date Range Start</Label>
+      <div className="d-flex mt-3">
+        <FormGroup className="text-center">
+          <Label><u>From</u></Label>
           <DatePicker
             id="example-datepicker1"
             value={dateRangeStart}
@@ -101,8 +114,8 @@ export default function SearchPage() {
           />
         </FormGroup>
         &nbsp;
-        <FormGroup>
-          <Label>Date Range End</Label>
+        <FormGroup className="text-center">
+          <Label><u>To</u></Label>
           <DatePicker
             id="example-datepicker2"
             value={dateRangeEnd}
@@ -110,6 +123,15 @@ export default function SearchPage() {
           />
         </FormGroup>
       </div>
+      <button
+        className="btn btn-outline-success my-2 my-sm-0"
+        onClick={() => {
+          loadAllRecords();
+          resetSearchParams();
+        }}
+      >
+        Reset
+      </button>
 
       <table className="table table-bordered text-center w-50 mt-4">
         <thead>
@@ -126,11 +148,19 @@ export default function SearchPage() {
               let date = new Date(item.application_date);
               return (
                 <tr key={i}>
-                  <td>{`${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`}</td>
-                  <td>{item.company_name}</td>
-                  <td>{item.job_title}</td>
                   <td>
-                    <Link to="/appviewer">View application</Link>
+                    <Link to="/appviewer">{`${date.getFullYear()}-${
+                      date.getMonth() + 1
+                    }-${date.getDate()}`}</Link>
+                  </td>
+                  <td>
+                    <Link to="/appviewer">{item.company_name}</Link>
+                  </td>
+                  <td>
+                    <Link to="/appviewer">{item.job_title}</Link>
+                  </td>
+                  <td>
+                    <Link to="/appviewer">View/Edit</Link>
                   </td>
                 </tr>
               );
