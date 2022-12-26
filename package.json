@@ -1,6 +1,6 @@
 {
   "homepage": "https://jonro2955.github.io/job-tracker-client/",
-  "name": "client",
+  "name": "job-tracker-client",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -19,7 +19,8 @@
     "react-router": "latest",
     "react-router-dom": "^6.4.3",
     "react-scripts": "latest",
-    "reactstrap": "^9.1.5"
+    "reactstrap": "^9.1.5",
+    "reactstrap-date-picker": "^1.0.5"
   },
   "scripts": {
     "predeploy": "npm run build",
@@ -52,5 +53,17 @@
   "proxy": "http://localhost:5000",
   "devDependencies": {
     "gh-pages": "^4.0.0"
+  },
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jonro2955/job-tracker-client.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jonro2955/job-tracker-client/issues"
   }
 }
