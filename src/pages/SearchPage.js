@@ -9,13 +9,71 @@ import SearchRadio from "../components/SearchRadio";
 
 export default function SearchPage() {
   const context = useContext(Context);
+  const [allUserAppsList, setAllUserAppsList] = useState([]);
   const [displayedAppsList, setDisplayedAppsList] = useState([]);
   const [searchString, setSearchString] = useState("");
-  const [selectedSearchOption, setSelectedSearchOption] = useState("option1");
+  const [selectedSearchOption, setSelectedSearchOption] = useState("job_title");
   const [dateRangeStart, setDateRangeStart] = useState("");
   const [fmtRangeStart, setFmtRangeStart] = useState(undefined);
   const [dateRangeEnd, setDateRangeEnd] = useState("");
   const [fmtRangeEnd, setFmtRangeEnd] = useState(undefined);
+
+  // Given an input string of n words, generate all possible consecutive-word substrings of the following word counts: n, n-1, n-2, ... 1.
+  // For example, if given "front end web developer", return
+  // ["front end web developer", "front end web", "front end", "front", "end Web Developer", "end web", "end", "web developer", "web", "developer"]
+  // Each substring will be used to search for a record
+  function getQuerySubSequences(string) {
+    const words = string.split(" ");
+    let subStrings = [];
+    let rightSlice, leftSlice;
+    for (let i = 0; i < words.length; i++) {
+      rightSlice = words.slice(i);
+      for (let j = rightSlice.length; j > 0; j--) {
+        leftSlice = rightSlice.slice(0, j);
+        subStrings.push(leftSlice);
+      }
+    }
+    subStrings.sort((a, b) => {
+      return b.length - a.length;
+    });
+    return subStrings.map((item) => {
+      return item.join(" ");
+    });
+  }
+
+  /* allUserAppsList will contain all of current user's records in this format: 
+    [{app_id: 1, application_date: 'Sat Dec 24 2022 13:07:37 GMT-0800 (Pacific Standard Time)', company_name: 'xyz', job_title: 'abc', job_description: ''},
+    {app_id: 2, application_date: 'Sat Dec 24 2022 13:07:37 GMT-0800 (Pacific Standard Time)', company_name: 'xyz', job_title: 'abc', job_description: ''},
+    {app_id: 3, application_date: 'Sat Dec 24 2022 13:07:37 GMT-0800 (Pacific Standard Time)', company_name: 'xyz', job_title: 'abc', job_description: ''}] 
+    Use the input values of searchString, selectedSearchOption, dateRangeStart, and dateRangeEnd to create a subset of these records that corresponds to 
+    these input values. Set displayedAppsList equal to the resulting subset using setDisplayedAppsList. */
+  function clientSideSearch(
+    searchString,
+    selectedSearchOption,
+    dateRangeStart,
+    dateRangeEnd,
+    allUserAppsList,
+    setDisplayedAppsList
+  ) {
+    if (searchString) {
+      // const searchPhrases = getWordSubSequences(searchString);
+      const startDate = dateRangeStart ? new Date(dateRangeStart) : new Date(0);
+      const endDate = dateRangeEnd ? new Date(dateRangeEnd) : new Date();
+      let results = [];
+      // since we're looking for a 'contains' condition and not an equality, we need to examine each item rather than skipping like in binary search
+      allUserAppsList.forEach((app) => {
+        const appDate = new Date(app.application_date);
+        if (
+          app[selectedSearchOption].toLowerCase().includes(searchString.toLowerCase()) &&
+          appDate >= startDate &&
+          appDate <= endDate
+        ) {
+          results.push(app);
+        }
+      });
+      setDisplayedAppsList(results);
+    }
+  }
 
   // Whenever the context changes due to new user login, load the recent records onto the search page
   useEffect(() => {
@@ -35,8 +93,9 @@ export default function SearchPage() {
       axios
         .get("/api/get/all-user-records", { params: { email: username } })
         .then((res) => {
+          setAllUserAppsList(res.data);
           setDisplayedAppsList(res.data);
-          console.log(res.data);
+          // console.log(res.data);
         })
         .catch((err) => console.log(err));
     }
@@ -52,8 +111,8 @@ export default function SearchPage() {
     setFmtRangeEnd(formattedValue);
   }
 
-  // This gets called when user clicks the search button. Retrieve applications that match the search query from db and store it inside displayedAppsList
-  function search() {
+  // Server side searching is needed should we not load all user application records into allUserAppsList when this component is mounted
+  function serverSideSearch() {
     if (context.isAuthenticated && context.dbProfileState) {
       const username = context.dbProfileState.username;
       axios
@@ -69,7 +128,7 @@ export default function SearchPage() {
   }
 
   function resetSearchParams() {
-    setSelectedSearchOption("option1");
+    setSelectedSearchOption("job_title");
     setSearchString("");
   }
 
@@ -80,7 +139,15 @@ export default function SearchPage() {
         className="form-inline d-flex my-2 my-lg-0"
         onSubmit={(e) => {
           e.preventDefault();
-          search();
+          // serverSideSearch();
+          clientSideSearch(
+            searchString,
+            selectedSearchOption,
+            dateRangeStart,
+            dateRangeEnd,
+            allUserAppsList,
+            setDisplayedAppsList
+          );
         }}
       >
         <input
@@ -106,7 +173,9 @@ export default function SearchPage() {
 
       <div className="d-flex mt-3">
         <FormGroup className="text-center">
-          <Label><u>From</u></Label>
+          <Label>
+            <u>From</u>
+          </Label>
           <DatePicker
             id="example-datepicker1"
             value={dateRangeStart}
@@ -115,7 +184,9 @@ export default function SearchPage() {
         </FormGroup>
         &nbsp;
         <FormGroup className="text-center">
-          <Label><u>To</u></Label>
+          <Label>
+            <u>To</u>
+          </Label>
           <DatePicker
             id="example-datepicker2"
             value={dateRangeEnd}
