@@ -55,7 +55,7 @@ export default function HomePage() {
 
   function handleSaveApp() {
     if (companyName.length === 0 || jobTitle.length === 0) {
-      document.querySelector("#step3Heading").style.color = "red";
+      document.querySelector(".step2").style.color = "red";
       alert("Save unsuccessful. Required data is missing.");
       return;
     }
@@ -103,8 +103,7 @@ export default function HomePage() {
     nodeListConvertedToArray.forEach((input) => {
       input.value = "";
     });
-    document.querySelector("#step1Heading").style.color = "initial";
-    document.querySelector("#step3Heading").style.color = "initial";
+    document.querySelector(".step2").style.color = "initial";
   }
 
   return (

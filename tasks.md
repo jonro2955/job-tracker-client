@@ -1,3 +1,5 @@
+On the Homepage, add a date field  and set it initially to the current date, and let the user know that, and also present an option (a button) to change it to another date. 
+
 record-search (branch): Right now, all records are loaded into the SearchPage component's displayedAppsList state when user opens the search page. When the user clicks "Search", use array functions to filter the loaded records using the currently set date range rather than making new server requests. AND, whenever a date parameter changes, rerun the filter using the new date.
 
 Add salary entry field

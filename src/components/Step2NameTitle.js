@@ -10,7 +10,7 @@ export default function Step2({ setCompanyName, setJobTitle }) {
 
   return (
     <div className="step w-md-75" style={{ backgroundColor: "white", minHeight: "100px" }}>
-      <div className="d-flex justify-content-space-between justify-content-md-center gap-1 gap-md-5 required">
+      <div className="step2 d-flex justify-content-space-between justify-content-md-center gap-1 gap-md-5 required">
         <div className="d-flex flex-column">
           <label htmlFor="jobTitle">Company: </label>
           <input

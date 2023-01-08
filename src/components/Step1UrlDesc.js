@@ -148,7 +148,7 @@ export default function Step1UrlDesc({ id, value, setJobDescription, setPostingU
         }}
       />
       {/* Job description input*/}
-      <h3 id="step3Heading">Job posting description</h3>
+      <h3>Job posting description</h3>
       <div className="text-editor">
         {CustomToolbar(id)}
         <ReactQuill
