@@ -17,5 +17,7 @@
     "statusBarItem.remoteBackground": "#17a2b8",
     "statusBarItem.remoteForeground": "#e7e7e7"
   },
-  "peacock.affectTabActiveBorder": true
+  "peacock.affectTabActiveBorder": true,
+  "editor.formatOnSave": true,
+  "files.autoSave": "afterDelay"
 }

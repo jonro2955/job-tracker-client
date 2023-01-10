@@ -12,6 +12,7 @@ import Step3Notes from "../components/Step3Notes";
 import Step4Resume from "../components/Step4Resume";
 import Step5CoverLetter from "../components/Step5CoverLetter";
 import Step6Tags from "../components/Step6Tags";
+import Step7Date from "../components/Step7Date";
 
 export default function HomePage() {
   const context = useContext(Context);
@@ -28,6 +29,7 @@ export default function HomePage() {
   const [coverLetterDisplayFile, setCoverLetterDisplayFile] = useState({});
   const [tags, setTags] = useState("");
   const [toolTipOn1, setToolTipOn1] = useState(false);
+  const [subDate, setSubDate] = useState(String(new Date()));
 
   useEffect(() => {
     let dbProfile = context.dbProfileState;
@@ -70,7 +72,7 @@ export default function HomePage() {
       coverLetterFile: byteaCoverLetter,
       tags: tags.split(","),
       careerName: careersList[currentCareerNum],
-      applicationDate: new Date().toString(),
+      applicationDate: String(subDate)
     };
     // console.log(data);
     axios
@@ -122,9 +124,10 @@ export default function HomePage() {
               setToolTipOn1(!toolTipOn1);
             }}
           >
-            This application is inteneded to be used while you are applying for a job on a site like
-            Indeed or a company HR site. Fill out this form as you apply, then click the save button
-            after you've submitted your application.
+            This application is inteneded to be used while you are applying for
+            a job on a site like Indeed or a company HR site. Fill out this form
+            as you apply, then click the save button after you've submitted your
+            application.
           </Tooltip>
         </span>
       </h3>
@@ -161,8 +164,15 @@ export default function HomePage() {
             />
           </div>
           <div className="col">
-            <Step2NameTitle setCompanyName={setCompanyName} setJobTitle={setJobTitle} />
-            <Step3Notes id="step4editor" value={jobNotes} onChange={setJobNotes} />
+            <Step2NameTitle
+              setCompanyName={setCompanyName}
+              setJobTitle={setJobTitle}
+            />
+            <Step3Notes
+              id="step4editor"
+              value={jobNotes}
+              onChange={setJobNotes}
+            />
           </div>
         </div>
       </div>
@@ -185,6 +195,7 @@ export default function HomePage() {
         </div>
       </div>
       <Step6Tags setTags={setTags} />
+      <Step7Date subDate={subDate} setSubDate={setSubDate}/>
       <div className="step w-50">
         <button className="btn btn-success p-2" onClick={handleSaveApp}>
           Save

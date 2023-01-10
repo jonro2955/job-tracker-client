@@ -3,7 +3,6 @@ import React from "react";
 export default function SearchRadio({ selectedSearchOption, setSelectedSearchOption }) {
   return (
     <form className="d-flex mt-2">
-      {/* <strong>Criteria: &nbsp;</strong> */}
       <div className="form-check">
         <label>
           <input

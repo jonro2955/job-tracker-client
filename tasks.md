@@ -1,8 +1,8 @@
-On the Homepage, add a date field  and set it initially to the current date, and let the user know that, and also present an option (a button) to change it to another date. 
 
-record-search (branch): Right now, all records are loaded into the SearchPage component's displayedAppsList state when user opens the search page. When the user clicks "Search", use array functions to filter the loaded records using the currently set date range rather than making new server requests. AND, whenever a date parameter changes, rerun the filter using the new date.
 
-Add salary entry field
+Build the app view/edit page
+
+Add salary entry field?
 
 Add post-application edit options for marking an app as interviewd, rejected, etc to make it marked as such in list search view
 
@@ -20,7 +20,7 @@ User must not be able to delete a career if there is an application made with it
 
 The step 3 box will need to display matching company applications at the bottom of it after the db system has been set up.
 
-Scrapers: if we later we figure out how to use some headless virtual browsers to easily scrape the data we need from crape-blocked sites, we can add functionality to populate all possible form fields automatically when a job posting url is pasted in.
+Scrapers: we can later add functionality to populate all possible form fields automatically when a job posting url is pasted in (selenium?)
 
 BYTEA data format conditioning for homePage.js>handleSaveApp
 Options for storing files in postgres:

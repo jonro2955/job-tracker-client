@@ -8,7 +8,7 @@ import { HashRouter, Route, Routes } from "react-router-dom";
 import NavBar from "./components/NavBar";
 import HomePage from "./pages/HomePage";
 import SearchPage from "./pages/SearchPage";
-import AppViewerPage from "./pages/AppViewerPage";
+import AppViewPage from "./pages/AppViewPage";
 import ProfilePage from "./pages/ProfilePage";
 import AboutPage from "./pages/AboutPage";
 
@@ -100,7 +100,7 @@ export default function ContextState() {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/search" element={<SearchPage />} />
-          <Route path="/appviewer" element={<AppViewerPage />} />
+          <Route path="/appview/:appId" element={<AppViewPage />} />
           <Route path="/profile" element={<ProfilePage />} />
         </Routes>
       </HashRouter>

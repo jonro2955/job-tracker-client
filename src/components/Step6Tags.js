@@ -1,7 +1,7 @@
 export default function Step6Tags({ setTags }) {
   return (
     <div className="step w-50">
-      <strong>Optional Tags Separated By Commas</strong>
+      <strong>Tags Separated By Commas</strong>
       <input
         id="jobTags"
         name="jobTags"
