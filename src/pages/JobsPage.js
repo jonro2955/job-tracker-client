@@ -27,51 +27,6 @@ export default function SearchPage() {
     Use the input values of searchString, selectedSearchOption, dateRangeStart, and dateRangeEnd to create a subset of these records that corresponds to 
     these input values. Set displayedAppsList equal to the resulting subset using setDisplayedAppsList. */
 
-  //search allAppsList and setDisplayedAppsList
-  function clientSideSearch(
-    searchString,
-    selectedSearchOption,
-    dateRangeStart,
-    dateRangeEnd,
-    allAppsList,
-    setDisplayedAppsList
-  ) {
-    if (searchString) {
-      const startDate = dateRangeStart ? new Date(dateRangeStart) : new Date(0);
-      const endDate = dateRangeEnd ? new Date(dateRangeEnd) : new Date();
-      let results = [];
-      allAppsList.forEach((app) => {
-        const appDate = new Date(app.application_date);
-        if (
-          app[selectedSearchOption]
-            .toLowerCase()
-            .includes(searchString.toLowerCase()) &&
-          appDate >= startDate &&
-          appDate <= endDate
-        ) {
-          results.push(app);
-        }
-      });
-      setDisplayedAppsList(results);
-    }
-  }
-
-  // when date range changes, filter display list
-  useEffect(() => {
-    if (allAppsList.length) {
-      let startDate = dateRangeStart ? new Date(dateRangeStart) : new Date(0);
-      let endDate = dateRangeEnd ? new Date(dateRangeEnd) : new Date();
-      let newArr = [];
-      allAppsList.forEach((app) => {
-        let appDate = new Date(app.application_date);
-        if (startDate < appDate && appDate < endDate) {
-          newArr.push(app);
-        }
-      });
-      setDisplayedAppsList(newArr);
-    }
-  }, [dateRangeStart, dateRangeEnd]);
-
   // get all records from db
   function loadAllRecords() {
     if (context.isAuthenticated && context.dbProfileState) {
@@ -87,12 +42,38 @@ export default function SearchPage() {
     }
   }
 
-  // load all records on context change or remount
-  useEffect(() => {
-    loadAllRecords();
-  }, [context]);
+  function resetSearchParams() {
+    setSearchString("");
+    setDateRangeStart("");
+    setDateRangeEnd("");
+  }
 
-  // server side searching would be used if we decide to load only some records at page load and request ones we don't have later
+  function toggleDateSort() {
+    setNewestFirst(!newestFirst);
+    setDisplayedAppsList(displayedAppsList.reverse());
+  }
+
+  function setDisplayedList(searchString) {
+    const startDate = dateRangeStart ? new Date(dateRangeStart) : new Date(0);
+    const endDate = dateRangeEnd ? new Date(dateRangeEnd) : new Date();
+    let results = [];
+    allAppsList.forEach((app) => {
+      const appDate = new Date(app.application_date);
+      if (
+        app[selectedSearchOption]
+          .toLowerCase()
+          .includes(searchString.toLowerCase()) &&
+        appDate >= startDate &&
+        appDate <= endDate
+      ) {
+        results.push(app);
+      }
+    });
+    setDisplayedAppsList(results);
+  }
+
+  /*  
+  // server side search will be used if we decide to load only some records at page load and make server requests later for ones we don't have
   function serverSideSearch() {
     if (context.isAuthenticated && context.dbProfileState) {
       const username = context.dbProfileState.username;
@@ -111,27 +92,27 @@ export default function SearchPage() {
         .catch((err) => console.log(err));
     }
   }
+  */
 
-  function resetSearchParams() {
-    setSearchString("");
-    setDateRangeStart("");
-    setDateRangeEnd("");
-  }
+  useEffect(() => {
+    console.log(searchString);
+    setDisplayedList(searchString);
+  }, [searchString, dateRangeStart, dateRangeEnd]);
 
-  function toggleDateSort() {
-    setNewestFirst(!newestFirst);
-    setDisplayedAppsList(displayedAppsList.reverse());
-  }
+  // load all records on mount or context change
+  useEffect(() => {
+    loadAllRecords();
+  }, [context]);
 
   return (
     <div className="centeredPage">
-      <div class="container">
-        <div class="row">
-          <div class="col"></div>
-          <div class="col text-center">
+      <div className="container">
+        <div className="row">
+          <div className="col"></div>
+          <div className="col text-center">
             <h1>My Jobs</h1>
           </div>
-          <div class="col">
+          <div className="col">
             <BtnModalCreateJob />
           </div>
         </div>
@@ -142,15 +123,6 @@ export default function SearchPage() {
         className="form-inline d-flex my-2 my-lg-0"
         onSubmit={(e) => {
           e.preventDefault();
-          // serverSideSearch();
-          clientSideSearch(
-            searchString,
-            selectedSearchOption,
-            dateRangeStart,
-            dateRangeEnd,
-            allAppsList,
-            setDisplayedAppsList
-          );
         }}
       >
         <input
@@ -164,8 +136,14 @@ export default function SearchPage() {
             setSearchString(e.target.value);
           }}
         />
-        <button className="btn btn-success my-2 my-sm-0" type="submit">
-          Search
+        <button
+          className="btn btn-outline-success my-2 my-sm-0"
+          onClick={() => {
+            loadAllRecords();
+            resetSearchParams();
+          }}
+        >
+          Reset
         </button>
       </form>
       <SearchRadio
@@ -197,15 +175,6 @@ export default function SearchPage() {
           />
         </FormGroup>
       </div>
-      <button
-        className="btn btn-outline-success my-2 my-sm-0"
-        onClick={() => {
-          loadAllRecords();
-          resetSearchParams();
-        }}
-      >
-        Reset
-      </button>
       {/* *********** Search Form End ********* */}
 
       <table className="table table-bordered text-center w-50 mt-4">
@@ -223,7 +192,7 @@ export default function SearchPage() {
           </tr>
         </thead>
         <tbody>
-          {displayedAppsList.length > 0 &&
+          {displayedAppsList.length > 0 ? (
             displayedAppsList.map((item, i) => {
               let date = new Date(item.application_date);
               return (
@@ -244,12 +213,12 @@ export default function SearchPage() {
                   </td>
                 </tr>
               );
-            })}
+            })
+          ) : (
+            <h1>Click "+ Create" to add new job applications.</h1>
+          )}
         </tbody>
       </table>
-      {!context.isAuthenticated && !context.dbProfileState && (
-        <h1>Please log in</h1>
-      )}
     </div>
   );
 }

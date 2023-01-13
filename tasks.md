@@ -1,4 +1,4 @@
-Create a landing page: it has no navbar. Its only job is to present a "Job Tracker" logo, a short description of the app, a message urging the visitor to log in, and a login/signup button. Once user logs in, user will come to "My Jobs" page (=search page) where all of their jobs are listed. My Jobs page will have a 
+Create a landing page: Its only job is to present a "Job Tracker" logo, a short description of the app, a message urging the visitor to log in, and a login button. Once user logs in, user will come to "My Jobs" page (=search page) where all of their jobs are listed. 
 
 Build the app view/edit page
 

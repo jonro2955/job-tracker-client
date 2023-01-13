@@ -59,8 +59,14 @@ export default function BtnModalCreateJob({}) {
           </div>
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={toggleModal}>
-            Cancel
+          <Button
+            color="primary"
+            onClick={() => {
+              alert("Add");
+              /* Insert function to check db for similar comanies/ positions and display them  */
+            }}
+          >
+            Add
           </Button>
         </ModalFooter>
       </Modal>

@@ -1,12 +1,10 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import LoadingSpinner from "../components/LoadingSpinner";
-import Context from "../utils/context";
 
 const Profile = () => {
   const { user, logout } = useAuth0();
-  const context = useContext(Context);
-
+ 
   return (
     <div className="centeredPage">
       <h1>Profile</h1>
@@ -19,17 +17,6 @@ const Profile = () => {
       {user.name && <p>Name: {user.name}</p>}
       {user.locale && <p>Locale: {user.locale}</p>}
       {user.nickname && <p>Nickname: {user.nickname}</p>}
-      {user.sub && <p>User ID: {user.sub}</p>}
-      <button
-        className="btn btn-primary"
-        onClick={() => {
-          console.log(context.stateAuthReducer);
-          console.log(user);
-        }}
-        style={{ padding: "5px" }}
-      >
-        Log the user profile(stateAuthReducer) to the console
-      </button>
     </div>
   );
 };

@@ -10,7 +10,7 @@ import AddPage from "./pages/AddPage";
 import JobsPage from "./pages/JobsPage";
 import AppPage from "./pages/AppPage";
 import ProfilePage from "./pages/ProfilePage";
-import AboutPage from "./pages/AboutPage";
+import HomePage from "./pages/HomePage";
 
 export default function ContextState() {
   const auth0 = useAuth0();
@@ -24,7 +24,9 @@ export default function ContextState() {
         .post("/api/post/userprofiletodb", profile)
         .then(
           axios
-            .get("/api/get/userprofilefromdb", { params: { email: profile.email } })
+            .get("/api/get/userprofilefromdb", {
+              params: { email: profile.email },
+            })
             .then((res) => dispatchSetDbProfile(res.data[0]))
             .catch((err) => console.log(err))
         )
@@ -96,8 +98,11 @@ export default function ContextState() {
       <HashRouter basename="/">
         <NavBar />
         <Routes>
-          <Route path="/" element={<JobsPage />} />
-          <Route path="/about" element={<AboutPage />} />
+          <Route
+            path="/"
+            element={auth0.isAuthenticated ? <JobsPage /> : <HomePage />}
+          />
+          <Route path="/about" element={<HomePage />} />
           <Route path="/add" element={<AddPage />} />
           <Route path="/jobs" element={<JobsPage />} />
           <Route path="/app/:appId" element={<AppPage />} />

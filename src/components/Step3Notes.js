@@ -3,7 +3,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 // https://codesandbox.io/s/react-quill-multiple-editor-gttvm?file=/src/App.js:351-359
 
-// Custom svg needed as the default icon doesn't always work
+/* // Custom svg needed as the default icon doesn't always work
 const CustomUndoIcon = () => (
   <svg viewBox="0 0 18 18">
     <polygon className="ql-fill ql-stroke" points="6 10 4 12 2 10 6 10" />
@@ -23,7 +23,7 @@ const CustomRedoIcon = () => (
     />
   </svg>
 );
-
+ */
 // Undo and redo functions for Custom Toolbar
 function undoChange() {
   this.quill.history.undo();

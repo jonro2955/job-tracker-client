@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Tooltip } from "reactstrap";
-import { BsInfoCircle } from "react-icons/bs";
+// import { Tooltip } from "reactstrap";
+// import { BsInfoCircle } from "react-icons/bs";
 import axios from "axios";
 import Context from "../utils/context";
 import BtnCareerRenamer from "../components/BtnModalCareerRenamer";

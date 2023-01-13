@@ -8,7 +8,7 @@ This component will render the inputs for the posting URL and the job descriptio
 The job description input will use the react-quill rich text editor.
 */
 
-// For react-quill, custom svgs are needed as the default icons don't always work
+/* // For react-quill, custom svgs are needed as the default icons don't always work
 const CustomUndoIcon = () => (
   <svg viewBox="0 0 18 18">
     <polygon className="ql-fill ql-stroke" points="6 10 4 12 2 10 6 10" />
@@ -28,7 +28,7 @@ const CustomRedoIcon = () => (
     />
   </svg>
 );
-
+ */
 // Custom undo and redo functions for Custom Toolbar
 function undoChange() {
   this.quill.history.undo();
