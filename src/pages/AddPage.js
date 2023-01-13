@@ -3,9 +3,9 @@ import { Tooltip } from "reactstrap";
 import { BsInfoCircle } from "react-icons/bs";
 import axios from "axios";
 import Context from "../utils/context";
-import BtnCareerRenamer from "../components/BtnCareerRenamer";
-import BtnCareerSwitcher from "../components/BtnCareerSwitcher";
-import BtnCareerAdder from "../components/BtnCareerAdder";
+import BtnCareerRenamer from "../components/BtnModalCareerRenamer";
+import BtnCareerSwitcher from "../components/BtnModalCareerSwitcher";
+import BtnCareerAdder from "../components/BtnModalCareerAdder";
 import Step1UrlDesc from "../components/Step1UrlDesc";
 import Step2NameTitle from "../components/Step2NameTitle";
 import Step3Notes from "../components/Step3Notes";
@@ -14,7 +14,7 @@ import Step5CoverLetter from "../components/Step5CoverLetter";
 import Step6Tags from "../components/Step6Tags";
 import Step7Date from "../components/Step7Date";
 
-export default function HomePage() {
+export default function AddPage() {
   const context = useContext(Context);
   const [currentCareerNum, setCurrentCareerNum] = useState(0);
   const [careersList, setCareersList] = useState(["C1", "C2"]);
@@ -72,7 +72,7 @@ export default function HomePage() {
       coverLetterFile: byteaCoverLetter,
       tags: tags.split(","),
       careerName: careersList[currentCareerNum],
-      applicationDate: String(subDate)
+      applicationDate: String(subDate),
     };
     // console.log(data);
     axios
@@ -111,26 +111,7 @@ export default function HomePage() {
   return (
     <div className="centeredPage">
       <h5 className="text-center text-warning">Project Under Construction</h5>
-      <h1>Home</h1>
-      <h3>
-        <span>
-          <BsInfoCircle id="tipBtn" />
-          <Tooltip
-            placement="top"
-            autohide={false}
-            isOpen={toolTipOn1}
-            target="tipBtn"
-            toggle={() => {
-              setToolTipOn1(!toolTipOn1);
-            }}
-          >
-            This application is inteneded to be used while you are applying for
-            a job on a site like Indeed or a company HR site. Fill out this form
-            as you apply, then click the save button after you've submitted your
-            application.
-          </Tooltip>
-        </span>
-      </h3>
+      <h1>Add</h1>
       <h3>
         Current Career:&nbsp;
         <span className="text-success">{careersList[currentCareerNum]}</span>
@@ -195,7 +176,7 @@ export default function HomePage() {
         </div>
       </div>
       <Step6Tags setTags={setTags} />
-      <Step7Date subDate={subDate} setSubDate={setSubDate}/>
+      <Step7Date subDate={subDate} setSubDate={setSubDate} />
       <div className="step w-50">
         <button className="btn btn-success p-2" onClick={handleSaveApp}>
           Save

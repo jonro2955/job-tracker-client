@@ -3,10 +3,10 @@ import Context from "../utils/context";
 import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 
-export default function AppViewPage() {
+export default function AppPage() {
   const { appId } = useParams();
   const context = useContext(Context);
-  const [currentApp, setCurrentApp] = useState();
+  const [app, setApp] = useState();
 
   // get all records from db
   function loadApp() {
@@ -14,7 +14,7 @@ export default function AppViewPage() {
       axios
         .get("/api/get/app", { params: { appId: appId } })
         .then((res) => {
-          setCurrentApp(res.data);
+          setApp(res.data);
         })
         .catch((err) => console.log(err));
     }
@@ -39,17 +39,17 @@ export default function AppViewPage() {
   application_date TEXT,
   */
   return (
-    currentApp && (
+    app && (
       <div className="centeredPage">
         <h1>Application ID: {appId}</h1>
-        <div>application_date: {currentApp.application_date}</div>
-        <div>company_name: {currentApp.company_name}</div>
-        <div>job_title: {currentApp.job_title}</div>
-        <div>career_name: {currentApp.career_name}</div>
-        <div>posting_url: {currentApp.company_name}</div>
-        <div>job_description: {currentApp.job_description}</div>
-        <div>job_notes: {currentApp.job_notes}</div>
-        <div>tags: {currentApp.tags}</div>
+        <div>application_date: {app.application_date}</div>
+        <div>company_name: {app.company_name}</div>
+        <div>job_title: {app.job_title}</div>
+        <div>career_name: {app.career_name}</div>
+        <div>posting_url: {app.posting_url}</div>
+        <div>job_description: {app.job_description}</div>
+        <div>job_notes: {app.job_notes}</div>
+        <div>tags: {app.tags}</div>
       </div>
     )
   );

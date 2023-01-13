@@ -7,18 +7,18 @@ const NavBar = () => {
   const navigateTo = useNavigate();
 
   return (
-    <div className="d-flex justify-content-center">
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul className="navbar-nav mr-auto">
+    <div className="d-flex justify-content-center border">
+      <nav className="navbar navbar-expand-lg navbar-light bg-light border">
+        <div className="collapse navbar-collapse " id="navbarSupportedContent">
+          {/* <ul className="navbar-nav mr-auto">
             <li className="nav-item active">
-              <Link to="/home" style={{ padding: "5px" }}>
-                Home
+              <Link to="/add" style={{ padding: "5px" }}>
+                Add
               </Link>
             </li>
             <li className="nav-item">
-              <Link to="/search" style={{ padding: "5px" }}>
-                Search
+              <Link to="/jobs" style={{ padding: "5px" }}>
+                Jobs
               </Link>
             </li>
             <li className="nav-item">
@@ -26,11 +26,13 @@ const NavBar = () => {
                 About
               </Link>
             </li>
-          </ul>
+          </ul> */}
           <button
             className="btn btn-outline-primary"
             onClick={() => {
-              auth0.isAuthenticated ? navigateTo("/profile") : auth0.loginWithPopup();
+              auth0.isAuthenticated
+                ? navigateTo("/profile")
+                : auth0.loginWithPopup();
             }}
           >
             {auth0.isAuthenticated ? auth0.user.email : "Log in"}

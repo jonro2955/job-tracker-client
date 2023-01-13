@@ -8,6 +8,7 @@ import { DatePicker } from "reactstrap-date-picker";
 import SearchRadio from "../components/SearchRadio";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSort } from "@fortawesome/free-solid-svg-icons";
+import BtnModalCreateJob from "../components/BtnModalCreateJob";
 
 export default function SearchPage() {
   const context = useContext(Context);
@@ -118,14 +119,25 @@ export default function SearchPage() {
   }
 
   function toggleDateSort() {
-    //  const [newestFirst, setNewestFirst] = useState(true);
     setNewestFirst(!newestFirst);
     setDisplayedAppsList(displayedAppsList.reverse());
   }
 
   return (
     <div className="centeredPage">
-      <h1>Search</h1>
+      <div class="container">
+        <div class="row">
+          <div class="col"></div>
+          <div class="col text-center">
+            <h1>My Jobs</h1>
+          </div>
+          <div class="col">
+            <BtnModalCreateJob />
+          </div>
+        </div>
+      </div>
+
+      {/* ********** Search Form Start ********** */}
       <form
         className="form-inline d-flex my-2 my-lg-0"
         onSubmit={(e) => {
@@ -152,21 +164,17 @@ export default function SearchPage() {
             setSearchString(e.target.value);
           }}
         />
-        <button className="btn btn-outline-success my-2 my-sm-0" type="submit">
+        <button className="btn btn-success my-2 my-sm-0" type="submit">
           Search
         </button>
       </form>
-
       <SearchRadio
         selectedSearchOption={selectedSearchOption}
         setSelectedSearchOption={setSelectedSearchOption}
       />
-
       <div className="d-flex mt-3">
-        <FormGroup className="text-center">
-          <Label>
-            <u>From Date</u>
-          </Label>
+        <FormGroup className="d-flex align-items-center">
+          <Label>From:&nbsp;</Label>
           <DatePicker
             id="example-datepicker1"
             value={dateRangeStart}
@@ -177,10 +185,8 @@ export default function SearchPage() {
           />
         </FormGroup>
         &nbsp;
-        <FormGroup className="text-center">
-          <Label>
-            <u>To Date</u>
-          </Label>
+        <FormGroup className="d-flex align-items-center">
+          <Label>To:&nbsp;</Label>
           <DatePicker
             id="example-datepicker2"
             value={dateRangeEnd}
@@ -198,8 +204,9 @@ export default function SearchPage() {
           resetSearchParams();
         }}
       >
-        Reset All
+        Reset
       </button>
+      {/* *********** Search Form End ********* */}
 
       <table className="table table-bordered text-center w-50 mt-4">
         <thead>
@@ -233,13 +240,16 @@ export default function SearchPage() {
                     <div>{item.job_title}</div>
                   </td>
                   <td>
-                    <Link to={`/appview/${item.app_id}`}>View/Edit</Link>
+                    <Link to={`/app/${item.app_id}`}>View/Edit</Link>
                   </td>
                 </tr>
               );
             })}
         </tbody>
       </table>
+      {!context.isAuthenticated && !context.dbProfileState && (
+        <h1>Please log in</h1>
+      )}
     </div>
   );
 }

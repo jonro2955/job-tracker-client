@@ -6,9 +6,9 @@ import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 import { HashRouter, Route, Routes } from "react-router-dom";
 import NavBar from "./components/NavBar";
-import HomePage from "./pages/HomePage";
-import SearchPage from "./pages/SearchPage";
-import AppViewPage from "./pages/AppViewPage";
+import AddPage from "./pages/AddPage";
+import JobsPage from "./pages/JobsPage";
+import AppPage from "./pages/AppPage";
 import ProfilePage from "./pages/ProfilePage";
 import AboutPage from "./pages/AboutPage";
 
@@ -96,11 +96,11 @@ export default function ContextState() {
       <HashRouter basename="/">
         <NavBar />
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<JobsPage />} />
           <Route path="/about" element={<AboutPage />} />
-          <Route path="/home" element={<HomePage />} />
-          <Route path="/search" element={<SearchPage />} />
-          <Route path="/appview/:appId" element={<AppViewPage />} />
+          <Route path="/add" element={<AddPage />} />
+          <Route path="/jobs" element={<JobsPage />} />
+          <Route path="/app/:appId" element={<AppPage />} />
           <Route path="/profile" element={<ProfilePage />} />
         </Routes>
       </HashRouter>
