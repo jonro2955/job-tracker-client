@@ -1,4 +1,5 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useRef } from "react";
+import { Button, Popover, PopoverHeader, PopoverBody } from "reactstrap";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 // https://codesandbox.io/s/react-quill-multiple-editor-gttvm?file=/src/App.js:351-359
@@ -33,9 +34,10 @@ function redoChange() {
 }
 
 export default function Step3Notes({ id, value, onChange }) {
-  const quillRef = React.useRef();
+  const quillRef = useRef();
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewContent, setPreviewContent] = useState("");
+  const [popoverOpen, setPopoverOpen] = useState(false);
 
   const CustomToolbar = () => (
     <div id={`toolbar-${id}`}>
@@ -131,6 +133,36 @@ export default function Step3Notes({ id, value, onChange }) {
   return (
     <div className="step">
       <h3 id="step4Heading">Application Notes</h3>
+      <Button id="Popover1" type="button">
+        Tips
+      </Button>
+      <Popover
+        isOpen={popoverOpen}
+        target="Popover1"
+        placement="top"
+        trigger="click"
+        toggle={() => {
+          setPopoverOpen(!popoverOpen);
+        }}
+      >
+        <PopoverHeader className="text-center">
+          Things to include (now or later)
+        </PopoverHeader>
+        <PopoverBody>
+          <ul>
+            <li>Application trivia</li>
+            <li>Company websites</li>
+            <li>Company research</li>
+            <li>Interview preparation</li>
+            <li>Names and contact info</li>
+            <li>Interview dates</li>
+            <li>Post-interview notes</li>
+            <li>Salary info</li>
+            <li>Updates</li>
+            <li>Personal notes, etc.</li>
+          </ul>
+        </PopoverBody>
+      </Popover>
       <div className="text-editor">
         {CustomToolbar(id)}
         <ReactQuill
