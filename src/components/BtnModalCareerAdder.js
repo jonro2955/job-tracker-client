@@ -68,7 +68,7 @@ export default function BtnCareerAdder({ careersList, setCareersList }) {
             toggleModal();
           }}
         >
-          Add Career
+          New Career
         </button>
         <Modal isOpen={modalOn} toggle={toggleModal}>
           <ModalHeader toggle={toggleModal}>New career name:</ModalHeader>
@@ -94,21 +94,25 @@ export default function BtnCareerAdder({ careersList, setCareersList }) {
               <button type="submit" className="btn btn-success w-100">
                 Add
               </button>
-              <div className="text-center">Existing Careers:</div>
+              {/* <div className="text-center">Existing Careers:</div>
               {careersList.map((name, i) => {
                 return (
                   <div key={i}>
-                    <button type="button" className="btn btn-outline-success w-100" disabled>
+                    <button
+                      type="button"
+                      className="btn btn-outline-success w-100"
+                      disabled
+                    >
                       {name}
                     </button>
                   </div>
                 );
-              })}
+              })} */}
             </form>
           </ModalBody>
           <ModalFooter>
             <Button color="primary" onClick={toggleModal}>
-              Close
+              Cancel
             </Button>
           </ModalFooter>
         </Modal>

@@ -45,7 +45,7 @@ const NavBar = () => {
         <div className="row d-flex align-items-center">
           <div className="col  ">
             <Link to="/" style={{ padding: "5px" }}>
-              <img width="30" height="30" src={logo2} alt="Logo"></img>
+              <img width="30" height="30" src={logo2} alt="Logo" />
             </Link>
           </div>
           <div className="col   text-center">

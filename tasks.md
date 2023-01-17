@@ -1,8 +1,4 @@
-Create a landing page: Its only job is to present a "Job Tracker" logo, a short description of the app, a message urging the visitor to log in, and a login button. Once user logs in, user will come to "My Jobs" page (=search page) where all of their jobs are listed. 
-
 Build the app view/edit page
-
-Add salary entry field?
 
 Add post-application edit options for marking an app as interviewd, rejected, etc to make it marked as such in list search view
 

@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-// import { Tooltip } from "reactstrap";
-// import { BsInfoCircle } from "react-icons/bs";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import Context from "../utils/context";
 import BtnCareerRenamer from "../components/BtnModalCareerRenamer";
@@ -16,6 +15,8 @@ import Step7Date from "../components/Step7Date";
 
 export default function AddPage() {
   const context = useContext(Context);
+  // const { data } = useParams();
+  const [data, setData] = useState(useParams());
   const [currentCareerNum, setCurrentCareerNum] = useState(0);
   const [careersList, setCareersList] = useState(["C1", "C2"]);
   const [postingURL, setPostingURL] = useState("");
@@ -28,7 +29,6 @@ export default function AddPage() {
   const [resumeDisplayFile, setResumeDisplayFile] = useState({});
   const [coverLetterDisplayFile, setCoverLetterDisplayFile] = useState({});
   const [tags, setTags] = useState("");
-  const [toolTipOn1, setToolTipOn1] = useState(false);
   const [subDate, setSubDate] = useState(String(new Date()));
 
   useEffect(() => {
@@ -110,10 +110,9 @@ export default function AddPage() {
 
   return (
     <div className="centeredPage">
-      <h5 className="text-center text-warning">Project Under Construction</h5>
-      <h1>Add</h1>
+      <h1>New Application</h1>
       <h3>
-        Current Career:&nbsp;
+        Career:&nbsp;
         <span className="text-success">{careersList[currentCareerNum]}</span>
       </h3>
       <div className="d-flex">
@@ -148,6 +147,7 @@ export default function AddPage() {
             <Step2NameTitle
               setCompanyName={setCompanyName}
               setJobTitle={setJobTitle}
+              data={data}
             />
             <Step3Notes
               id="step4editor"

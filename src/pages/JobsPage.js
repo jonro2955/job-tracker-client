@@ -3,12 +3,10 @@ import Context from "../utils/context";
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { FormGroup, Label } from "reactstrap";
-import { DatePicker } from "reactstrap-date-picker";
-import SearchRadio from "../components/SearchRadio";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSort } from "@fortawesome/free-solid-svg-icons";
 import BtnModalCreateJob from "../components/BtnModalCreateJob";
+import SearchAccordion from "../components/SearchAccordion";
 
 export default function SearchPage() {
   const context = useContext(Context);
@@ -18,7 +16,9 @@ export default function SearchPage() {
   const [selectedSearchOption, setSelectedSearchOption] = useState("job_title");
   const [dateRangeStart, setDateRangeStart] = useState("");
   const [dateRangeEnd, setDateRangeEnd] = useState("");
-  const [newestFirst, setNewestFirst] = useState(true);
+  const [dateSortLatest, setDateSortLatest] = useState(true);
+  const [companySortAscending, setCompanySortAscending] = useState(true);
+  const [titleSortAscending, setTitleSortAscending] = useState(true);
 
   /* The allAppsList state will contain all of current user's records in this format: 
     [{app_id: 1, application_date: 'Sat Dec 24 2022 13:07:37 GMT-0800 (Pacific Standard Time)', company_name: 'xyz', job_title: 'abc', job_description: ''},
@@ -46,11 +46,6 @@ export default function SearchPage() {
     setSearchString("");
     setDateRangeStart("");
     setDateRangeEnd("");
-  }
-
-  function toggleDateSort() {
-    setNewestFirst(!newestFirst);
-    setDisplayedAppsList(displayedAppsList.reverse());
   }
 
   function setDisplayedList(searchString) {
@@ -95,7 +90,6 @@ export default function SearchPage() {
   */
 
   useEffect(() => {
-    console.log(searchString);
     setDisplayedList(searchString);
   }, [searchString, dateRangeStart, dateRangeEnd]);
 
@@ -103,6 +97,67 @@ export default function SearchPage() {
   useEffect(() => {
     loadAllRecords();
   }, [context]);
+
+  function toggleDateSort() {
+    let temp = [...displayedAppsList];
+    temp.sort(function (a, b) {
+      let dateA = new Date(a.application_date);
+      let dateB = new Date(b.application_date);
+      if (dateSortLatest) {
+        return dateA - dateB;
+      } else {
+        return dateB - dateA;
+      }
+    });
+    setDisplayedAppsList(temp);
+    setDateSortLatest(!dateSortLatest);
+  }
+
+  function toggleCompanySort() {
+    let temp = [...displayedAppsList];
+    temp.sort(function (a, b) {
+      let stringA = a.company_name.toLowerCase();
+      let stringB = b.company_name.toLowerCase();
+      if (companySortAscending) {
+        if (stringA > stringB) {
+          return 1;
+        } else {
+          return -1;
+        }
+      } else {
+        if (stringA < stringB) {
+          return 1;
+        } else {
+          return -1;
+        }
+      }
+    });
+    setDisplayedAppsList(temp);
+    setCompanySortAscending(!companySortAscending);
+  }
+
+  function toggleTitleSort() {
+    let temp = [...displayedAppsList];
+    temp.sort(function (a, b) {
+      let stringA = a.job_title.toLowerCase();
+      let stringB = b.job_title.toLowerCase();
+      if (titleSortAscending) {
+        if (stringA > stringB) {
+          return 1;
+        } else {
+          return -1;
+        }
+      } else {
+        if (stringA < stringB) {
+          return 1;
+        } else {
+          return -1;
+        }
+      }
+    });
+    setDisplayedAppsList(temp);
+    setTitleSortAscending(!titleSortAscending);
+  }
 
   return (
     <div className="centeredPage">
@@ -112,70 +167,24 @@ export default function SearchPage() {
           <div className="col text-center">
             <h1>My Jobs</h1>
           </div>
-          <div className="col">
-            <BtnModalCreateJob />
+          <div className="col d-flex justify-content-start">
+            <BtnModalCreateJob allAppsList={allAppsList} />
           </div>
         </div>
       </div>
 
-      {/* ********** Search Form Start ********** */}
-      <form
-        className="form-inline d-flex my-2 my-lg-0"
-        onSubmit={(e) => {
-          e.preventDefault();
-        }}
-      >
-        <input
-          className="form-control mr-sm-2"
-          id="searchInput"
-          type="search"
-          placeholder="Search"
-          aria-label="Search"
-          value={searchString}
-          onChange={(e) => {
-            setSearchString(e.target.value);
-          }}
-        />
-        <button
-          className="btn btn-outline-success my-2 my-sm-0"
-          onClick={() => {
-            loadAllRecords();
-            resetSearchParams();
-          }}
-        >
-          Reset
-        </button>
-      </form>
-      <SearchRadio
+      <SearchAccordion
+        searchString={searchString}
+        setSearchString={setSearchString}
+        loadAllRecords={loadAllRecords}
+        resetSearchParams={resetSearchParams}
         selectedSearchOption={selectedSearchOption}
         setSelectedSearchOption={setSelectedSearchOption}
+        dateRangeStart={dateRangeStart}
+        setDateRangeStart={setDateRangeStart}
+        dateRangeEnd={dateRangeEnd}
+        setDateRangeEnd={setDateRangeEnd}
       />
-      <div className="d-flex mt-3">
-        <FormGroup className="d-flex align-items-center">
-          <Label>From:&nbsp;</Label>
-          <DatePicker
-            id="example-datepicker1"
-            value={dateRangeStart}
-            onChange={(v, f) => {
-              //v=value, f=formatted
-              setDateRangeStart(v);
-            }}
-          />
-        </FormGroup>
-        &nbsp;
-        <FormGroup className="d-flex align-items-center">
-          <Label>To:&nbsp;</Label>
-          <DatePicker
-            id="example-datepicker2"
-            value={dateRangeEnd}
-            onChange={(v, f) => {
-              //v=value, f=formatted
-              setDateRangeEnd(v);
-            }}
-          />
-        </FormGroup>
-      </div>
-      {/* *********** Search Form End ********* */}
 
       <table className="table table-bordered text-center w-50 mt-4">
         <thead>
@@ -186,39 +195,60 @@ export default function SearchPage() {
                 <FontAwesomeIcon icon={faSort} />
               </button>
             </th>
-            <th>Company</th>
-            <th>Job Title</th>
+            <th>
+              Job Title&nbsp;
+              <button onClick={toggleTitleSort}>
+                <FontAwesomeIcon icon={faSort} />
+              </button>
+            </th>
+            <th>
+              Company&nbsp;
+              <button onClick={toggleCompanySort}>
+                <FontAwesomeIcon icon={faSort} />
+              </button>
+            </th>
             <th>Application</th>
+            <th>
+              Elapsed&nbsp;
+              <button onClick={toggleDateSort}>
+                <FontAwesomeIcon icon={faSort} />
+              </button>
+            </th>
           </tr>
         </thead>
         <tbody>
-          {displayedAppsList.length > 0 ? (
+          {displayedAppsList.length > 0 &&
             displayedAppsList.map((item, i) => {
-              let date = new Date(item.application_date);
+              let appDate = new Date(item.application_date);
+              let currDate = new Date();
+              let elapsedDays = Math.ceil(
+                (currDate - appDate) / (1000 * 3600 * 24)
+              );
               return (
                 <tr key={i}>
                   <td>
-                    <div>{`${date.getFullYear()}-${
-                      date.getMonth() + 1
-                    }-${date.getDate()}`}</div>
-                  </td>
-                  <td>
-                    <div>{item.company_name}</div>
+                    <div>{`${appDate.getFullYear()}-${
+                      appDate.getMonth() + 1
+                    }-${appDate.getDate()}`}</div>
                   </td>
                   <td>
                     <div>{item.job_title}</div>
                   </td>
                   <td>
+                    <div>{item.company_name}</div>
+                  </td>
+                  <td>
                     <Link to={`/app/${item.app_id}`}>View/Edit</Link>
+                  </td>
+                  <td>
+                    <div>{`${elapsedDays - 1} days`}</div>
                   </td>
                 </tr>
               );
-            })
-          ) : (
-            <h1>Click "+ Create" to add new job applications.</h1>
-          )}
+            })}
         </tbody>
       </table>
+      {!displayedAppsList && <h2>Click "+ Create" to add new jobs</h2>}
     </div>
   );
 }

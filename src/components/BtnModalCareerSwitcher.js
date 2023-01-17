@@ -4,7 +4,11 @@ import Context from "../utils/context";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import axios from "axios";
 
-export default function BtnCareerSwitcher({ careersList, currentCareerNum, setCurrentCareerNum }) {
+export default function BtnCareerSwitcher({
+  careersList,
+  currentCareerNum,
+  setCurrentCareerNum,
+}) {
   const context = useContext(Context);
   const [modalOn, setModalOn] = useState(false);
 
@@ -73,12 +77,12 @@ export default function BtnCareerSwitcher({ careersList, currentCareerNum, setCu
               );
             })}
             <div className="text-center">
-              <Link to="/about">How to delete a career</Link>
+              <Link to="/home">How to delete a career</Link>
             </div>
           </ModalBody>
           <ModalFooter>
             <Button color="primary" onClick={toggleModal}>
-              Close
+              Cancel
             </Button>
           </ModalFooter>
         </Modal>

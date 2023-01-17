@@ -3,7 +3,11 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import Context from "../utils/context";
 import axios from "axios";
 
-export default function BtnCareerRenamer({ careersList, setCareersList, currentCareerNum }) {
+export default function BtnCareerRenamer({
+  careersList,
+  setCareersList,
+  currentCareerNum,
+}) {
   const context = useContext(Context);
   const [newName, setNewName] = useState(careersList[currentCareerNum]);
   const [modalOn, setModalOn] = useState(false);
@@ -21,7 +25,9 @@ export default function BtnCareerRenamer({ careersList, setCareersList, currentC
         return item === newName;
       })
     ) {
-      alert(`Error: "${newName}" already exists. Cannot create duplicate careers.`);
+      alert(
+        `Error: "${newName}" already exists. Cannot create duplicate careers.`
+      );
     } else {
       updateRenameCareer(careersList, currentCareerNum, newName);
       toggleModal();
@@ -66,7 +72,11 @@ export default function BtnCareerRenamer({ careersList, setCareersList, currentC
   return (
     <div>
       <div className="dropdown">
-        <button type="button" className="btn btn-success m-1" onClick={toggleModal}>
+        <button
+          type="button"
+          className="btn btn-success m-1"
+          onClick={toggleModal}
+        >
           Rename Career
         </button>
         <Modal isOpen={modalOn} toggle={toggleModal}>
@@ -81,9 +91,9 @@ export default function BtnCareerRenamer({ careersList, setCareersList, currentC
               }}
             >
               <div>
-                Note: renaming this career will change the "career" attribute of all job
-                applications saved with the name "{careersList[currentCareerNum]}" to the new
-                name which you're about to enter.
+                Note: renaming will change the "career" attribute of all job
+                applications saved under the career name "
+                {careersList[currentCareerNum]}" to the new name entered below.
               </div>
               <input
                 name="renameCareer"
@@ -96,14 +106,18 @@ export default function BtnCareerRenamer({ careersList, setCareersList, currentC
                   setNewName(e.target.value);
                 }}
               />
-              <button type="button" className="btn btn-success w-100" onClick={validateRename}>
+              <button
+                type="button"
+                className="btn btn-success w-100"
+                onClick={validateRename}
+              >
                 Rename
               </button>
             </form>
           </ModalBody>
           <ModalFooter>
             <Button color="primary" onClick={toggleModal}>
-              Close
+              Cancel
             </Button>
           </ModalFooter>
         </Modal>

@@ -102,10 +102,10 @@ export default function ContextState() {
             path="/"
             element={auth0.isAuthenticated ? <JobsPage /> : <HomePage />}
           />
-          <Route path="/about" element={<HomePage />} />
-          <Route path="/add" element={<AddPage />} />
+          <Route path="/home" element={<HomePage />} />
+          <Route path="/add/:data" element={<AddPage />} />
           <Route path="/jobs" element={<JobsPage />} />
-          <Route path="/app/:appId" element={<AppPage />} />
+          <Route path="/app/:id" element={<AppPage />} />
           <Route path="/profile" element={<ProfilePage />} />
         </Routes>
       </HashRouter>

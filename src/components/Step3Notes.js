@@ -130,7 +130,7 @@ export default function Step3Notes({ id, value, onChange }) {
 
   return (
     <div className="step">
-      <h3 id="step4Heading">Notes for this application</h3>
+      <h3 id="step4Heading">Application Notes</h3>
       <div className="text-editor">
         {CustomToolbar(id)}
         <ReactQuill

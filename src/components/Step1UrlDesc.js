@@ -141,7 +141,7 @@ export default function Step1UrlDesc({
   return (
     <div className="step d-flex  flex-column ">
       {/* Posting URL input*/}
-      <h3 id="step1Heading">Job posting URL</h3>
+      <h3 id="step1Heading">Posting URL</h3>
       <input
         id="jobPostingURL"
         name="jobPostingURL"
@@ -153,7 +153,7 @@ export default function Step1UrlDesc({
         }}
       />
       {/* Job description input*/}
-      <h3>Job posting description</h3>
+      <h3>Posting Description</h3>
       <div className="text-editor">
         {CustomToolbar(id)}
         <ReactQuill

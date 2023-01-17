@@ -8,7 +8,19 @@ export default function Step5CoverLetter({
 }) {
   return (
     <div className="step w-md-75">
-      <h3>Cover Letter</h3>
+      <div className="d-flex align-items-center justify-content-center">
+        <h3>Cover Letter</h3>
+        {coverLetterDisplayFile.name && (
+          <button
+            className="btn btn-outline-success"
+            onClick={() => {
+              setCoverLetterDisplayFile({});
+            }}
+          >
+            x
+          </button>
+        )}
+      </div>
       <Dropzone multiple={false} onDrop={setCoverLetterFile}>
         {({ getRootProps, getInputProps }) => (
           <section>
@@ -17,20 +29,12 @@ export default function Step5CoverLetter({
               {coverLetterDisplayFile.name ? (
                 <div>
                   <span className="text-primary">
-                    <strong>{coverLetterDisplayFile.name}</strong> - {coverLetterDisplayFile.size}{" "}
-                    bytes &nbsp;
-                    <button
-                      className="btn btn-outline-success"
-                      onClick={() => {
-                        setCoverLetterDisplayFile({});
-                      }}
-                    >
-                      x
-                    </button>
+                    <strong>{coverLetterDisplayFile.name}</strong>{" "}
+                    {coverLetterDisplayFile.size} bytes{" "}
                   </span>
                 </div>
               ) : (
-                <strong>Drag & drop file, or click to select</strong>
+                <strong>Drag & drop, or click to select</strong>
               )}
             </div>
           </section>
