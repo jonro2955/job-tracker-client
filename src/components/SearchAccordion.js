@@ -52,7 +52,7 @@ export default function SearchAccordion({
                 className="form-control mr-sm-2"
                 id="searchInput"
                 type="search"
-                placeholder="Search"
+                placeholder="keywords"
                 aria-label="Search"
                 value={searchString}
                 onChange={(e) => {

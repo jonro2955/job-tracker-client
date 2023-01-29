@@ -91,9 +91,9 @@ export default function BtnCareerRenamer({
               }}
             >
               <div>
-                Note: renaming will change the "career" attribute of all job
-                applications saved under the career name "
-                {careersList[currentCareerNum]}" to the new name entered below.
+                Note: Renaming this career will change the "career" attribute of
+                all saved jobs with the career name "{careersList[currentCareerNum]}"
+                to a new name entered below:
               </div>
               <input
                 name="renameCareer"

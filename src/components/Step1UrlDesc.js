@@ -40,6 +40,7 @@ function redoChange() {
 export default function Step1UrlDesc({
   id,
   value,
+  url,
   setJobDescription,
   setPostingURL,
 }) {
@@ -67,6 +68,7 @@ export default function Step1UrlDesc({
         <button className="ql-list" value="ordered" />
         <button className="ql-indent" value="-1" />
         <button className="ql-indent" value="+1" />
+        <button className="ql-link" />
         <button className="ql-clean" />
       </span>
       {/* <span className="ql-formats">
@@ -92,7 +94,6 @@ export default function Step1UrlDesc({
           <option value="helvetica">Helvetica</option>
           <option value="lucida">Lucida</option>
         </select> 
-        <button className="ql-link" />
         <button className="ql-image" />
         <button className="ql-video" />
         <button className="ql-code-block" />
@@ -147,6 +148,7 @@ export default function Step1UrlDesc({
         name="jobPostingURL"
         className="form-control"
         type="url"
+        value={url}
         title="Job Posting URL"
         onChange={(e) => {
           setPostingURL(e.target.value);

@@ -59,6 +59,7 @@ export default function Step3Notes({ id, value, onChange }) {
         <button className="ql-list" value="ordered" />
         <button className="ql-indent" value="-1" />
         <button className="ql-indent" value="+1" />
+        <button className="ql-link" />
         <button className="ql-clean" />
       </span>
       {/* <span className="ql-formats">
@@ -84,7 +85,6 @@ export default function Step3Notes({ id, value, onChange }) {
           <option value="helvetica">Helvetica</option>
           <option value="lucida">Lucida</option>
         </select> 
-        <button className="ql-link" />
         <button className="ql-image" />
         <button className="ql-video" />
         <button className="ql-code-block" />
@@ -140,13 +140,13 @@ export default function Step3Notes({ id, value, onChange }) {
         isOpen={popoverOpen}
         target="Popover1"
         placement="top"
-        trigger="click"
+        trigger="hover"
         toggle={() => {
           setPopoverOpen(!popoverOpen);
         }}
       >
         <PopoverHeader className="text-center">
-          Things to include (now or later)
+          Notes to include (now or later)
         </PopoverHeader>
         <PopoverBody>
           <ul>

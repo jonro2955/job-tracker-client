@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 
 export default function Step2({ setCompanyName, setJobTitle, data }) {
-  const [dataObject] = useState(JSON.parse(data.data));
-  const [companyDisp, setCompanyDisp] = useState(dataObject.company);
-  const [titleDisp, setTitleDisp] = useState(dataObject.title);
+  const [companyDisp, setCompanyDisp] = useState(data.company);
+  const [titleDisp, setTitleDisp] = useState(data.title);
 
   return (
     <div

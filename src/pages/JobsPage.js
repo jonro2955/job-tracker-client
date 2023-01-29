@@ -221,9 +221,8 @@ export default function SearchPage() {
             displayedAppsList.map((item, i) => {
               let appDate = new Date(item.application_date);
               let currDate = new Date();
-              let elapsedDays = Math.ceil(
-                (currDate - appDate) / (1000 * 3600 * 24)
-              );
+              let elapsedDays =
+                Math.ceil((currDate - appDate) / (1000 * 3600 * 24)) - 1;
               return (
                 <tr key={i}>
                   <td>
@@ -241,7 +240,7 @@ export default function SearchPage() {
                     <Link to={`/app/${item.app_id}`}>View/Edit</Link>
                   </td>
                   <td>
-                    <div>{`${elapsedDays - 1} days`}</div>
+                    <div>{`${elapsedDays} days`}</div>
                   </td>
                 </tr>
               );

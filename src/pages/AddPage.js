@@ -15,13 +15,13 @@ import Step7Date from "../components/Step7Date";
 
 export default function AddPage() {
   const context = useContext(Context);
-  // const { data } = useParams();
-  const [data, setData] = useState(useParams());
+  const [data] = useState(JSON.parse(useParams().data));
+  console.log(data);
   const [currentCareerNum, setCurrentCareerNum] = useState(0);
   const [careersList, setCareersList] = useState(["C1", "C2"]);
   const [postingURL, setPostingURL] = useState("");
-  const [companyName, setCompanyName] = useState("");
-  const [jobTitle, setJobTitle] = useState("");
+  const [companyName, setCompanyName] = useState(data["company"]);
+  const [jobTitle, setJobTitle] = useState(data["title"]);
   const [jobDescription, setJobDescription] = useState("");
   const [jobNotes, setJobNotes] = useState("");
   const [byteaResume, setByteaResume] = useState();
@@ -185,3 +185,4 @@ export default function AddPage() {
     </div>
   );
 }
+ 
