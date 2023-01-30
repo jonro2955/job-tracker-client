@@ -16,7 +16,6 @@ import Step7Date from "../components/Step7Date";
 export default function AddPage() {
   const context = useContext(Context);
   const [data] = useState(JSON.parse(useParams().data));
-  console.log(data);
   const [currentCareerNum, setCurrentCareerNum] = useState(0);
   const [careersList, setCareersList] = useState(["C1", "C2"]);
   const [postingURL, setPostingURL] = useState("");
@@ -41,11 +40,13 @@ export default function AddPage() {
 
   async function setResumeFile(newFile) {
     const arrayBuffer = await context.getByteArray(newFile[0]);
-    console.log(arrayBuffer);
+    console.log("arrayBuffer:", arrayBuffer);
     const bytea = new Uint8Array(arrayBuffer);
-    console.log(bytea);
+    console.log("Uint8Array:", bytea);
     setByteaResume(bytea);
+    console.log("resumeDisplayFile:", newFile[0]);
     setResumeDisplayFile(newFile[0]);
+    console.log("resume file name:", newFile[0]["name"]);
   }
 
   async function setCoverLetterFile(newFile) {
@@ -185,4 +186,3 @@ export default function AddPage() {
     </div>
   );
 }
- 

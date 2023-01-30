@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import Context from "../utils/context";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import axios from "axios";
@@ -37,11 +37,6 @@ export default function BtnCareerSwitcher({
     } else {
       setCurrentCareerNum(newNum);
     }
-
-    // let currentUser =
-    //   context.isAuthenticated && context.dbProfileState
-    //     ? context.dbProfileState.username
-    //     : "demoUser";
   }
 
   return (
@@ -67,8 +62,9 @@ export default function BtnCareerSwitcher({
                     className="btn btn-success w-100"
                     disabled={currentCareerNum === i ? true : false}
                     onClick={() => {
-                      updateCurrentCareerNum(i);
                       toggleModal();
+                      updateCurrentCareerNum(i);
+                      // console.log(i);
                     }}
                   >
                     {name}
