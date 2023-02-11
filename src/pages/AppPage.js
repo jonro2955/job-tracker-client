@@ -37,7 +37,7 @@ export default function AppPage() {
           setJobTitle(res.data.job_title);
           setJobDescription(res.data.job_description);
           setJobNotes(res.data.job_notes);
-          setTags(res.data.tags);
+          setTags(String(res.data.tags));
           setCareerNum(
             newCareerNum >= 0
               ? newCareerNum
@@ -55,8 +55,22 @@ export default function AppPage() {
   }, [context, id]);
 
   function handleUpdateApp() {
-    alert("This function has not been created yet");
-    // update this app using new values set here
+    if (companyName.length === 0 || jobTitle.length === 0) {
+      document.querySelector(".step2").style.color = "red";
+      alert("Save unsuccessful. Required data is missing.");
+      return;
+    }
+    const data = {
+      username: context.isAuthenticated ? context.user.email : "demoUser",
+      postingURL: postingURL,
+      companyName: companyName,
+      jobDescription: jobDescription.toString("html"),
+      jobTitle: jobTitle,
+      jobNotes: jobNotes.toString("html"),
+      tags: tags.split(","),
+      careerName: careersList[careerNum],
+    };
+    console.log(data);
   }
 
   return (
@@ -72,7 +86,6 @@ export default function AppPage() {
       />
       {appDate && (
         <h3>
-          Application Date:{" "}
           {`${appDate.getFullYear()}-${
             appDate.getMonth() + 1
           }-${appDate.getDate()} (${elapsedDays} day${

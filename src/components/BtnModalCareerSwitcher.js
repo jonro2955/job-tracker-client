@@ -49,7 +49,7 @@ export default function BtnCareerSwitcher({
             toggleModal();
           }}
         >
-          Switch Career
+          Change Career
         </button>
         <Modal isOpen={modalOn} toggle={toggleModal}>
           <ModalHeader toggle={toggleModal}>Select career:</ModalHeader>
