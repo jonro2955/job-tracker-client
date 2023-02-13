@@ -28,7 +28,7 @@ export default function BtnModalCreateJob({ allAppsList }) {
         })
       );
     }
-  }, [companyName, jobTitle]);
+  }, [companyName, jobTitle, allAppsList]);
 
   return (
     <div className="dropdown text-center">

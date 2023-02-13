@@ -1,8 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function Step2({ setCompanyName, setJobTitle, data }) {
   const [companyDisp, setCompanyDisp] = useState(data.company);
   const [titleDisp, setTitleDisp] = useState(data.title);
+
+  useEffect(() => {
+    setCompanyDisp(data.company);
+    setTitleDisp(data.title);
+  }, [data]);
 
   return (
     <div
