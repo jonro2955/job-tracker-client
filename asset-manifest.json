@@ -1,17 +1,26 @@
 {
   "files": {
-    "main.css": "/job-tracker-client/static/css/main.8c1fed88.css",
-    "main.js": "/job-tracker-client/static/js/main.fc03fb6a.js",
-    "static/media/reactstrap.cjs": "/job-tracker-client/static/media/reactstrap.32d4d585d361eda27780.cjs",
-    "static/media/logo1.png": "/job-tracker-client/static/media/logo1.37c20868008d5acc7479.png",
-    "static/media/logo2.png": "/job-tracker-client/static/media/logo2.4b930b0d4da35e522fbc.png",
-    "static/media/loading.svg": "/job-tracker-client/static/media/loading.330b7d99bfbae8039a5456998d97914f.svg",
+    "main.css": "/job-tracker-client/static/css/main.34cd19e4.chunk.css",
+    "main.js": "/job-tracker-client/static/js/main.500c21c4.chunk.js",
+    "main.js.map": "/job-tracker-client/static/js/main.500c21c4.chunk.js.map",
+    "runtime-main.js": "/job-tracker-client/static/js/runtime-main.4fc79088.js",
+    "runtime-main.js.map": "/job-tracker-client/static/js/runtime-main.4fc79088.js.map",
+    "static/css/2.671f2b43.chunk.css": "/job-tracker-client/static/css/2.671f2b43.chunk.css",
+    "static/js/2.60a00e89.chunk.js": "/job-tracker-client/static/js/2.60a00e89.chunk.js",
+    "static/js/2.60a00e89.chunk.js.map": "/job-tracker-client/static/js/2.60a00e89.chunk.js.map",
     "index.html": "/job-tracker-client/index.html",
-    "main.8c1fed88.css.map": "/job-tracker-client/static/css/main.8c1fed88.css.map",
-    "main.fc03fb6a.js.map": "/job-tracker-client/static/js/main.fc03fb6a.js.map"
+    "static/css/2.671f2b43.chunk.css.map": "/job-tracker-client/static/css/2.671f2b43.chunk.css.map",
+    "static/css/main.34cd19e4.chunk.css.map": "/job-tracker-client/static/css/main.34cd19e4.chunk.css.map",
+    "static/js/2.60a00e89.chunk.js.LICENSE.txt": "/job-tracker-client/static/js/2.60a00e89.chunk.js.LICENSE.txt",
+    "static/media/loading.330b7d99.svg": "/job-tracker-client/static/media/loading.330b7d99.svg",
+    "static/media/logo1.37c20868.png": "/job-tracker-client/static/media/logo1.37c20868.png",
+    "static/media/logo2.4b930b0d.png": "/job-tracker-client/static/media/logo2.4b930b0d.png"
   },
   "entrypoints": [
-    "static/css/main.8c1fed88.css",
-    "static/js/main.fc03fb6a.js"
+    "static/js/runtime-main.4fc79088.js",
+    "static/css/2.671f2b43.chunk.css",
+    "static/js/2.60a00e89.chunk.js",
+    "static/css/main.34cd19e4.chunk.css",
+    "static/js/main.500c21c4.chunk.js"
   ]
 }
