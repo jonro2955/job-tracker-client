@@ -40,6 +40,7 @@ export default function AddPage() {
   }, [context.dbProfileState]);
 
   async function setResumeFile(newFile) {
+    console.log("newFile:", newFile);
     const arrayBuffer = await context.getByteArray(newFile[0]);
     console.log("arrayBuffer:", arrayBuffer);
     const bytea = new Uint8Array(arrayBuffer);

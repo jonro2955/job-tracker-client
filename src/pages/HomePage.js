@@ -6,7 +6,7 @@ export default function HomePage() {
     <div className="container d-flex flex-column justify-content-center align-items-center ">
       <h1>Job Tracker</h1>
 
-      <div class="row">
+      <div className="row">
         <img src={logo1} alt="logo"></img>
       </div>
 

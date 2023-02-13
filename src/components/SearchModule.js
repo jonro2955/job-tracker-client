@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import SearchRadio from "./SearchRadio";
 import { FormGroup, Label } from "reactstrap";
 import DatePicker from "react-date-picker";
