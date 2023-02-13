@@ -15,15 +15,6 @@ export default function SearchModule({
   dateRangeEnd,
   setDateRangeEnd,
 }) {
-  const [open, setOpen] = useState("0");
-  const toggle = () => {
-    if (open === "1") {
-      setOpen("0");
-    } else {
-      setOpen("1");
-    }
-  };
-
   return (
     <div className="d-flex flex-column justify-content-center align-items-center pt-3 px-2">
       <form
