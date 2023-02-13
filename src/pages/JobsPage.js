@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSort } from "@fortawesome/free-solid-svg-icons";
 import BtnModalCreateJob from "../components/BtnModalCreateJob";
-import SearchAccordion from "../components/SearchAccordion";
+import SearchAccordion from "../components/SearchModule";
 
 export default function SearchPage() {
   const context = useContext(Context);

@@ -16,7 +16,7 @@ import Step7Date from "../components/Step7Date";
 export default function AddPage() {
   const context = useContext(Context);
   const [data] = useState(JSON.parse(useParams().data));
-  console.log(data);
+  // console.log(data);
   const [currentCareerNum, setCurrentCareerNum] = useState(0);
   const [careersList, setCareersList] = useState(["C1", "C2"]);
   const [postingURL, setPostingURL] = useState("");
@@ -29,7 +29,7 @@ export default function AddPage() {
   const [resumeDisplayFile, setResumeDisplayFile] = useState({});
   const [coverLetterDisplayFile, setCoverLetterDisplayFile] = useState({});
   const [tags, setTags] = useState("");
-  const [subDate, setSubDate] = useState(String(new Date()));
+  const [subDate, setSubDate] = useState(new Date());
 
   useEffect(() => {
     let dbProfile = context.dbProfileState;
@@ -74,7 +74,7 @@ export default function AddPage() {
       careerName: careersList[currentCareerNum],
       applicationDate: String(subDate),
     };
-    // console.log(data);
+    console.log(data);
     axios
       .post("/api/post/postapp", data)
       .then((res) => {
@@ -185,4 +185,3 @@ export default function AddPage() {
     </div>
   );
 }
- 
