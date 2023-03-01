@@ -1,4 +1,6 @@
-Build the app view/edit page
+AddPage: the pdf image viewer is not removing the pdf preview when the pdf is removed!
+
+Build the app view/edit page - get the pdf viewer working
 
 Add post-application edit options for marking an app as interviewd, rejected, etc to make it marked as such in list search view
 

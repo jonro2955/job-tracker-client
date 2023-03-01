@@ -145,21 +145,21 @@ export default function Step3Notes({ id, value, onChange }) {
           setPopoverOpen(!popoverOpen);
         }}
       >
-        <PopoverHeader className="text-center">
+        {/* <PopoverHeader className="text-center">
           Notes to include (now or later)
-        </PopoverHeader>
+        </PopoverHeader> */}
         <PopoverBody>
+          What kinds of notes to include?
           <ul>
             <li>Application trivia</li>
-            <li>Company websites</li>
+            <li>Web links</li>
             <li>Company research</li>
-            <li>Interview preparation</li>
+            <li>Pre/post interview notes</li>
+            <li>Dates</li>
             <li>Names and contact info</li>
-            <li>Interview dates</li>
-            <li>Post-interview notes</li>
             <li>Salary info</li>
             <li>Updates</li>
-            <li>Personal notes, etc.</li>
+            <li>Etc.</li>
           </ul>
         </PopoverBody>
       </Popover>

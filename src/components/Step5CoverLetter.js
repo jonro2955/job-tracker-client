@@ -37,7 +37,10 @@ export default function Step5CoverLetter({
           <button
             className="btn btn-outline-success"
             onClick={() => {
-              setCoverLetterDisplayFile({});
+              setCoverLetterDisplayFile({
+                url: "http://example.com/sample.pdf",
+              });
+              setNumPages(null);
             }}
           >
             x
@@ -64,10 +67,16 @@ export default function Step5CoverLetter({
               file={coverLetterDisplayFile}
               onLoadSuccess={onDocumentLoadSuccess}
               loading=""
+              noData=""
+              error=""
             >
               <Page pageNumber={pageNumber} />
             </Document>
-            <p>{numPages ? `Page ${numPages}` : ""}</p>
+            {numPages && (
+              <p>
+                Page {pageNumber} of {numPages}
+              </p>
+            )}
             <button
               type="button"
               disabled={pageNumber <= 1}

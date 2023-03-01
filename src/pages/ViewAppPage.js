@@ -2,6 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Context from "../utils/context";
+import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
+import "react-pdf/dist/esm/Page/TextLayer.css";
+import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import BtnCareerSwitcher from "../components/BtnModalCareerSwitcher";
 import Step1UrlDesc from "../components/Step1UrlDesc";
 import Step2NameTitle from "../components/Step2NameTitle";
@@ -22,6 +25,10 @@ export default function AppPage() {
   const [careersList, setCareersList] = useState([""]);
   const [careerNum, setCareerNum] = useState(0);
   const [newCareerNum, setNewCareerNum] = useState();
+  const [resumeBytea, setResumeBytea] = useState(
+    "JVBERi0xLjIgCjkgMCBvYmoKPDwKPj4Kc3RyZWFtCkJULyA5IFRmKFRlc3QpJyBFVAplbmRzdHJlYW0KZW5kb2JqCjQgMCBvYmoKPDwKL1R5cGUgL1BhZ2UKL1BhcmVudCA1IDAgUgovQ29udGVudHMgOSAwIFIKPj4KZW5kb2JqCjUgMCBvYmoKPDwKL0tpZHMgWzQgMCBSIF0KL0NvdW50IDEKL1R5cGUgL1BhZ2VzCi9NZWRpYUJveCBbIDAgMCA5OSA5IF0KPj4KZW5kb2JqCjMgMCBvYmoKPDwKL1BhZ2VzIDUgMCBSCi9UeXBlIC9DYXRhbG9nCj4+CmVuZG9iagp0cmFpbGVyCjw8Ci9Sb290IDMgMCBSCj4+CiUlRU9G"
+  );
+  const [coverLetterBytea, setCoverLetterBytea] = useState([]);
 
   useEffect(() => {
     if (context.isAuthenticated && context.dbProfileState) {
@@ -32,6 +39,7 @@ export default function AppPage() {
       axios
         .get("/api/get/app", { params: { id } })
         .then((res) => {
+          console.log(res.data);
           setPostingURL(res.data.posting_url);
           setCompanyName(res.data.company_name);
           setJobTitle(res.data.job_title);
@@ -49,10 +57,27 @@ export default function AppPage() {
             Math.ceil((currDate - appDate) / (1000 * 3600 * 24)) - 1;
           setAppDate(appDate);
           setElapsedDays(elapsed);
+          setResumeBytea(new Uint8Array(res.data.resume_file.data));
+          // setCoverLetterBytea(res.data.cover_letter_file.data);
+          console.log(typeof byteaToBase64(res.data.resume_file.data));
         })
         .catch((err) => console.log(err));
     }
   }, [context, id]);
+
+  function byteaToBase64(bytea) {
+    // var binary = "";
+    // var bytes = new Uint8Array(bytea);
+    // var len = bytes.byteLength;
+    // for (var i = 0; i < len; i++) {
+    //   binary += String.fromCharCode(bytes[i]);
+    // }
+    // return window.btoa(binary);
+
+    let u8 = new Uint8Array(bytea);
+    let decoder = new TextDecoder("utf8");
+    return window.btoa(decoder.decode(u8));
+  }
 
   function handleUpdateApp() {
     if (companyName.length === 0 || jobTitle.length === 0) {
@@ -71,6 +96,26 @@ export default function AppPage() {
       careerName: careersList[careerNum],
     };
     console.log(data);
+  }
+
+  const [numPages, setNumPages] = useState(null);
+  const [pageNumber, setPageNumber] = useState(1);
+
+  function onDocumentLoadSuccess({ numPages }) {
+    setNumPages(numPages);
+    setPageNumber(1);
+  }
+
+  function changePage(offset) {
+    setPageNumber((prevPageNumber) => prevPageNumber + offset);
+  }
+
+  function previousPage() {
+    changePage(-1);
+  }
+
+  function nextPage() {
+    changePage(1);
   }
 
   return (
@@ -125,14 +170,44 @@ export default function AppPage() {
           </div>
         </div>
       </div>
+      <h3>View PDFs</h3>
       <div className="container w-50">
         <div className="row">
           <div className="col">
+            <Document
+              file={`data:application/pdf;uint8array,${resumeBytea}`}
+              // file={resumeBytea}
+              onLoadSuccess={onDocumentLoadSuccess}
+              loading=""
+            >
+              <Page pageNumber={pageNumber} height={100} />
+            </Document>
+            {numPages > 1 && (
+              <>
+                <p>
+                  Page {pageNumber} of {numPages}
+                </p>
+                <button
+                  type="button"
+                  disabled={pageNumber <= 1}
+                  onClick={previousPage}
+                >
+                  Previous
+                </button>
+                <button
+                  type="button"
+                  disabled={pageNumber >= numPages}
+                  onClick={nextPage}
+                >
+                  Next
+                </button>
+              </>
+            )}
             {/* <Step4Resume
-                setResumeFile={setResumeFile}
-                resumeDisplayFile={resumeDisplayFile}
-                setResumeDisplayFile={setResumeDisplayFile}
-              /> */}
+              setResumeFile={setResumeFile}
+              resumeDisplayFile={resumeDisplayFile}
+              setResumeDisplayFile={setResumeDisplayFile}
+            /> */}
           </div>
           <div className="col">
             {/* <Step5CoverLetter

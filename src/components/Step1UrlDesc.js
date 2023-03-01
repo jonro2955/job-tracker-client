@@ -29,6 +29,7 @@ const CustomRedoIcon = () => (
   </svg>
 );
  */
+
 // Custom undo and redo functions for Custom Toolbar
 function undoChange() {
   this.quill.history.undo();
@@ -71,6 +72,7 @@ export default function Step1UrlDesc({
         <button className="ql-link" />
         <button className="ql-clean" />
       </span>
+
       {/* <span className="ql-formats">
         <select className="ql-color" />
         <select className="ql-background" />
@@ -140,7 +142,7 @@ export default function Step1UrlDesc({
   ];
 
   return (
-    <div className="step d-flex  flex-column ">
+    <div className="step d-flex flex-column">
       {/* Posting URL input*/}
       <h3 id="step1Heading">Posting URL</h3>
       <input
@@ -162,7 +164,7 @@ export default function Step1UrlDesc({
           ref={quillRef}
           style={{
             backgroundColor: "white",
-            minHeight: "280px",
+            minHeight: "150px",
             maxHeight: "900px",
             overflowY: "auto",
           }}

@@ -39,20 +39,31 @@ export default function AddPage() {
     }
   }, [context.dbProfileState]);
 
+  function getByteArray(file) {
+    return new Promise((acc, err) => {
+      const reader = new FileReader();
+      reader.onloadend = (event) => {
+        acc(event.target.result);
+      };
+      reader.onerror = (error) => {
+        err(error);
+      };
+      reader.readAsArrayBuffer(file);
+    });
+  }
+
   async function setResumeFile(newFile) {
-    console.log("newFile:", newFile);
-    const arrayBuffer = await context.getByteArray(newFile[0]);
-    console.log("arrayBuffer:", arrayBuffer);
+    const arrayBuffer = await getByteArray(newFile[0]);
     const bytea = new Uint8Array(arrayBuffer);
-    console.log("Uint8Array:", bytea);
     setByteaResume(bytea);
-    console.log("resumeDisplayFile:", newFile[0]);
     setResumeDisplayFile(newFile[0]);
-    console.log("resume file name:", newFile[0]["name"]);
+    console.log("new resume file:", newFile[0]);
+    console.log("array buffer:", arrayBuffer);
+    console.log("byte array:", bytea);
   }
 
   async function setCoverLetterFile(newFile) {
-    const arrayBuffer = await context.getByteArray(newFile[0]);
+    const arrayBuffer = await getByteArray(newFile[0]);
     const bytea = new Uint8Array(arrayBuffer);
     setByteaCoverLetter(bytea);
     setCoverLetterDisplayFile(newFile[0]);
@@ -160,7 +171,7 @@ export default function AddPage() {
           </div>
         </div>
       </div>
-      <div className="container w-50">
+      <div className="container">
         <div className="row">
           <div className="col">
             <Step4Resume

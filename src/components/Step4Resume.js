@@ -1,12 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Dropzone from "react-dropzone";
 import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 // https://react-dropzone.js.org/#section-examples
 // https://github.com/wojtekmaj/react-pdf
-// https://github.com/wojtekmaj/react-pdf/wiki/Recipes
-// https://github.com/wojtekmaj/react-pdf/wiki/Frequently-Asked-Questions#how-do-i-load-a-pdf-from-base64
 
 export default function Step4Resume({
   setResumeFile,
@@ -41,7 +39,10 @@ export default function Step4Resume({
           <button
             className="btn btn-outline-success"
             onClick={() => {
-              setResumeDisplayFile({});
+              setResumeDisplayFile({
+                url: "http://example.com/",
+              })
+              setNumPages(null);
             }}
           >
             x
@@ -68,12 +69,16 @@ export default function Step4Resume({
               file={resumeDisplayFile}
               onLoadSuccess={onDocumentLoadSuccess}
               loading=""
+              noData=""
+              error=""
             >
               <Page pageNumber={pageNumber} />
             </Document>
-            <p>
-              {numPages ? `Page ${numPages}` : ""}
-            </p>
+            {numPages && (
+              <p>
+                Page {pageNumber} of {numPages}
+              </p>
+            )}
             <button
               type="button"
               disabled={pageNumber <= 1}

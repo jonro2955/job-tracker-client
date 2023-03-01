@@ -14,6 +14,7 @@ const NavBar = () => {
           <div className="col  ">
             {auth0.isAuthenticated && (
               <Link to="/" style={{ padding: "5px" }}>
+                <span>My Jobs</span>
                 <img width="30" height="30" src={logo2} alt="Logo" />
               </Link>
             )}

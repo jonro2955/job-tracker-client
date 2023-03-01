@@ -8,7 +8,7 @@ import { HashRouter, Route, Routes } from "react-router-dom";
 import NavBar from "./components/NavBar";
 import AddPage from "./pages/AddPage";
 import JobsPage from "./pages/JobsPage";
-import AppPage from "./pages/AppPage";
+import AppPage from "./pages/ViewAppPage";
 import ProfilePage from "./pages/ProfilePage";
 import HomePage from "./pages/HomePage";
 
@@ -65,19 +65,6 @@ export default function ContextState() {
     dispatchAuthReducer(ACTIONS.remove_profile());
   }
 
-  function getByteArray(file) {
-    return new Promise((acc, err) => {
-      const reader = new FileReader();
-      reader.onloadend = (event) => {
-        acc(event.target.result);
-      };
-      reader.onerror = (error) => {
-        err(error);
-      };
-      reader.readAsArrayBuffer(file);
-    });
-  }
-
   return (
     <Context.Provider
       value={{
@@ -92,7 +79,6 @@ export default function ContextState() {
         isAuthenticated: stateAuthReducer.isAuthenticated,
         dbProfileState: stateAuthReducer.dbProfile,
         authProfile: stateAuthReducer.authProfile,
-        getByteArray: (file) => getByteArray(file),
       }}
     >
       <HashRouter basename="/">
