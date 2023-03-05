@@ -15,7 +15,7 @@ import Step7Date from "../components/Step7Date";
 
 export default function AddPage() {
   const context = useContext(Context);
-  const [data] = useState(JSON.parse(useParams().data));
+  const [data, setData] = useState(JSON.parse(useParams().data));
   // console.log(data);
   const [currentCareerNum, setCurrentCareerNum] = useState(0);
   const [careersList, setCareersList] = useState(["C1", "C2"]);
@@ -111,6 +111,7 @@ export default function AddPage() {
     setJobDescription("");
     setCompanyName("");
     setJobTitle("");
+    setData({company:"", title: ""});
     setJobNotes("");
     setByteaResume([]);
     setByteaCoverLetter([]);

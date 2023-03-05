@@ -8,7 +8,7 @@ import { HashRouter, Route, Routes } from "react-router-dom";
 import NavBar from "./components/NavBar";
 import AddPage from "./pages/AddPage";
 import JobsPage from "./pages/JobsPage";
-import AppPage from "./pages/ViewAppPage";
+import AppPage from "./pages/ViewPage";
 import ProfilePage from "./pages/ProfilePage";
 import HomePage from "./pages/HomePage";
 

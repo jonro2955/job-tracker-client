@@ -1,6 +1,7 @@
-AddPage: the pdf image viewer is not removing the pdf preview when the pdf is removed!
+ViewAppPage: get the pdf viewer working
+-axios is fetching the resume bytea data just fine. it is stored the resumeBytea state
+-the resume bytea data is 
 
-Build the app view/edit page - get the pdf viewer working
 
 Add post-application edit options for marking an app as interviewd, rejected, etc to make it marked as such in list search view
 
