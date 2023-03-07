@@ -43,4 +43,7 @@
 .ql-editor {
   min-height: 150px;
 }
-
+accordionHeader {
+  display: block;
+  justify-content: center !important;
+}
