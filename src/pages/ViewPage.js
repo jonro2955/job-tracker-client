@@ -1,20 +1,17 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useMemo } from "react";
 import { useParams } from "react-router-dom";
-import {
-  UncontrolledAccordion,
-  AccordionItem,
-  AccordionHeader,
-  AccordionBody,
-} from "reactstrap";
 import axios from "axios";
 import Context from "../utils/context";
 import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import BtnCareerSwitcher from "../components/BtnModalCareerSwitcher";
+import PdfViewer from "../components/PdfViewer";
 import Step1UrlDesc from "../components/Step1UrlDesc";
 import Step2NameTitle from "../components/Step2NameTitle";
 import Step3Notes from "../components/Step3Notes";
+import Step4Resume from "../components/Step4Resume";
+import Step5CoverLetter from "../components/Step5CoverLetter";
 import Step6Tags from "../components/Step6Tags";
 
 export default function AppPage() {
@@ -35,6 +32,16 @@ export default function AppPage() {
   const [coverLetterBytea, setCoverLetterBytea] = useState();
   const [resumeSize, setResumeSize] = useState(400);
   const [coverLetterSize, setCoverLetterSize] = useState(400);
+
+  /* 
+
+  const calculation = useMemo(() => getPdfs(id), [id]);
+
+  function getPdfs(num) {
+    return 1;
+  }
+
+   */
 
   useEffect(() => {
     if (context.isAuthenticated && context.dbProfileState) {
@@ -124,7 +131,11 @@ export default function AppPage() {
   }
 
   function handleResSizeChange(event) {
-    setResumeSize(event.target.value);
+    setResumeSize(parseInt(event.target.value));
+  }
+
+  function handleClSizeChange(event) {
+    setCoverLetterSize(parseInt(event.target.value));
   }
 
   return (
@@ -158,6 +169,7 @@ export default function AppPage() {
           setCurrentCareerNum={setNewCareerNum}
         />
       </span>
+
       <div className="container">
         <div className="row">
           <div className="col">
@@ -178,107 +190,87 @@ export default function AppPage() {
             />
           </div>
         </div>
+
         <div className="row">
-          <UncontrolledAccordion defaultOpen={["1", "2"]} stayOpen>
-            <AccordionItem>
-              <AccordionHeader targetId="1">
-                <button className="accordion-button d-block text-center">
-                  <h4>Resume</h4>
-                </button>
-              </AccordionHeader>
-              <AccordionBody accordionId="1">
-                {resumeBytea && (
-                  <>
-                    <label htmlFor="resumeSize">Magnification:</label>
-                    <input
-                      type="range"
-                      id="resumeSize"
-                      name="vol"
-                      min="400"
-                      max="1000"
-                      value={resumeSize}
-                      onChange={handleResSizeChange}
-                    ></input>
-                  </>
-                )}
-                <Document
-                  file={{ data: resumeBytea }}
-                  onLoadSuccess={onDocumentLoadSuccess}
-                  loading=""
+          {/* Resume */}
+          <div className="col">
+            <h3 className="text-center">Resume</h3>
+            {resumeBytea && (
+              <Document
+                file={{ data: resumeBytea }}
+                onLoadSuccess={onDocumentLoadSuccess}
+                loading=""
+              >
+                <Page pageNumber={pageNumber} className="step" />
+              </Document>
+            )}
+            {numPages > 1 && (
+              <>
+                <p>
+                  Page {pageNumber} of {numPages}
+                </p>
+                <button
+                  type="button"
+                  disabled={pageNumber <= 1}
+                  onClick={previousPage}
                 >
-                  <Page pageNumber={pageNumber} height={resumeSize} />
-                </Document>
-                {numPages > 1 && (
-                  <>
-                    <p>
-                      Page {pageNumber} of {numPages}
-                    </p>
-                    <button
-                      type="button"
-                      disabled={pageNumber <= 1}
-                      onClick={previousPage}
-                    >
-                      Previous
-                    </button>
-                    <button
-                      type="button"
-                      disabled={pageNumber >= numPages}
-                      onClick={nextPage}
-                    >
-                      Next
-                    </button>
-                  </>
-                )}
-                {/* <Step4Resume
+                  Previous
+                </button>
+                <button
+                  type="button"
+                  disabled={pageNumber >= numPages}
+                  onClick={nextPage}
+                >
+                  Next
+                </button>
+              </>
+            )}
+            {/* <Step4Resume
               setResumeFile={setResumeFile}
               resumeDisplayFile={resumeBytea}
               setResumeDisplayFile={setResumeDisplayFile}
             /> */}
-              </AccordionBody>
-            </AccordionItem>
-            <AccordionItem>
-              <AccordionHeader targetId="2" className="">
-                <button className="accordion-button d-block text-center">
-                  <h4>Cover Letter</h4>
-                </button>
-              </AccordionHeader>
-              <AccordionBody accordionId="2">
-                <Document
-                  file={{ data: coverLetterBytea }}
-                  onLoadSuccess={onDocumentLoadSuccess}
-                  loading=""
+          </div>
+
+          {/* CL */}
+          <div className="col">
+            <h3>Cover Letter</h3>
+            {/* {coverLetterBytea && (
+              <Document
+                file={{ data: coverLetterBytea }}
+                onLoadSuccess={onDocumentLoadSuccess}
+                loading=""
+              >
+                <Page pageNumber={pageNumber} className="step" />
+              </Document>
+            )}
+            {numPages > 1 && (
+              <>
+                <p>
+                  Page {pageNumber} of {numPages}
+                </p>
+                <button
+                  type="button"
+                  disabled={pageNumber <= 1}
+                  onClick={previousPage}
                 >
-                  <Page pageNumber={pageNumber} height={400} />
-                </Document>
-                {numPages > 1 && (
-                  <>
-                    <p>
-                      Page {pageNumber} of {numPages}
-                    </p>
-                    <button
-                      type="button"
-                      disabled={pageNumber <= 1}
-                      onClick={previousPage}
-                    >
-                      Previous
-                    </button>
-                    <button
-                      type="button"
-                      disabled={pageNumber >= numPages}
-                      onClick={nextPage}
-                    >
-                      Next
-                    </button>
-                  </>
-                )}
-                {/* <Step5CoverLetter
+                  Previous
+                </button>
+                <button
+                  type="button"
+                  disabled={pageNumber >= numPages}
+                  onClick={nextPage}
+                >
+                  Next
+                </button>
+              </>
+            )} */}
+            {/* <Step5CoverLetter
                 setCoverLetterFile={setCoverLetterFile}
                 coverLetterDisplayFile={coverLetterDisplayFile}
                 setCoverLetterDisplayFile={setCoverLetterDisplayFile}
               /> */}
-              </AccordionBody>
-            </AccordionItem>
-          </UncontrolledAccordion>
+          </div>
         </div>
       </div>
       <div className="col-12 w-50"></div>
