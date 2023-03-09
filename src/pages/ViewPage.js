@@ -190,95 +190,85 @@ export default function AppPage() {
             />
           </div>
         </div>
+      </div>
 
-        <div className="row">
-          {/* Resume */}
-          <div className="col">
-            <h3 className="text-center">Resume</h3>
-            {resumeBytea && (
-              <Document
-                file={{ data: resumeBytea }}
-                onLoadSuccess={onDocumentLoadSuccess}
-                loading=""
-              >
-                <Page pageNumber={pageNumber} className="step" />
-              </Document>
-            )}
-            {numPages > 1 && (
-              <>
-                <p>
-                  Page {pageNumber} of {numPages}
-                </p>
-                <button
-                  type="button"
-                  disabled={pageNumber <= 1}
-                  onClick={previousPage}
-                >
-                  Previous
-                </button>
-                <button
-                  type="button"
-                  disabled={pageNumber >= numPages}
-                  onClick={nextPage}
-                >
-                  Next
-                </button>
-              </>
-            )}
-            {/* <Step4Resume
+      {/* Resume */}
+      <div className="step">
+        <h3 className="text-center">Resume</h3>
+        {resumeBytea && (
+          <Document
+            file={{ data: resumeBytea }}
+            onLoadSuccess={onDocumentLoadSuccess}
+            loading=""
+          >
+            <Page pageNumber={pageNumber} className="pdfPage" />
+          </Document>
+        )}
+        {numPages > 1 && (
+          <>
+            <p>
+              Page {pageNumber} of {numPages}
+            </p>
+            <button
+              type="button"
+              disabled={pageNumber <= 1}
+              onClick={previousPage}
+            >
+              Previous
+            </button>
+            <button
+              type="button"
+              disabled={pageNumber >= numPages}
+              onClick={nextPage}
+            >
+              Next
+            </button>
+          </>
+        )}
+        {/* <Step4Resume
               setResumeFile={setResumeFile}
               resumeDisplayFile={resumeBytea}
               setResumeDisplayFile={setResumeDisplayFile}
             /> */}
-          </div>
-
-          {/* CL */}
-          <div className="col">
-            <h3>Cover Letter</h3>
-            {/* {coverLetterBytea && (
-              <Document
-                file={{ data: coverLetterBytea }}
-                onLoadSuccess={onDocumentLoadSuccess}
-                loading=""
-              >
-                <Page pageNumber={pageNumber} className="step" />
-              </Document>
-            )}
-            {numPages > 1 && (
-              <>
-                <p>
-                  Page {pageNumber} of {numPages}
-                </p>
-                <button
-                  type="button"
-                  disabled={pageNumber <= 1}
-                  onClick={previousPage}
-                >
-                  Previous
-                </button>
-                <button
-                  type="button"
-                  disabled={pageNumber >= numPages}
-                  onClick={nextPage}
-                >
-                  Next
-                </button>
-              </>
-            )} */}
-            {/* <Step5CoverLetter
+      </div>
+      {/* CL */}
+      <div className="step">
+        <h3 className="text-center">Cover Letter</h3>
+        {coverLetterBytea && (
+          <Document
+            file={{ data: coverLetterBytea }}
+            onLoadSuccess={onDocumentLoadSuccess}
+            loading=""
+          >
+            <Page pageNumber={pageNumber} className="pdfPage" />
+          </Document>
+        )}
+        {numPages > 1 && (
+          <>
+            <p>
+              Page {pageNumber} of {numPages}
+            </p>
+            <button
+              type="button"
+              disabled={pageNumber <= 1}
+              onClick={previousPage}
+            >
+              Previous
+            </button>
+            <button
+              type="button"
+              disabled={pageNumber >= numPages}
+              onClick={nextPage}
+            >
+              Next
+            </button>
+          </>
+        )}
+        {/* <Step5CoverLetter
                 setCoverLetterFile={setCoverLetterFile}
                 coverLetterDisplayFile={coverLetterDisplayFile}
                 setCoverLetterDisplayFile={setCoverLetterDisplayFile}
               /> */}
-          </div>
-        </div>
-      </div>
-      <div className="col-12 w-50"></div>
-      <div className="container w-50">
-        <div className="row">
-          <div className="col"></div>
-          <div className="col"></div>
-        </div>
       </div>
       <Step6Tags setTags={setTags} value={tags} />
       <div className="step w-50">

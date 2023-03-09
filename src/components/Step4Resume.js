@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Dropzone from "react-dropzone";
+import Dropzone, { useDropzone } from "react-dropzone";
 import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
@@ -31,6 +31,10 @@ export default function Step4Resume({
     changePage(1);
   }
 
+  const pdfFormat = {
+    "application/pdf": [".pdf"],
+  };
+
   return (
     <div className="step w-md-75">
       <div className="d-flex align-items-center justify-content-center">
@@ -41,7 +45,7 @@ export default function Step4Resume({
             onClick={() => {
               setResumeDisplayFile({
                 url: "http://example.com/",
-              })
+              });
               setNumPages(null);
             }}
           >
@@ -49,7 +53,13 @@ export default function Step4Resume({
           </button>
         )}
       </div>
-      <Dropzone multiple={false} onDrop={setResumeFile}>
+      <Dropzone
+        multiple={false}
+        accept={{
+          "application/pdf": [".pdf"],
+        }}
+        onDrop={setResumeFile}
+      >
         {({ getRootProps, getInputProps }) => (
           <section>
             <div {...getRootProps({ className: "dropzone" })}>
@@ -62,7 +72,7 @@ export default function Step4Resume({
                   </span>
                 </div>
               ) : (
-                <strong>Drag & drop or select a PDF</strong>
+                <strong>Drag & drop or select a PDF.</strong>
               )}
             </div>
             <Document
