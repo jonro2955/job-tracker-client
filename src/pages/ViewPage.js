@@ -1,18 +1,18 @@
-import React, { useContext, useEffect, useState, useMemo } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Context from "../utils/context";
 import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
-import "react-pdf/dist/esm/Page/TextLayer.css";
-import "react-pdf/dist/esm/Page/AnnotationLayer.css";
+// import "react-pdf/dist/esm/Page/TextLayer.css";
+// import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import BtnCareerSwitcher from "../components/BtnModalCareerSwitcher";
-import PdfViewer from "../components/PdfViewer";
 import Step1UrlDesc from "../components/Step1UrlDesc";
 import Step2NameTitle from "../components/Step2NameTitle";
 import Step3Notes from "../components/Step3Notes";
-import Step4Resume from "../components/Step4Resume";
-import Step5CoverLetter from "../components/Step5CoverLetter";
 import Step6Tags from "../components/Step6Tags";
+import PdfViewer from "../components/PdfViewer";
+// import Step4Resume from "../components/Step4Resume";
+// import Step5CoverLetter from "../components/Step5CoverLetter";
 
 export default function AppPage() {
   const { id } = useParams();
@@ -28,20 +28,8 @@ export default function AppPage() {
   const [careersList, setCareersList] = useState([""]);
   const [careerNum, setCareerNum] = useState(0);
   const [newCareerNum, setNewCareerNum] = useState();
-  const [resumeBytea, setResumeBytea] = useState();
+  const [resBytea, setResumeBytea] = useState();
   const [coverLetterBytea, setCoverLetterBytea] = useState();
-  const [resumeSize, setResumeSize] = useState(400);
-  const [coverLetterSize, setCoverLetterSize] = useState(400);
-
-  /* 
-
-  const calculation = useMemo(() => getPdfs(id), [id]);
-
-  function getPdfs(num) {
-    return 1;
-  }
-
-   */
 
   useEffect(() => {
     if (context.isAuthenticated && context.dbProfileState) {
@@ -71,25 +59,22 @@ export default function AppPage() {
           setAppDate(appDate);
           setElapsedDays(elapsed);
 
-          // res.data.resume_file comes in as a stringified object
-          // it looks like this: '{"0":13, "1":74, "2":266, "3":23, "4":80, ...}'
-          // so we need to JSON.parse it into an object, then turn it into an array
-          // then into a Uint8Array
+          // res.data.resume_file and res.data.cover_letter_file comes in as strings
+          // like: '{"0":13, "1":74, "2":266, "3":23, "4":80, ...}' so we need to
+          // JSON.parse it into an object, then turn it into an array using
+          // Object.keys() then into a Uint8Array, like this:
           const resumeData = JSON.parse(res.data.resume_file);
-          let resumeByteA = Object.keys(resumeData).map(
-            (key) => resumeData[key]
-          );
-          resumeByteA = new Uint8Array(resumeByteA);
-          setResumeBytea(resumeByteA);
-          // same thing for cover letter
           const clData = JSON.parse(res.data.cover_letter_file);
-          let clByteA = Object.keys(resumeData).map((key) => resumeData[key]);
+          let resBytea = Object.keys(resumeData).map((key) => resumeData[key]);
+          let clByteA = Object.keys(clData).map((key) => resumeData[key]);
+          resBytea = new Uint8Array(resBytea);
           clByteA = new Uint8Array(clByteA);
+          setResumeBytea(resBytea);
           setCoverLetterBytea(clByteA);
         })
         .catch((err) => console.log(err));
     }
-  }, [context, id]);
+  }, [context, id, newCareerNum]);
 
   function handleUpdateApp() {
     if (companyName.length === 0 || jobTitle.length === 0) {
@@ -108,34 +93,6 @@ export default function AppPage() {
       careerName: careersList[careerNum],
     };
     console.log(data);
-  }
-
-  const [numPages, setNumPages] = useState(null);
-  const [pageNumber, setPageNumber] = useState(1);
-
-  function onDocumentLoadSuccess({ numPages }) {
-    setNumPages(numPages);
-    setPageNumber(1);
-  }
-
-  function changePage(offset) {
-    setPageNumber((prevPageNumber) => prevPageNumber + offset);
-  }
-
-  function previousPage() {
-    changePage(-1);
-  }
-
-  function nextPage() {
-    changePage(1);
-  }
-
-  function handleResSizeChange(event) {
-    setResumeSize(parseInt(event.target.value));
-  }
-
-  function handleClSizeChange(event) {
-    setCoverLetterSize(parseInt(event.target.value));
   }
 
   return (
@@ -192,84 +149,8 @@ export default function AppPage() {
         </div>
       </div>
 
-      {/* Resume */}
-      <div className="step">
-        <h3 className="text-center">Resume</h3>
-        {resumeBytea && (
-          <Document
-            file={{ data: resumeBytea }}
-            onLoadSuccess={onDocumentLoadSuccess}
-            loading=""
-          >
-            <Page pageNumber={pageNumber} className="pdfPage" />
-          </Document>
-        )}
-        {numPages > 1 && (
-          <>
-            <p>
-              Page {pageNumber} of {numPages}
-            </p>
-            <button
-              type="button"
-              disabled={pageNumber <= 1}
-              onClick={previousPage}
-            >
-              Previous
-            </button>
-            <button
-              type="button"
-              disabled={pageNumber >= numPages}
-              onClick={nextPage}
-            >
-              Next
-            </button>
-          </>
-        )}
-        {/* <Step4Resume
-              setResumeFile={setResumeFile}
-              resumeDisplayFile={resumeBytea}
-              setResumeDisplayFile={setResumeDisplayFile}
-            /> */}
-      </div>
-      {/* CL */}
-      <div className="step">
-        <h3 className="text-center">Cover Letter</h3>
-        {coverLetterBytea && (
-          <Document
-            file={{ data: coverLetterBytea }}
-            onLoadSuccess={onDocumentLoadSuccess}
-            loading=""
-          >
-            <Page pageNumber={pageNumber} className="pdfPage" />
-          </Document>
-        )}
-        {numPages > 1 && (
-          <>
-            <p>
-              Page {pageNumber} of {numPages}
-            </p>
-            <button
-              type="button"
-              disabled={pageNumber <= 1}
-              onClick={previousPage}
-            >
-              Previous
-            </button>
-            <button
-              type="button"
-              disabled={pageNumber >= numPages}
-              onClick={nextPage}
-            >
-              Next
-            </button>
-          </>
-        )}
-        {/* <Step5CoverLetter
-                setCoverLetterFile={setCoverLetterFile}
-                coverLetterDisplayFile={coverLetterDisplayFile}
-                setCoverLetterDisplayFile={setCoverLetterDisplayFile}
-              /> */}
-      </div>
+      <PdfViewer byteData={resBytea} />
+
       <Step6Tags setTags={setTags} value={tags} />
       <div className="step w-50">
         <button className="btn btn-success p-2" onClick={handleUpdateApp}>
