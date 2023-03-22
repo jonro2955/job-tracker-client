@@ -10,10 +10,11 @@ If there is a pdf file, when the "show" button is pressed, show the pdf adder
 below the pdf.
 */
 
-export default function PdfViewer({ byteData }) {
+export default function PdfViewer({ byteData, type }) {
+  if (byteData) console.log(byteData);
   const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(true);
 
   function onDocumentLoadSuccess({ numPages }) {
     setNumPages(numPages);
@@ -32,15 +33,16 @@ export default function PdfViewer({ byteData }) {
     changePage(1);
   }
 
+  // Memoize the documents with useMemo
   const pdfDocument = useMemo(
     () => (
-      <div className="step">
+      <div>
         <Document
           file={{ data: byteData }}
           onLoadSuccess={onDocumentLoadSuccess}
           loading=""
         >
-          <Page pageNumber={pageNumber} className="pdfPage" />
+          <Page pageNumber={pageNumber} />
         </Document>
         {numPages > 1 && (
           <>
@@ -70,14 +72,8 @@ export default function PdfViewer({ byteData }) {
 
   return (
     <>
-      <button
-        onClick={() => {
-          setShow(!show);
-        }}
-      >
-        {show ? "Hide Resume" : "Show resume"}
-      </button>
-      {show && pdfDocument}
+      <h3 className="text-center">{type}</h3>
+      {pdfDocument}
     </>
   );
 }

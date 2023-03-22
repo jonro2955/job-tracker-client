@@ -43,10 +43,10 @@
 .ql-editor {
   min-height: 150px;
 }
-.pdfPage {
+/* .pdfPage {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   border: 1px solid black;
-}
+} */

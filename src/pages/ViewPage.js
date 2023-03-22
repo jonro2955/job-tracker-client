@@ -9,10 +9,10 @@ import BtnCareerSwitcher from "../components/BtnModalCareerSwitcher";
 import Step1UrlDesc from "../components/Step1UrlDesc";
 import Step2NameTitle from "../components/Step2NameTitle";
 import Step3Notes from "../components/Step3Notes";
+import Step4Resume from "../components/Step4Resume";
+import Step5CoverLetter from "../components/Step5CoverLetter";
 import Step6Tags from "../components/Step6Tags";
 import PdfViewer from "../components/PdfViewer";
-// import Step4Resume from "../components/Step4Resume";
-// import Step5CoverLetter from "../components/Step5CoverLetter";
 
 export default function AppPage() {
   const { id } = useParams();
@@ -28,8 +28,15 @@ export default function AppPage() {
   const [careersList, setCareersList] = useState([""]);
   const [careerNum, setCareerNum] = useState(0);
   const [newCareerNum, setNewCareerNum] = useState();
-  const [resBytea, setResumeBytea] = useState();
-  const [coverLetterBytea, setCoverLetterBytea] = useState();
+  const [byteaResume, setByteaResume] = useState();
+  const [byteaCoverLetter, setByteaCoverLetter] = useState();
+  const [newByteaResume, setNewByteaResume] = useState();
+  const [newByteaCoverLetter, setNewByteaCoverLetter] = useState();
+
+  const [showResAdder, setShowResAdder] = useState(false);
+  const [showClAdder, setShowClAdder] = useState(false);
+  const [resumeDisplayFile, setResumeDisplayFile] = useState({});
+  const [coverLetterDisplayFile, setCoverLetterDisplayFile] = useState({});
 
   useEffect(() => {
     if (context.isAuthenticated && context.dbProfileState) {
@@ -69,12 +76,42 @@ export default function AppPage() {
           let clByteA = Object.keys(clData).map((key) => resumeData[key]);
           resBytea = new Uint8Array(resBytea);
           clByteA = new Uint8Array(clByteA);
-          setResumeBytea(resBytea);
-          setCoverLetterBytea(clByteA);
+          setByteaResume(resBytea);
+          setByteaCoverLetter(clByteA);
         })
         .catch((err) => console.log(err));
     }
   }, [context, id, newCareerNum]);
+
+  function getByteArray(file) {
+    return new Promise((acc, err) => {
+      const reader = new FileReader();
+      reader.onloadend = (event) => {
+        acc(event.target.result);
+      };
+      reader.onerror = (error) => {
+        err(error);
+      };
+      reader.readAsArrayBuffer(file);
+    });
+  }
+
+  async function setResumeFile(newFile) {
+    const arrayBuffer = await getByteArray(newFile[0]);
+    const bytea = new Uint8Array(arrayBuffer);
+    setNewByteaResume(bytea);
+    setResumeDisplayFile(newFile[0]);
+    console.log("new resume file:", newFile[0]);
+    console.log("array buffer:", arrayBuffer);
+    console.log("byte array:", bytea);
+  }
+
+  async function setCoverLetterFile(newFile) {
+    const arrayBuffer = await getByteArray(newFile[0]);
+    const bytea = new Uint8Array(arrayBuffer);
+    setNewByteaCoverLetter(bytea);
+    setCoverLetterDisplayFile(newFile[0]);
+  }
 
   function handleUpdateApp() {
     if (companyName.length === 0 || jobTitle.length === 0) {
@@ -147,14 +184,51 @@ export default function AppPage() {
             />
           </div>
         </div>
-      </div>
 
-      <PdfViewer byteData={resBytea} />
+        <div className="row">
+          <div className="col text-center">
+            {byteaResume ? (
+              <>
+                <PdfViewer byteData={byteaResume} type={"Resume"} />
+                {/* <button>Change Resume</button> */}
+              </>
+            ) : (
+              <>
+                <h3 className="text-center">This application has no resume</h3>
+                <Step4Resume
+                  setResumeFile={setResumeFile}
+                  resumeDisplayFile={resumeDisplayFile}
+                  setResumeDisplayFile={setResumeDisplayFile}
+                />
+              </>
+            )}
+          </div>
+          <div className="col text-center">
+            {byteaCoverLetter ? (
+              <>
+                <PdfViewer byteData={byteaCoverLetter} type={"Cover Letter"} />
+                {/* <button>Change Cover Letter</button> */}
+              </>
+            ) : (
+              <>
+                <h3 className="text-center">
+                  This application has no cover letter
+                </h3>
+                <Step5CoverLetter
+                  setCoverLetterFile={setCoverLetterFile}
+                  coverLetterDisplayFile={coverLetterDisplayFile}
+                  setCoverLetterDisplayFile={setCoverLetterDisplayFile}
+                />
+              </>
+            )}
+          </div>
+        </div>
+      </div>
 
       <Step6Tags setTags={setTags} value={tags} />
       <div className="step w-50">
         <button className="btn btn-success p-2" onClick={handleUpdateApp}>
-          Update
+          Save
         </button>
       </div>
     </div>

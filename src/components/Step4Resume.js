@@ -31,14 +31,10 @@ export default function Step4Resume({
     changePage(1);
   }
 
-  const pdfFormat = {
-    "application/pdf": [".pdf"],
-  };
-
   return (
     <div className="step w-md-75">
       <div className="d-flex align-items-center justify-content-center">
-        <h3>Resume</h3>
+        <h3>Add Resume</h3>
         {resumeDisplayFile.name && (
           <button
             className="btn btn-outline-success"

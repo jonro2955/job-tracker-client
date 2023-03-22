@@ -1,4 +1,8 @@
-In jobs page, filter jobs by career, tags
+In PdfViewer, the tags text area is not being populated. Next, wire up the updater functions.
+
+In the adder page, after a successful add operation, the user should be routed to the jobs page where they can see the new entry.
+
+In jobs page, filter jobs by career, and tags.
 
 Add post-application edit options for marking an app as interviewd, rejected, etc to make it marked as such in list search view
 
