@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import axios from "axios";
 import Context from "../utils/context";
-import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
+// import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
 // import "react-pdf/dist/esm/Page/TextLayer.css";
 // import "react-pdf/dist/esm/Page/AnnotationLayer.css";
-import BtnCareerSwitcher from "../components/BtnModalCareerSwitcher";
+import BtnModalCareerSwitcher from "../components/BtnModalCareerSwitcher";
 import Step1UrlDesc from "../components/Step1UrlDesc";
 import Step2NameTitle from "../components/Step2NameTitle";
 import Step3Notes from "../components/Step3Notes";
@@ -17,6 +18,7 @@ import PdfViewer from "../components/PdfViewer";
 export default function AppPage() {
   const { id } = useParams();
   const context = useContext(Context);
+  const navigate = useNavigate();
   const [postingURL, setPostingURL] = useState("");
   const [companyName, setCompanyName] = useState("");
   const [jobTitle, setJobTitle] = useState("");
@@ -37,6 +39,11 @@ export default function AppPage() {
   const [showClAdder, setShowClAdder] = useState(false);
   const [resumeDisplayFile, setResumeDisplayFile] = useState({});
   const [coverLetterDisplayFile, setCoverLetterDisplayFile] = useState({});
+  const [delModalOn, setDelModalOn] = useState(false);
+
+  function toggleDelModal() {
+    setDelModalOn(!delModalOn);
+  }
 
   useEffect(() => {
     if (context.isAuthenticated && context.dbProfileState) {
@@ -73,7 +80,7 @@ export default function AppPage() {
           const resumeData = JSON.parse(res.data.resume_file);
           const clData = JSON.parse(res.data.cover_letter_file);
           let resBytea = Object.keys(resumeData).map((key) => resumeData[key]);
-          let clByteA = Object.keys(clData).map((key) => resumeData[key]);
+          let clByteA = Object.keys(clData).map((key) => clData[key]);
           resBytea = new Uint8Array(resBytea);
           clByteA = new Uint8Array(clByteA);
           setByteaResume(resBytea);
@@ -132,6 +139,15 @@ export default function AppPage() {
     console.log(data);
   }
 
+  function handleDeleteApp() {
+    axios
+      .get("/api/get/deleteapp", { params: { id } })
+      .then((res) => {
+        navigate("/jobs");
+      })
+      .catch((err) => console.log(err));
+  }
+
   return (
     <div className="centeredPage">
       <h1>View/Edit This Application</h1>
@@ -157,7 +173,7 @@ export default function AppPage() {
           Career: {careersList[careerNum]}
           &nbsp; &nbsp;
         </h3>
-        <BtnCareerSwitcher
+        <BtnModalCareerSwitcher
           careersList={careersList}
           careerNum={careerNum}
           setCurrentCareerNum={setNewCareerNum}
@@ -188,10 +204,10 @@ export default function AppPage() {
         <div className="row">
           <div className="col text-center">
             {byteaResume ? (
-              <>
+              <div>
                 <PdfViewer byteData={byteaResume} type={"Resume"} />
                 {/* <button>Change Resume</button> */}
-              </>
+              </div>
             ) : (
               <>
                 <h3 className="text-center">This application has no resume</h3>
@@ -205,10 +221,10 @@ export default function AppPage() {
           </div>
           <div className="col text-center">
             {byteaCoverLetter ? (
-              <>
+              <div>
                 <PdfViewer byteData={byteaCoverLetter} type={"Cover Letter"} />
                 {/* <button>Change Cover Letter</button> */}
-              </>
+              </div>
             ) : (
               <>
                 <h3 className="text-center">
@@ -231,6 +247,21 @@ export default function AppPage() {
           Save
         </button>
       </div>
+      <button className="btn btn-warning p-2" onClick={toggleDelModal}>
+        Delete
+      </button>
+      <Modal isOpen={delModalOn} toggle={toggleDelModal}>
+        <ModalHeader toggle={toggleDelModal}>Confirm Delete</ModalHeader>
+        <ModalBody>Are you sure you want to delete this application?</ModalBody>
+        <ModalFooter>
+          <Button color="primary" onClick={handleDeleteApp}>
+            Yes
+          </Button>
+          <Button color="warning" onClick={toggleDelModal}>
+            No
+          </Button>
+        </ModalFooter>
+      </Modal>
     </div>
   );
 }

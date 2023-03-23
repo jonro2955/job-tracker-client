@@ -1,6 +1,6 @@
-In PdfViewer, the tags text area is not being populated. Next, wire up the updater functions.
-
-In the adder page, after a successful add operation, the user should be routed to the jobs page where they can see the new entry.
+ViewPage: 
+-the tags text area is not being populated
+-wire up the updater functions
 
 In jobs page, filter jobs by career, and tags.
 

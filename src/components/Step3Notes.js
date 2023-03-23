@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useRef } from "react";
-import { Button, Popover, PopoverHeader, PopoverBody } from "reactstrap";
+import { Button, Badge, Popover, PopoverHeader, PopoverBody } from "reactstrap";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 // https://codesandbox.io/s/react-quill-multiple-editor-gttvm?file=/src/App.js:351-359
@@ -132,10 +132,14 @@ export default function Step3Notes({ id, value, onChange }) {
 
   return (
     <div className="step">
-      <h3 id="step4Heading">Application Notes</h3>
-      <Button id="Popover1" type="button">
-        Tips
-      </Button>
+      <div>
+        <h3 id="step4Heading">
+          Notes{" "}
+          <Badge id="Popover1" color="primary">
+            i
+          </Badge>
+        </h3>
+      </div>
       <Popover
         isOpen={popoverOpen}
         target="Popover1"
@@ -149,7 +153,6 @@ export default function Step3Notes({ id, value, onChange }) {
           Notes to include (now or later)
         </PopoverHeader> */}
         <PopoverBody>
-          What kinds of notes to include?
           <ul>
             <li>Application trivia</li>
             <li>Web links</li>

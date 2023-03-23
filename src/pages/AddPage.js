@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Context from "../utils/context";
 import BtnCareerRenamer from "../components/BtnModalCareerRenamer";
@@ -15,6 +15,7 @@ import Step7Date from "../components/Step7Date";
 
 export default function AddPage() {
   const context = useContext(Context);
+  const navigate = useNavigate();
   const [data, setData] = useState(JSON.parse(useParams().data));
   // console.log(data);
   const [currentCareerNum, setCurrentCareerNum] = useState(0);
@@ -99,10 +100,10 @@ export default function AddPage() {
           console.log(`Saved to public demonstration database.`);
         }
         clearForm();
+        navigate("/jobs");
       })
       .catch((err) => {
         console.log(err);
-        alert("Not saved. Error: Website under development");
       });
   }
 
@@ -111,7 +112,7 @@ export default function AddPage() {
     setJobDescription("");
     setCompanyName("");
     setJobTitle("");
-    setData({company:"", title: ""});
+    setData({ company: "", title: "" });
     setJobNotes("");
     setByteaResume([]);
     setByteaCoverLetter([]);
@@ -120,7 +121,7 @@ export default function AddPage() {
     nodeListConvertedToArray.forEach((input) => {
       input.value = "";
     });
-    document.querySelector(".step2").style.color = "initial";
+    // document.querySelector(".step2").style.color = "initial";
   }
 
   return (

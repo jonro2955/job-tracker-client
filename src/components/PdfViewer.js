@@ -11,10 +11,9 @@ below the pdf.
 */
 
 export default function PdfViewer({ byteData, type }) {
-  if (byteData) console.log(byteData);
   const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
-  const [show, setShow] = useState(true);
+  const [show] = useState(true);
 
   function onDocumentLoadSuccess({ numPages }) {
     setNumPages(numPages);
@@ -36,7 +35,7 @@ export default function PdfViewer({ byteData, type }) {
   // Memoize the documents with useMemo
   const pdfDocument = useMemo(
     () => (
-      <div>
+      <div className="pdfViewer">
         <Document
           file={{ data: byteData }}
           onLoadSuccess={onDocumentLoadSuccess}

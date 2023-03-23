@@ -11,6 +11,7 @@ export default function Step6Tags({ tags, setTags }) {
         // value={tags}
         onChange={(e) => {
           setTags(e.target.value);
+          console.log(e.target.value.split(","));
         }}
       />
     </div>

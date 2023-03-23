@@ -157,7 +157,7 @@ export default function Step1UrlDesc({
         }}
       />
       {/* Job description input*/}
-      <h3>Posting Description</h3>
+      <h3>Job Description</h3>
       <div className="text-editor">
         {CustomToolbar(id)}
         <ReactQuill
