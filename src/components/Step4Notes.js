@@ -1,14 +1,9 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useRef } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 // https://codesandbox.io/s/react-quill-multiple-editor-gttvm?file=/src/App.js:351-359
 
-/* 
-This component will render the inputs for the posting URL and the job description.
-The job description input will use the react-quill rich text editor.
-*/
-
-/* // For react-quill, custom svgs are needed as the default icons don't always work
+/* // Custom svg needed as the default icon doesn't always work
 const CustomUndoIcon = () => (
   <svg viewBox="0 0 18 18">
     <polygon className="ql-fill ql-stroke" points="6 10 4 12 2 10 6 10" />
@@ -29,8 +24,7 @@ const CustomRedoIcon = () => (
   </svg>
 );
  */
-
-// Custom undo and redo functions for Custom Toolbar
+// Undo and redo functions for Custom Toolbar
 function undoChange() {
   this.quill.history.undo();
 }
@@ -38,14 +32,8 @@ function redoChange() {
   this.quill.history.redo();
 }
 
-export default function Step1UrlDesc({
-  id,
-  value,
-  url,
-  setJobDescription,
-  setPostingURL,
-}) {
-  const quillRef = React.useRef();
+export default function Step4Notes({ id, value, onChange }) {
+  const quillRef = useRef();
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewContent, setPreviewContent] = useState("");
 
@@ -64,6 +52,7 @@ export default function Step1UrlDesc({
         <button className="ql-bold" />
         <button className="ql-italic" />
         <button className="ql-underline" />
+        <select className="ql-color" />
         <select className="ql-align" />
         <button className="ql-list" value="bullet" />
         <button className="ql-list" value="ordered" />
@@ -72,7 +61,6 @@ export default function Step1UrlDesc({
         <button className="ql-link" />
         <button className="ql-clean" />
       </span>
-
       {/* <span className="ql-formats">
         <select className="ql-color" />
         <select className="ql-background" />
@@ -142,22 +130,10 @@ export default function Step1UrlDesc({
   ];
 
   return (
-    <div className="step d-flex flex-column">
-      {/* Posting URL input*/}
-      <h3 id="step1Heading">Posting URL</h3>
-      <input
-        id="jobPostingURL"
-        name="jobPostingURL"
-        className="form-control"
-        type="url"
-        value={url}
-        title="Job Posting URL"
-        onChange={(e) => {
-          setPostingURL(e.target.value);
-        }}
-      />
-      {/* Job description input*/}
-      <h3>Job Description</h3>
+    <div className="step">
+      <div>
+        <h3 id="step4Heading">Notes</h3>
+      </div>
       <div className="text-editor">
         {CustomToolbar(id)}
         <ReactQuill
@@ -165,14 +141,13 @@ export default function Step1UrlDesc({
           style={{
             backgroundColor: "white",
             minHeight: "150px",
-            maxHeight: "900px",
+            maxHeight: "770px",
             overflowY: "auto",
           }}
-          className="step3Desc"
           theme="snow"
           // defaultValue={value}
           value={value}
-          onChange={setJobDescription}
+          onChange={onChange}
           modules={quillModules}
           formats={quillFormats}
         />

@@ -1,10 +1,13 @@
-ViewPage: 
--the tags text area is not being populated
--wire up the updater functions
+AddPAge:
+-a pdf does not get added when there is only one (resume but no cl, vice versa)
 
-In jobs page, filter jobs by career, and tags.
+ViewPage:
+-wire up the save/updater button
+-Add edit options for marking an app as interviewd, rejected, etc and make it marked as such in jobsPage search view
 
-Add post-application edit options for marking an app as interviewd, rejected, etc to make it marked as such in list search view
+JobsPage:
+-if there are no applications, display a message saying that there aren't any yet, and to click the create button to create one.
+-filter jobs by career and tags
 
 On authentication, if the user is not already in the database, add the user to the database with a default career list
 
@@ -12,7 +15,9 @@ When implementing career deletion functionality, make sure that the current care
 
 Dark mode.
 
-Set up demonstration mode for when no one is signed in.
+Super modern front end design.
+
+Demonstration mode for when no one is signed in.
 
 On startup, the search page should list entries saved as the demo account.
 

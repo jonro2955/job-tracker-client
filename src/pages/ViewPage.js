@@ -7,12 +7,13 @@ import Context from "../utils/context";
 // import "react-pdf/dist/esm/Page/TextLayer.css";
 // import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import BtnModalCareerSwitcher from "../components/BtnModalCareerSwitcher";
-import Step1UrlDesc from "../components/Step1UrlDesc";
-import Step2NameTitle from "../components/Step2NameTitle";
-import Step3Notes from "../components/Step3Notes";
-import Step4Resume from "../components/Step4Resume";
-import Step5CoverLetter from "../components/Step5CoverLetter";
-import Step6Tags from "../components/Step6Tags";
+import Step1CompAndTitle from "../components/Step1CompAndTitle";
+import Step2URL from "../components/Step2URL";
+import Step3Desc from "../components/Step3Desc";
+import Step4Notes from "../components/Step4Notes";
+import Step5Resume from "../components/Step5Resume";
+import Step6CoverLetter from "../components/Step6CoverLetter";
+import Step7Tags from "../components/Step7Tags";
 import PdfViewer from "../components/PdfViewer";
 
 export default function AppPage() {
@@ -34,7 +35,6 @@ export default function AppPage() {
   const [byteaCoverLetter, setByteaCoverLetter] = useState();
   const [newByteaResume, setNewByteaResume] = useState();
   const [newByteaCoverLetter, setNewByteaCoverLetter] = useState();
-
   const [showResAdder, setShowResAdder] = useState(false);
   const [showClAdder, setShowClAdder] = useState(false);
   const [resumeDisplayFile, setResumeDisplayFile] = useState({});
@@ -60,7 +60,7 @@ export default function AppPage() {
           setJobTitle(res.data.job_title);
           setJobDescription(res.data.job_description);
           setJobNotes(res.data.job_notes);
-          setTags(String(res.data.tags));
+          setTags(res.data.tags.toString());
           setCareerNum(
             newCareerNum >= 0
               ? newCareerNum
@@ -128,13 +128,15 @@ export default function AppPage() {
     }
     const data = {
       username: context.isAuthenticated ? context.user.email : "demoUser",
+      careerName: careersList[careerNum],
+
       postingURL: postingURL,
       companyName: companyName,
-      jobDescription: jobDescription.toString("html"),
       jobTitle: jobTitle,
+
+      jobDescription: jobDescription.toString("html"),
       jobNotes: jobNotes.toString("html"),
       tags: tags.split(","),
-      careerName: careersList[careerNum],
     };
     console.log(data);
   }
@@ -151,7 +153,7 @@ export default function AppPage() {
   return (
     <div className="centeredPage">
       <h1>View/Edit This Application</h1>
-      <Step2NameTitle
+      <Step1CompAndTitle
         setCompanyName={setCompanyName}
         setJobTitle={setJobTitle}
         data={{
@@ -183,17 +185,17 @@ export default function AppPage() {
       <div className="container">
         <div className="row">
           <div className="col">
-            <Step1UrlDesc
+            <Step3Desc
               id="step3editor"
               name="step3editor"
-              value={jobDescription}
+              jobDescription={jobDescription}
               url={postingURL}
               setPostingURL={setPostingURL}
               setJobDescription={setJobDescription}
             />
           </div>
           <div className="col">
-            <Step3Notes
+            <Step4Notes
               id="step4editor"
               value={jobNotes}
               onChange={setJobNotes}
@@ -211,7 +213,7 @@ export default function AppPage() {
             ) : (
               <>
                 <h3 className="text-center">This application has no resume</h3>
-                <Step4Resume
+                <Step5Resume
                   setResumeFile={setResumeFile}
                   resumeDisplayFile={resumeDisplayFile}
                   setResumeDisplayFile={setResumeDisplayFile}
@@ -230,7 +232,7 @@ export default function AppPage() {
                 <h3 className="text-center">
                   This application has no cover letter
                 </h3>
-                <Step5CoverLetter
+                <Step6CoverLetter
                   setCoverLetterFile={setCoverLetterFile}
                   coverLetterDisplayFile={coverLetterDisplayFile}
                   setCoverLetterDisplayFile={setCoverLetterDisplayFile}
@@ -241,7 +243,7 @@ export default function AppPage() {
         </div>
       </div>
 
-      <Step6Tags setTags={setTags} value={tags} />
+      <Step7Tags setTags={setTags} value={tags} />
       <div className="step w-50">
         <button className="btn btn-success p-2" onClick={handleUpdateApp}>
           Save
@@ -254,7 +256,12 @@ export default function AppPage() {
         <ModalHeader toggle={toggleDelModal}>Confirm Delete</ModalHeader>
         <ModalBody>Are you sure you want to delete this application?</ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={handleDeleteApp}>
+          <Button
+            color="primary"
+            onClick={() => {
+              handleDeleteApp();
+            }}
+          >
             Yes
           </Button>
           <Button color="warning" onClick={toggleDelModal}>

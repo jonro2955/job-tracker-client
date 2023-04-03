@@ -3,11 +3,13 @@ import Dropzone from "react-dropzone";
 import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
+// https://react-dropzone.js.org/#section-examples
+// https://github.com/wojtekmaj/react-pdf
 
-export default function Step5CoverLetter({
-  setCoverLetterFile,
-  coverLetterDisplayFile,
-  setCoverLetterDisplayFile,
+export default function Step5Resume({
+  setResumeFile,
+  resumeDisplayFile,
+  setResumeDisplayFile,
 }) {
   const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
@@ -29,20 +31,16 @@ export default function Step5CoverLetter({
     changePage(1);
   }
 
-  const pdfFormat = {
-    "application/pdf": [".pdf"],
-  };
-
   return (
-    <div className="step w-md-75">
+    <div className="step">
       <div className="d-flex align-items-center justify-content-center">
-        <h3>Add Cover Letter</h3>
-        {coverLetterDisplayFile.name && (
+        <h3>Add Resume</h3>
+        {resumeDisplayFile.name && (
           <button
             className="btn btn-outline-success"
             onClick={() => {
-              setCoverLetterDisplayFile({
-                url: "http://example.com/sample.pdf",
+              setResumeDisplayFile({
+                url: "http://example.com/",
               });
               setNumPages(null);
             }}
@@ -56,31 +54,31 @@ export default function Step5CoverLetter({
         accept={{
           "application/pdf": [".pdf"],
         }}
-        onDrop={setCoverLetterFile}
+        onDrop={setResumeFile}
       >
         {({ getRootProps, getInputProps }) => (
           <section>
             <div {...getRootProps({ className: "dropzone" })}>
               <input {...getInputProps()} />
-              {coverLetterDisplayFile.name ? (
+              {resumeDisplayFile.name ? (
                 <div>
                   <span className="text-primary">
-                    <strong>{coverLetterDisplayFile.name}</strong>{" "}
-                    {coverLetterDisplayFile.size} bytes{" "}
+                    <strong>{resumeDisplayFile.name}</strong>{" "}
+                    {resumeDisplayFile.size} bytes{" "}
                   </span>
                 </div>
               ) : (
-                <strong>Drag & drop or select a PDF</strong>
+                <strong>Drag & drop or select a PDF.</strong>
               )}
             </div>
             <Document
-              file={coverLetterDisplayFile}
+              file={resumeDisplayFile}
               onLoadSuccess={onDocumentLoadSuccess}
               loading=""
               noData=""
               error=""
             >
-              <Page pageNumber={pageNumber} />
+              <Page pageNumber={pageNumber}/>
             </Document>
             {numPages && (
               <p>

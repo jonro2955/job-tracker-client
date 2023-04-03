@@ -23,7 +23,7 @@
     "react-quill": "^2.0.0",
     "react-router": "latest",
     "react-router-dom": "^6.4.3",
-    "react-scripts": "latest",
+    "react-scripts": "^5.0.1",
     "reactstrap": "^9.1.5"
   },
   "scripts": {

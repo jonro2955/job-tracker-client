@@ -5,13 +5,14 @@ import Context from "../utils/context";
 import BtnCareerRenamer from "../components/BtnModalCareerRenamer";
 import BtnCareerSwitcher from "../components/BtnModalCareerSwitcher";
 import BtnCareerAdder from "../components/BtnModalCareerAdder";
-import Step1UrlDesc from "../components/Step1UrlDesc";
-import Step2NameTitle from "../components/Step2NameTitle";
-import Step3Notes from "../components/Step3Notes";
-import Step4Resume from "../components/Step4Resume";
-import Step5CoverLetter from "../components/Step5CoverLetter";
-import Step6Tags from "../components/Step6Tags";
-import Step7Date from "../components/Step7Date";
+import Step1CompAndTitle from "../components/Step1CompAndTitle";
+import Step2URL from "../components/Step2URL";
+import Step3Desc from "../components/Step3Desc";
+import Step4Notes from "../components/Step4Notes";
+import Step5Resume from "../components/Step5Resume";
+import Step6CoverLetter from "../components/Step6CoverLetter";
+import Step7Tags from "../components/Step7Tags";
+import Step8Date from "../components/Step8Date";
 
 export default function AddPage() {
   const context = useContext(Context);
@@ -58,9 +59,9 @@ export default function AddPage() {
     const bytea = new Uint8Array(arrayBuffer);
     setByteaResume(bytea);
     setResumeDisplayFile(newFile[0]);
-    console.log("new resume file:", newFile[0]);
-    console.log("array buffer:", arrayBuffer);
-    console.log("byte array:", bytea);
+    // console.log("new resume file:", newFile[0]);
+    // console.log("array buffer:", arrayBuffer);
+    // console.log("byte array:", bytea);
   }
 
   async function setCoverLetterFile(newFile) {
@@ -93,7 +94,7 @@ export default function AddPage() {
     axios
       .post("/api/post/postapp", data)
       .then((res) => {
-        console.log("/api/post/postapp", res);
+        // console.log("/api/post/postapp", res);
         if (context.isAuthenticated) {
           console.log(`Saved to user ${context.user.email}'s database.`);
         } else {
@@ -150,49 +151,48 @@ export default function AddPage() {
       </div>
       <div className="container">
         <div className="row">
+          <Step1CompAndTitle
+            setCompanyName={setCompanyName}
+            setJobTitle={setJobTitle}
+            data={data}
+          />
+          <Step2URL postingURL={postingURL} setPostingURL={setPostingURL} />
+        </div>
+        <div className="row">
           <div className="col">
-            <Step1UrlDesc
+            <Step3Desc
               id="step3editor"
-              name="step3editor"
-              value={jobDescription}
-              setPostingURL={setPostingURL}
+              jobDescription={jobDescription}
               setJobDescription={setJobDescription}
             />
           </div>
           <div className="col">
-            <Step2NameTitle
-              setCompanyName={setCompanyName}
-              setJobTitle={setJobTitle}
-              data={data}
-            />
-            <Step3Notes
+            <Step4Notes
               id="step4editor"
               value={jobNotes}
               onChange={setJobNotes}
             />
           </div>
         </div>
-      </div>
-      <div className="container">
         <div className="row">
           <div className="col">
-            <Step4Resume
+            <Step5Resume
               setResumeFile={setResumeFile}
               resumeDisplayFile={resumeDisplayFile}
               setResumeDisplayFile={setResumeDisplayFile}
             />
           </div>
           <div className="col">
-            <Step5CoverLetter
+            <Step6CoverLetter
               setCoverLetterFile={setCoverLetterFile}
               coverLetterDisplayFile={coverLetterDisplayFile}
               setCoverLetterDisplayFile={setCoverLetterDisplayFile}
             />
           </div>
         </div>
+        <Step7Tags setTags={setTags} />
       </div>
-      <Step6Tags setTags={setTags} />
-      <Step7Date subDate={subDate} setSubDate={setSubDate} />
+      <Step8Date subDate={subDate} setSubDate={setSubDate} />
       <div className="step w-50">
         <button className="btn btn-success p-2" onClick={handleSaveApp}>
           Save

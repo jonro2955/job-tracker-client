@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
 
 /* https://stackoverflow.com/questions/74407162/memoize-api-response 
@@ -13,11 +13,10 @@ below the pdf.
 export default function PdfViewer({ byteData, type }) {
   const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
-  const [show] = useState(true);
 
   function onDocumentLoadSuccess({ numPages }) {
     setNumPages(numPages);
-    setPageNumber(1);
+    setPageNumber(pageNumber);
   }
 
   function changePage(offset) {
@@ -32,42 +31,37 @@ export default function PdfViewer({ byteData, type }) {
     changePage(1);
   }
 
-  // Memoize the documents with useMemo
-  const pdfDocument = useMemo(
-    () => (
-      <div className="pdfViewer">
-        <Document
-          file={{ data: byteData }}
-          onLoadSuccess={onDocumentLoadSuccess}
-          loading=""
-        >
-          <Page pageNumber={pageNumber} />
-        </Document>
-        {numPages > 1 && (
-          <>
-            <p>
-              Page {pageNumber} of {numPages}
-            </p>
-            <button
-              type="button"
-              disabled={pageNumber <= 1}
-              onClick={previousPage}
-            >
-              Previous
-            </button>
-            <button
-              type="button"
-              disabled={pageNumber >= numPages}
-              onClick={nextPage}
-            >
-              Next
-            </button>
-          </>
-        )}
-      </div>
-    ),
-    [show]
+  const pdf = (pageNum) => (
+    <div className="pdfViewer">
+      <Document
+        file={{ data: byteData }}
+        onLoadSuccess={onDocumentLoadSuccess}
+        loading=""
+      >
+        <Page pageNumber={pageNum} />
+      </Document>
+      {numPages > 1 && (
+        <section>
+          <p>
+            Page {pageNum} of {numPages}
+          </p>
+          <button type="button" disabled={pageNum <= 1} onClick={previousPage}>
+            Previous
+          </button>
+          <button
+            type="button"
+            disabled={pageNum >= numPages}
+            onClick={nextPage}
+          >
+            Next
+          </button>
+        </section>
+      )}
+    </div>
   );
+
+  // Memoize the documents with useMemo
+  const pdfDocument = useMemo(() => pdf(pageNumber), [numPages, pageNumber]);
 
   return (
     <>
