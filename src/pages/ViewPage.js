@@ -74,21 +74,37 @@ export default function AppPage() {
           setElapsedDays(elapsed);
 
           // res.data.resume_file and res.data.cover_letter_file comes in as strings
-          // like: '{"0":13, "1":74, "2":266, "3":23, "4":80, ...}' so we need to
-          // JSON.parse it into an object, then turn it into an array using
-          // Object.keys() then into a Uint8Array, like this:
-          const resumeData = JSON.parse(res.data.resume_file);
-          const clData = JSON.parse(res.data.cover_letter_file);
-          let resBytea = Object.keys(resumeData).map((key) => resumeData[key]);
-          let clByteA = Object.keys(clData).map((key) => clData[key]);
-          resBytea = new Uint8Array(resBytea);
-          clByteA = new Uint8Array(clByteA);
-          setByteaResume(resBytea);
-          setByteaCoverLetter(clByteA);
+          // like: '{"0":13, "1":74, "2":266, "3":23, "4":80, ...}' 
+          // console.log(res.data.resume_file);
+          // console.log(res.data.cover_letter_file);
+          // so we need to JSON.parse it into an object, then turn it into an array 
+          // using Object.keys() then into a Uint8Array:
+
+          if(res.data.resume_file){
+            const resumeData = JSON.parse(res.data.resume_file);
+            let resBytea = Object.keys(resumeData).map((key) => resumeData[key]);
+            resBytea = new Uint8Array(resBytea);
+            setByteaResume(resBytea);
+          }
+
+          if(res.data.cover_letter_file){
+            const clData = JSON.parse(res.data.cover_letter_file);
+            let clByteA = Object.keys(clData).map((key) => clData[key]);
+            clByteA = new Uint8Array(clByteA);
+            setByteaCoverLetter(clByteA);
+          }
+
+
         })
         .catch((err) => console.log(err));
     }
   }, [context, id, newCareerNum]);
+
+  useEffect(()=>{
+    if(byteaResume){
+      // console.log(byteaResume);
+    }
+  },[byteaResume])
 
   function getByteArray(file) {
     return new Promise((acc, err) => {
@@ -205,21 +221,12 @@ export default function AppPage() {
 
         <div className="row">
           <div className="col text-center">
-            {byteaResume ? (
+            {byteaResume &&
               <div>
                 <PdfViewer byteData={byteaResume} type={"Resume"} />
                 {/* <button>Change Resume</button> */}
               </div>
-            ) : (
-              <>
-                <h3 className="text-center">This application has no resume</h3>
-                <Step5Resume
-                  setResumeFile={setResumeFile}
-                  resumeDisplayFile={resumeDisplayFile}
-                  setResumeDisplayFile={setResumeDisplayFile}
-                />
-              </>
-            )}
+            }
           </div>
           <div className="col text-center">
             {byteaCoverLetter ? (
