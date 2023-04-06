@@ -73,38 +73,62 @@ export default function AppPage() {
           setAppDate(appDate);
           setElapsedDays(elapsed);
 
-          // res.data.resume_file and res.data.cover_letter_file comes in as strings
-          // like: '{"0":13, "1":74, "2":266, "3":23, "4":80, ...}' 
-          // console.log(res.data.resume_file);
-          // console.log(res.data.cover_letter_file);
-          // so we need to JSON.parse it into an object, then turn it into an array 
-          // using Object.keys() then into a Uint8Array:
+          /* Postgres BYTEA data:
+          The 2 BYTE ARRAY data items (res.data.resume_file and res.data.cover_letter_file) 
+          comes in as strings like: '{"0":13, "1":74, "2":266, "3":23, "4":80, ...}'
+          so we need to JSON.parse them into objects, then turn them into arrays
+          using Object.keys(), then into a Uint8Array. Note that if resume_file is 
+          undefined, Object.keys() will generate an error which prevents it from
+          arrayifying the cover_letter_file too. */
 
-          if(res.data.resume_file){
-            const resumeData = JSON.parse(res.data.resume_file);
-            let resBytea = Object.keys(resumeData).map((key) => resumeData[key]);
-            resBytea = new Uint8Array(resBytea);
-            setByteaResume(resBytea);
+          if (res.data.resume_file) {
+            const resData = JSON.parse(res.data.resume_file);
+            let resBytea = Object.keys(resData).map((key) => resData[key]);
+            if (resBytea.length) {
+              resBytea = new Uint8Array(resBytea);
+              setByteaResume(resBytea);
+            }
+          } else {
+            setByteaResume(new Uint8Array([0]));
           }
 
-          if(res.data.cover_letter_file){
+          if (res.data.cover_letter_file) {
             const clData = JSON.parse(res.data.cover_letter_file);
             let clByteA = Object.keys(clData).map((key) => clData[key]);
-            clByteA = new Uint8Array(clByteA);
-            setByteaCoverLetter(clByteA);
+            if (clByteA.length) {
+              clByteA = new Uint8Array(clByteA);
+              setByteaCoverLetter(clByteA);
+            }
+          } else {
+            setByteaCoverLetter(new Uint8Array([0]));
           }
-
-
         })
         .catch((err) => console.log(err));
     }
   }, [context, id, newCareerNum]);
 
-  useEffect(()=>{
-    if(byteaResume){
-      // console.log(byteaResume);
+  function handleUpdateApp() {
+    if (companyName.length === 0 || jobTitle.length === 0) {
+      document.querySelector(".step2").style.color = "red";
+      alert("Save unsuccessful. Required data is missing.");
+      return;
     }
-  },[byteaResume])
+    const data = {
+      appId: id,
+      username: context.isAuthenticated ? context.user.email : "demoUser",
+      postingURL: postingURL,
+      companyName: companyName,
+      jobDescription: jobDescription.toString("html"),
+      jobTitle: jobTitle,
+      jobNotes: jobNotes.toString("html"),
+      resumeFile: newByteaResume ? newByteaResume : byteaResume,
+      coverLetterFile: newByteaCoverLetter ? newByteaCoverLetter : byteaCoverLetter,
+      tags: tags.split(","),
+      careerName: careersList[careerNum],
+      // applicationDate: String(subDate),
+    };
+    console.log(data);
+  }
 
   function getByteArray(file) {
     return new Promise((acc, err) => {
@@ -124,9 +148,9 @@ export default function AppPage() {
     const bytea = new Uint8Array(arrayBuffer);
     setNewByteaResume(bytea);
     setResumeDisplayFile(newFile[0]);
-    console.log("new resume file:", newFile[0]);
-    console.log("array buffer:", arrayBuffer);
-    console.log("byte array:", bytea);
+    console.log("new resume file:", bytea);
+    // console.log("array buffer:", arrayBuffer);
+    // console.log("byte array:", bytea);
   }
 
   async function setCoverLetterFile(newFile) {
@@ -134,27 +158,6 @@ export default function AppPage() {
     const bytea = new Uint8Array(arrayBuffer);
     setNewByteaCoverLetter(bytea);
     setCoverLetterDisplayFile(newFile[0]);
-  }
-
-  function handleUpdateApp() {
-    if (companyName.length === 0 || jobTitle.length === 0) {
-      document.querySelector(".step2").style.color = "red";
-      alert("Save unsuccessful. Required data is missing.");
-      return;
-    }
-    const data = {
-      username: context.isAuthenticated ? context.user.email : "demoUser",
-      careerName: careersList[careerNum],
-
-      postingURL: postingURL,
-      companyName: companyName,
-      jobTitle: jobTitle,
-
-      jobDescription: jobDescription.toString("html"),
-      jobNotes: jobNotes.toString("html"),
-      tags: tags.split(","),
-    };
-    console.log(data);
   }
 
   function handleDeleteApp() {
@@ -197,16 +200,13 @@ export default function AppPage() {
           setCurrentCareerNum={setNewCareerNum}
         />
       </span>
-
       <div className="container">
         <div className="row">
+          <Step2URL postingURL={postingURL} setPostingURL={setPostingURL} />
           <div className="col">
             <Step3Desc
               id="step3editor"
-              name="step3editor"
               jobDescription={jobDescription}
-              url={postingURL}
-              setPostingURL={setPostingURL}
               setJobDescription={setJobDescription}
             />
           </div>
@@ -221,36 +221,50 @@ export default function AppPage() {
 
         <div className="row">
           <div className="col text-center">
-            {byteaResume &&
+            {byteaResume && byteaResume.length > 1 ? (
               <div>
                 <PdfViewer byteData={byteaResume} type={"Resume"} />
-                {/* <button>Change Resume</button> */}
-              </div>
-            }
-          </div>
-          <div className="col text-center">
-            {byteaCoverLetter ? (
-              <div>
-                <PdfViewer byteData={byteaCoverLetter} type={"Cover Letter"} />
-                {/* <button>Change Cover Letter</button> */}
               </div>
             ) : (
-              <>
+              <div>
+                <h3 className="text-center">This application has no Resume</h3>
+              </div>
+            )}
+          </div>
+          <div className="col text-center">
+            {byteaCoverLetter && byteaCoverLetter.length > 1 ? (
+              <div>
+                <PdfViewer byteData={byteaCoverLetter} type={"Cover Letter"} />
+              </div>
+            ) : (
+              <div>
                 <h3 className="text-center">
                   This application has no cover letter
                 </h3>
-                <Step6CoverLetter
-                  setCoverLetterFile={setCoverLetterFile}
-                  coverLetterDisplayFile={coverLetterDisplayFile}
-                  setCoverLetterDisplayFile={setCoverLetterDisplayFile}
-                />
-              </>
+              </div>
             )}
           </div>
         </div>
+        <div className="row">
+          <div className="col text-center">
+            <Step5Resume
+              setResumeFile={setResumeFile}
+              resumeDisplayFile={resumeDisplayFile}
+              setResumeDisplayFile={setResumeDisplayFile}
+            />
+          </div>
+          <div className="col text-center">
+            <Step6CoverLetter
+              setCoverLetterFile={setCoverLetterFile}
+              coverLetterDisplayFile={coverLetterDisplayFile}
+              setCoverLetterDisplayFile={setCoverLetterDisplayFile}
+            />
+          </div>
+        </div>
+        <div className="row">
+          <Step7Tags setTags={setTags} value={tags} />
+        </div>
       </div>
-
-      <Step7Tags setTags={setTags} value={tags} />
       <div className="step w-50">
         <button className="btn btn-success p-2" onClick={handleUpdateApp}>
           Save

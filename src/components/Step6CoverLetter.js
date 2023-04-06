@@ -38,7 +38,7 @@ export default function Step5CoverLetter({
   return (
     <div className="step" id="clElement">
       <div className="d-flex align-items-center justify-content-center">
-        <h3>Add Cover Letter</h3>
+        <h3>Add/Change Cover Letter</h3>
         {coverLetterDisplayFile.name && (
           <button
             className="btn btn-outline-success"

@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { useState, useContext } from "react";
 import Context from "../utils/context";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
@@ -72,9 +71,6 @@ export default function BtnCareerSwitcher({
                 </div>
               );
             })}
-            <div className="text-center">
-              <Link to="/home">How to delete a career</Link>
-            </div>
           </ModalBody>
           <ModalFooter>
             <Button color="primary" onClick={toggleModal}>

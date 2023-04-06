@@ -34,7 +34,7 @@ export default function Step5Resume({
   return (
     <div className="step">
       <div className="d-flex align-items-center justify-content-center">
-        <h3>Add Resume</h3>
+        <h3>Add/Change Resume</h3>
         {resumeDisplayFile.name && (
           <button
             className="btn btn-outline-success"
@@ -42,6 +42,7 @@ export default function Step5Resume({
               setResumeDisplayFile({
                 url: "http://example.com/",
               });
+              setResumeFile([new Blob([])])
               setNumPages(null);
             }}
           >
@@ -68,7 +69,7 @@ export default function Step5Resume({
                   </span>
                 </div>
               ) : (
-                <strong>Drag & drop or select a PDF.</strong>
+                <strong>Drag & drop or select a PDF</strong>
               )}
             </div>
             <Document

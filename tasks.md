@@ -1,9 +1,9 @@
 AddPAge:
--a pdf does not get added when there is only one (resume but no cl, vice versa)
 
 ViewPage:
--wire up the save/updater button
--Add edit options for marking an app as interviewd, rejected, etc and make it marked as such in jobsPage search view
+-use two states for resume/coverletter to separate the view and stored data when there is a new file 
+-wire up the save/updater button https://stackoverflow.com/questions/48909917/update-value-only-if-changed-in-sql
+
 
 JobsPage:
 -if there are no applications, display a message saying that there aren't any yet, and to click the create button to create one.

@@ -3,6 +3,7 @@ export default function Step6Tags({ setTags, value }) {
     <div className="step">
       <strong>Tags Separated By Commas</strong>
       <input
+        style={{ textAlign: "center" }}
         id="jobTags"
         name="jobTags"
         className="form-control"
