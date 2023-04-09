@@ -94,17 +94,16 @@ export default function AddPage() {
     axios
       .post("/api/post/postapp", data)
       .then((res) => {
-        // console.log("/api/post/postapp", res);
         if (context.isAuthenticated) {
           console.log(`Saved to user ${context.user.email}'s database.`);
         } else {
           console.log(`Saved to public demonstration database.`);
         }
-        clearForm();
         navigate("/jobs");
       })
       .catch((err) => {
         console.log(err);
+        alert(err);
       });
   }
 

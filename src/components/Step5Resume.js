@@ -34,7 +34,7 @@ export default function Step5Resume({
   return (
     <div className="step">
       <div className="d-flex align-items-center justify-content-center">
-        <h3>Add/Change Resume</h3>
+        <h3>Add/change resume</h3>
         {resumeDisplayFile.name && (
           <button
             className="btn btn-outline-success"

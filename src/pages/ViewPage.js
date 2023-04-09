@@ -54,7 +54,7 @@ export default function AppPage() {
       axios
         .get("/api/get/app", { params: { id } })
         .then((res) => {
-          // console.log(res.data);
+          console.log(res.data);
           setPostingURL(res.data.posting_url);
           setCompanyName(res.data.company_name);
           setJobTitle(res.data.job_title);
@@ -115,19 +115,35 @@ export default function AppPage() {
     }
     const data = {
       appId: id,
-      username: context.isAuthenticated ? context.user.email : "demoUser",
       postingURL: postingURL,
       companyName: companyName,
-      jobDescription: jobDescription.toString("html"),
       jobTitle: jobTitle,
+      jobDescription: jobDescription.toString("html"),
       jobNotes: jobNotes.toString("html"),
       resumeFile: newByteaResume ? newByteaResume : byteaResume,
-      coverLetterFile: newByteaCoverLetter ? newByteaCoverLetter : byteaCoverLetter,
+      coverLetterFile: newByteaCoverLetter
+        ? newByteaCoverLetter
+        : byteaCoverLetter,
       tags: tags.split(","),
       careerName: careersList[careerNum],
-      // applicationDate: String(subDate),
+      username: context.isAuthenticated ? context.user.email : "demoUser",
+      applicationDate: String(appDate),
     };
     console.log(data);
+    axios
+      .put("/api/put/putapp", data)
+      .then((res) => {
+        if (context.isAuthenticated) {
+          console.log(`Updated user ${context.user.email}'s database.`);
+        } else {
+          console.log(`Updated public demonstration database.`);
+        }
+        navigate("/jobs");
+      })
+      .catch((err) => {
+        console.log(err);
+        alert(err);
+      });
   }
 
   function getByteArray(file) {
@@ -227,7 +243,7 @@ export default function AppPage() {
               </div>
             ) : (
               <div>
-                <h3 className="text-center">This application has no Resume</h3>
+                <h3 className="text-center">This application has no resume</h3>
               </div>
             )}
           </div>
