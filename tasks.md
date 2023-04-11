@@ -1,10 +1,12 @@
-Figure out terminal script to open both the server and client in one command
+Jobspage: toggleCareerSort
 
-JobsPage:
--if there are no applications, display a message saying that there aren't any yet, and to click the create button to create one.
--filter jobs by career and tags
-
-On authentication, if the user is not already in the database, add the user to the database with a default career list
+Figure out terminal script to open both the server and client in one command. For example, place scripts in a text file and execute one command to read and execute the scripts in that file. Or create an executable icon to run the scripts when double clicked.
+code /home/pc/Desktop/job-tracker/job-tracker-server/
+# then a command to run "npm start" from within this folder
+code /home/pc/Desktop/job-tracker/job-tracker-client/
+# then a command to run "npm start" from within this folder
+https://ngangasn.com/how-to-open-files-and-folders-in-visual-studio-code-from-the-linux-terminal/
+https://www.geeksforgeeks.org/chaining-commands-in-linux/
 
 When implementing career deletion functionality, make sure that the current career number is set to 0 each time a career is deleted.
 

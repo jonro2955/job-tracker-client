@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSort } from "@fortawesome/free-solid-svg-icons";
 import BtnModalAddJob from "../components/BtnModalAddJob";
-import SearchAccordion from "../components/SearchModule";
+import SearchModule from "../components/SearchModule";
 
 export default function SearchPage() {
   const context = useContext(Context);
@@ -19,6 +19,7 @@ export default function SearchPage() {
   const [dateSortLatest, setDateSortLatest] = useState(true);
   const [companySortAscending, setCompanySortAscending] = useState(true);
   const [titleSortAscending, setTitleSortAscending] = useState(true);
+  const [careerSortAscending, setCareerSortAscending] = useState(true);
 
   /* The allAppsList state will contain all of current user's records in this format: 
     [{app_id: 1, application_date: 'Sat Dec 24 2022 13:07:37 GMT-0800 (Pacific Standard Time)', company_name: 'xyz', job_title: 'abc', job_description: ''},
@@ -34,9 +35,9 @@ export default function SearchPage() {
       axios
         .get("/api/get/all-user-apps", { params: { email: username } })
         .then((res) => {
+          console.log(res.data);
           setAllAppsList(res.data);
           setDisplayedAppsList(res.data);
-          // console.log(res.data);
         })
         .catch((err) => console.log(err));
     }
@@ -113,29 +114,6 @@ export default function SearchPage() {
     setDateSortLatest(!dateSortLatest);
   }
 
-  function toggleCompanySort() {
-    let temp = [...displayedAppsList];
-    temp.sort(function (a, b) {
-      let stringA = a.company_name.toLowerCase();
-      let stringB = b.company_name.toLowerCase();
-      if (companySortAscending) {
-        if (stringA > stringB) {
-          return 1;
-        } else {
-          return -1;
-        }
-      } else {
-        if (stringA < stringB) {
-          return 1;
-        } else {
-          return -1;
-        }
-      }
-    });
-    setDisplayedAppsList(temp);
-    setCompanySortAscending(!companySortAscending);
-  }
-
   function toggleTitleSort() {
     let temp = [...displayedAppsList];
     temp.sort(function (a, b) {
@@ -159,6 +137,52 @@ export default function SearchPage() {
     setTitleSortAscending(!titleSortAscending);
   }
 
+  function toggleCompanySort() {
+    let temp = [...displayedAppsList];
+    temp.sort(function (a, b) {
+      let stringA = a.company_name.toLowerCase();
+      let stringB = b.company_name.toLowerCase();
+      if (companySortAscending) {
+        if (stringA > stringB) {
+          return 1;
+        } else {
+          return -1;
+        }
+      } else {
+        if (stringA < stringB) {
+          return 1;
+        } else {
+          return -1;
+        }
+      }
+    });
+    setDisplayedAppsList(temp);
+    setCompanySortAscending(!companySortAscending);
+  }
+
+  function toggleCareerSort() {
+    let temp = [...displayedAppsList];
+    temp.sort(function (a, b) {
+      let stringA = a.career_name.toLowerCase();
+      let stringB = b.career_name.toLowerCase();
+      if (careerSortAscending) {
+        if (stringA > stringB) {
+          return 1;
+        } else {
+          return -1;
+        }
+      } else {
+        if (stringA < stringB) {
+          return 1;
+        } else {
+          return -1;
+        }
+      }
+    });
+    setDisplayedAppsList(temp);
+    setCareerSortAscending(!careerSortAscending);
+  }
+
   return (
     <div className="centeredPage">
       <div className="container">
@@ -172,8 +196,7 @@ export default function SearchPage() {
           </div>
         </div>
       </div>
-
-      <SearchAccordion
+      <SearchModule
         searchString={searchString}
         setSearchString={setSearchString}
         loadAllRecords={loadAllRecords}
@@ -185,7 +208,6 @@ export default function SearchPage() {
         dateRangeEnd={dateRangeEnd}
         setDateRangeEnd={setDateRangeEnd}
       />
-
       <table className="table table-bordered text-center w-50 mt-4">
         <thead>
           <tr>
@@ -204,6 +226,12 @@ export default function SearchPage() {
             <th>
               Company&nbsp;
               <button onClick={toggleCompanySort}>
+                <FontAwesomeIcon icon={faSort} />
+              </button>
+            </th>
+            <th>
+              Career&nbsp;
+              <button onClick={toggleCareerSort}>
                 <FontAwesomeIcon icon={faSort} />
               </button>
             </th>
@@ -237,6 +265,9 @@ export default function SearchPage() {
                     <div>{item.company_name}</div>
                   </td>
                   <td>
+                    <div>{item.career_name}</div>
+                  </td>
+                  <td>
                     <Link to={`/app/${item.app_id}`}>View/Edit</Link>
                   </td>
                   <td>
@@ -247,7 +278,9 @@ export default function SearchPage() {
             })}
         </tbody>
       </table>
-      {allAppsList.length == 0 && <h2>There are no saved jobs. Click the Add button to add new jobs.</h2>}
+      {allAppsList.length == 0 && (
+        <h2>There are no saved jobs. Click the Add button to add new jobs.</h2>
+      )}
       <BtnModalAddJob allAppsList={allAppsList} />
     </div>
   );
