@@ -1,5 +1,3 @@
-Jobspage: toggleCareerSort
-
 Figure out terminal script to open both the server and client in one command. For example, place scripts in a text file and execute one command to read and execute the scripts in that file. Or create an executable icon to run the scripts when double clicked.
 code /home/pc/Desktop/job-tracker/job-tracker-server/
 # then a command to run "npm start" from within this folder

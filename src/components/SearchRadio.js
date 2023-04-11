@@ -53,23 +53,23 @@ export default function SearchRadio({ selectedSearchOption, setSelectedSearchOpt
           Description
         </label>
       </div>
-      {/* &nbsp;
+      &nbsp;
       <div className="form-check">
         <label>
           <input
             type="radio"
             name="react-tips"
             value="job_description"
-            checked={selectedSearchOption === "tags"}
+            checked={selectedSearchOption === "career_name"}
             onClick={() => {
-              setSelectedSearchOption("tags");
+              setSelectedSearchOption("career_name");
             }}
             className="form-check-input"
             readOnly
           />
-          Tag
+          Career
         </label>
-      </div> */}
+      </div>
     </form>
   );
 }
