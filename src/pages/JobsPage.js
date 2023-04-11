@@ -5,7 +5,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSort } from "@fortawesome/free-solid-svg-icons";
-import BtnModalCreateJob from "../components/BtnModalCreateJob";
+import BtnModalAddJob from "../components/BtnModalAddJob";
 import SearchAccordion from "../components/SearchModule";
 
 export default function SearchPage() {
@@ -168,7 +168,7 @@ export default function SearchPage() {
             <h1>My Jobs</h1>
           </div>
           <div className="col d-flex justify-content-start">
-            <BtnModalCreateJob allAppsList={allAppsList} />
+            <BtnModalAddJob allAppsList={allAppsList} />
           </div>
         </div>
       </div>
@@ -247,7 +247,8 @@ export default function SearchPage() {
             })}
         </tbody>
       </table>
-      {!displayedAppsList && <h2>Click "+ Create" to add new jobs</h2>}
+      {allAppsList.length == 0 && <h2>There are no saved jobs. Click the Add button to add new jobs.</h2>}
+      <BtnModalAddJob allAppsList={allAppsList} />
     </div>
   );
 }

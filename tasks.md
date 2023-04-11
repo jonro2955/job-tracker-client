@@ -1,9 +1,4 @@
-AddPAge:
-
-ViewPage:
--use two states for resume/coverletter to separate the view and stored data when there is a new file 
--wire up the save/updater button https://stackoverflow.com/questions/48909917/update-value-only-if-changed-in-sql
-
+Figure out terminal script to open both the server and client in one command
 
 JobsPage:
 -if there are no applications, display a message saying that there aren't any yet, and to click the create button to create one.

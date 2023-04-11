@@ -39,7 +39,7 @@ export default function BtnModalCreateJob({ allAppsList }) {
           toggleModal();
         }}
       >
-        + Create
+        + Add
       </button>
       <Modal isOpen={modalOn} toggle={toggleModal}>
         <ModalHeader toggle={toggleModal}>TRACK A NEW JOB</ModalHeader>
