@@ -277,13 +277,13 @@ export default function AppPage() {
             />
           </div>
         </div>
-        <div className="row">
+        {/* <div className="row">
           <Step7Tags setTags={setTags} value={tags} />
-        </div>
+        </div> */}
       </div>
       <div className="step w-50">
         <button className="btn btn-success p-2" onClick={handleUpdateApp}>
-          Save
+          Update
         </button>
       </div>
       <button className="btn btn-warning p-2" onClick={toggleDelModal}>

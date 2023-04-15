@@ -189,7 +189,7 @@ export default function AddPage() {
             />
           </div>
         </div>
-        <Step7Tags setTags={setTags} />
+        {/* <Step7Tags setTags={setTags} /> */}
       </div>
       <Step8Date subDate={subDate} setSubDate={setSubDate} />
       <div className="step w-50">
