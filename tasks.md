@@ -1,10 +1,10 @@
-Figure out terminal script to open both the server and client in one command. For example, place scripts in a text file and execute one command to read and execute the scripts in that file. Or create an executable icon to run the scripts when double clicked.
-code /home/pc/Desktop/job-tracker/job-tracker-server/
-# then a command to run "npm start" from within this folder
-code /home/pc/Desktop/job-tracker/job-tracker-client/
-# then a command to run "npm start" from within this folder
-https://ngangasn.com/how-to-open-files-and-folders-in-visual-studio-code-from-the-linux-terminal/
-https://www.geeksforgeeks.org/chaining-commands-in-linux/
+Write a README that explains how to clone this app from github and run it on a local machine. Include links on how to download and install psql on various os's. Iclude the notes on db pool setups. Test it on a windows machine..
+
+JobsPage: if not connected to server, display corresponding error message instead of "there are no jobs"
+
+AddPage:
+Hide the tags input until the tags are actually used. Actually just use it now.
+Move the existing entries search display into the step1 component
 
 When implementing career deletion functionality, make sure that the current career number is set to 0 each time a career is deleted.
 

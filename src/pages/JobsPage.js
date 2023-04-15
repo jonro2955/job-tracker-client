@@ -20,6 +20,7 @@ export default function SearchPage() {
   const [companySortAscending, setCompanySortAscending] = useState(true);
   const [titleSortAscending, setTitleSortAscending] = useState(true);
   const [careerSortAscending, setCareerSortAscending] = useState(true);
+  const [dbConnected, setDbConnected] = useState(false);
 
   /* The allAppsList state will contain all of current user's records in this format: 
     [{app_id: 1, application_date: 'Sat Dec 24 2022 13:07:37 GMT-0800 (Pacific Standard Time)', company_name: 'xyz', job_title: 'abc', job_description: ''},
@@ -38,6 +39,7 @@ export default function SearchPage() {
           console.log(res.data);
           setAllAppsList(res.data);
           setDisplayedAppsList(res.data);
+          setDbConnected(true);
         })
         .catch((err) => console.log(err));
     }
@@ -279,7 +281,9 @@ export default function SearchPage() {
         </tbody>
       </table>
       {allAppsList.length == 0 && (
-        <h2>There are no saved jobs. Click the Add button to add new jobs.</h2>
+        <h2>
+          {dbConnected ? "There are no saved jobs" : "Database not connected"}
+        </h2>
       )}
       <BtnModalAddJob allAppsList={allAppsList} />
     </div>
